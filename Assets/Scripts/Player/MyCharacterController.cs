@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fragsurf.Movement;
+using Player;
 using Mirror;
-using UnityEngine.SceneManagement;
 
 public class MyCharacterController : NetworkBehaviour
 {
@@ -12,14 +12,26 @@ public class MyCharacterController : NetworkBehaviour
     [SerializeField]
     private SkinnedMeshRenderer skinnedMeshRenderer;
 
+    [SerializeField]
+    private GameObject cameraShoot;
+
+    public GameObject structurePrefab;
+    public GameObject projectilePrefab;
+
     // Start is called before the first frame update
     void Start()
     {
         if (!isLocalPlayer)
         {
             Animator animator = GetComponent<Animator>();
+
+            return;
         }
-        //skinnedMeshRenderer.enabled = false;
+
+        // Hide local body
+        skinnedMeshRenderer.enabled = false;
+
+
     }
 
     // Update is called once per frame
@@ -28,6 +40,36 @@ public class MyCharacterController : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
+
+
+        MovementAnimation();
+
+        if (!Input.GetKeyDown(KeyCode.Mouse0)) { return; }
+
+        SpawnBaseProjectileCommand();
+    }
+
+    public void SpawnBaseProjectileCommand()
+    {
+        // Logic
+        GameObject projectile = Instantiate(projectilePrefab, transform.position + Vector3.forward, Quaternion.identity);
+        projectile.GetComponent<Rigidbody>().AddForce(cameraShoot.transform.forward * 30, ForceMode.VelocityChange);
+        NetworkServer.Spawn(projectile, connectionToClient);
+
+        Debug.Log("Shooting projectile!");
+    }
+
+    [ClientRpc]
+    public void SpawnBaseProjectileClientRpc()
+    {
+        // Visuals
+        Debug.Log("Shot projectile!");
+    }
+
+    
+
+    void MovementAnimation()
+    {
         float dampTime = 0.1f;
         if (Input.GetKey(KeyCode.W))
         {

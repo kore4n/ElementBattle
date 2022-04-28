@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public interface IDamageable
 {
-    int Health { get; set; }
+    public int Health { get; set; }
 
     /// <summary>
     /// Apply the amount of damage.
     /// </summary>
     /// <returns></returns>
-    void Damage(int damage);
+    public void Damage(int damage);
 }

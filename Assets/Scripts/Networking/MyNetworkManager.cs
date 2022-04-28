@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
+using Player;
+using UnityEngine.UI;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -15,11 +17,8 @@ public class MyNetworkManager : NetworkManager
     // have to cast to this type everywhere.
     public static new MyNetworkManager singleton { get; private set; }
 
-    //[Scene]
-    //[Tooltip("Add all sub-scenes to this list")]
-    //public string[] subScenes;
-
-    
+    // All element choose buttons
+    public Button[] buttons;
 
     #region Unity Callbacks
 
@@ -35,6 +34,12 @@ public class MyNetworkManager : NetworkManager
     public override void Awake()
     {
         base.Awake();
+
+        // Subscribe to all element-select buttons + in PlayerUI to tell what to spawn player as
+        SubscribeToButton(buttons[0], "fred", Constants.Element.water);
+        SubscribeToButton(buttons[1], "fred", Constants.Element.earth);
+        SubscribeToButton(buttons[2], "fred", Constants.Element.fire);
+        SubscribeToButton(buttons[3], "fred", Constants.Element.air);
     }
 
     /// <summary>
@@ -189,6 +194,8 @@ public class MyNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+
+        // used to be where clients were made; now make them after a menu
     }
 
     /// <summary>
@@ -234,8 +241,46 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnStartServer();
 
-        // load all subscenes on the server only
-        //StartCoroutine(LoadSubScenes());
+        NetworkServer.RegisterHandler<CreatePlayerMessage>(OnCreatePlayer);
+    }
+
+    /// <summary>
+    /// Occurs upon button click. Create the player. Called when class and team are chosen.
+    /// </summary>
+    public void CreatePlayer(PlayerInfo info)
+    {
+        // you can send the message here, or wherever else you want
+        CreatePlayerMessage playerMessage = new CreatePlayerMessage
+        {
+            name = "Joe Gaba Gaba",
+            element = info.element,
+        };
+
+        NetworkClient.Send(playerMessage);
+    }
+
+    /// <summary>
+    /// What happens when the message is received? (This message is should be received when we select a character, for now is received on start.)
+    /// </summary>
+    /// <param name="conn"></param>
+    /// <param name="message"></param>
+    void OnCreatePlayer(NetworkConnectionToClient conn, CreatePlayerMessage message)
+    {
+        // playerPrefab is the one assigned in the inspector in Network
+        // Manager but you can use different prefabs per race for example
+        GameObject gameobject = Instantiate(playerPrefab);
+
+        // Apply data from the message however appropriate for your game
+        // Typically Player would be a component you write with syncvars or properties
+        PlayerBase player = gameobject.GetComponent(typeof(PlayerBase)) as PlayerBase; //PlayerBase player = gameObject.GetComponent<PlayerBase>(); doesn't work for some reason
+
+        player.name = message.name;
+        player.element = message.element;
+
+        // call this to use this gameobject as the primary controller
+        NetworkServer.AddPlayerForConnection(conn, gameobject);     // Will be put in ready state
+
+        Debug.Log("Created player!");
     }
 
     /// <summary>
@@ -253,7 +298,7 @@ public class MyNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopServer()
     {
-        //StartCoroutine(UnloadScenes());
+        
     }
 
     /// <summary>
@@ -261,33 +306,26 @@ public class MyNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopClient()
     {
-        //StartCoroutine(UnloadScenes());
+        
     }
 
     #endregion
 
-    //IEnumerator LoadSubScenes()
-    //{
-    //    Debug.Log("Loading Scenes");
+    
 
-    //    foreach (string sceneName in subScenes)
-    //    {
-    //        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-    //        Debug.Log($"Loaded {sceneName}");
-    //    }
-    //}
+    public void SubscribeToButton(Button button, string name, Constants.Element element)
+    {
+        PlayerInfo playerInfo = new PlayerInfo();
+        playerInfo.name = name;
+        playerInfo.element = element;
 
-    //IEnumerator UnloadScenes()
-    //{
-    //    Debug.Log("Unloading Subscenes");
+        button.onClick.AddListener(delegate { CreatePlayer(playerInfo); });
+    }
+}
 
-    //    foreach (string sceneName in subScenes)
-    //        if (SceneManager.GetSceneByName(sceneName).IsValid() || SceneManager.GetSceneByPath(sceneName).IsValid())
-    //        {
-    //            yield return SceneManager.UnloadSceneAsync(sceneName);
-    //            // Debug.Log($"Unloaded {sceneName}");
-    //        }
+public struct CreatePlayerMessage : NetworkMessage
+{
+    public string name;
 
-    //    yield return Resources.UnloadUnusedAssets();
-    //}
+    public Constants.Element element;
 }

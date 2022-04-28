@@ -219,7 +219,8 @@ namespace Fragsurf.Movement {
             // remove later
             if (!isLocalPlayer)
             {
-                _controller.camera.gameObject.SetActive(false);
+                // Not just camera, also has audio listener we dont want to have active
+                viewTransform.gameObject.SetActive(false);  
             }
         }
 

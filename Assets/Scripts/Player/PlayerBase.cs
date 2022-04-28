@@ -7,16 +7,22 @@ namespace Player
 {
     public class PlayerBase : NetworkBehaviour, IDamageable
     {
-        protected int health;
+        [SyncVar]
+        public int health;
 
         // as a %
-        protected float dmgMultiplier;
-        protected float kbMultiplier;    // knock back multiplier
-        protected float moveMultiplier;
-        
-        protected GameObject structure;
+        public float dmgMultiplier;
+        public float kbMultiplier;    // knock back multiplier
+        public float moveMultiplier;
 
-        protected Element element;
+        public GameObject structure;
+        public GameObject baseProjectile;
+        public GameObject specialProjectile;
+
+        [SyncVar]
+        public Constants.Element element;
+
+        public Color color;
 
         public int Health
         {
@@ -24,17 +30,15 @@ namespace Player
             set => health = value;
         }
 
-        protected enum Element
-        {
-            water,
-            earth,
-            fire,
-            air
-        }
-
         public void Damage(int damage)
         {
             Health -= damage;
+        }
+
+        private void Start()
+        {
+            if (!isServer) { return; }
+
         }
     }
 }

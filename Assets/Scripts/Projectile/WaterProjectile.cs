@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player
+public class WaterProjectile : ProjectileBase
 {
-    public class WaterPlayer : PlayerBase
-    {
-        
-    }
+
 }
