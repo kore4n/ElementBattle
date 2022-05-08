@@ -7,11 +7,16 @@ using UnityEngine;
 /// </summary>
 public interface IDamageable
 {
-    public int Health { get; set; }
+    public int DmgSum { get; set; }
 
     /// <summary>
     /// Apply the amount of damage.
     /// </summary>
     /// <returns></returns>
     public void Damage(int damage);
+
+    /// <summary>
+    /// Respawn afterwards if player.
+    /// </summary>
+    public void Die();
 }

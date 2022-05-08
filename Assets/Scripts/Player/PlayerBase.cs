@@ -3,42 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-namespace Player
+public class PlayerBase : NetworkBehaviour, IDamageable
 {
-    public class PlayerBase : NetworkBehaviour, IDamageable
+    [SyncVar]
+    public int dmgSum = 0;
+
+    public AbilityScheduler actionScheduler;
+
+    //public virtual Ability baseProjectile;
+
+    // as a %
+    public float dmgMultiplier = 1f;
+    public float kbMultiplier = 1f;    // knock back multiplier
+    public float moveMultiplier = 1f;
+
+    public GameObject baseProjectile;
+
+    [SyncVar]
+    public Constants.Element element;
+
+    public Color color;
+
+    public int DmgSum
     {
-        [SyncVar]
-        public int health;
+        get => dmgSum;
+        set => dmgSum = value;
+    }
 
-        // as a %
-        public float dmgMultiplier;
-        public float kbMultiplier;    // knock back multiplier
-        public float moveMultiplier;
+    public void Damage(int damage)
+    {
+        DmgSum += damage;
+    }
 
-        public GameObject structure;
-        public GameObject baseProjectile;
-        public GameObject specialProjectile;
+    public void Die()
+    {
+        // Don't know how to handle this yet
+    }
 
-        [SyncVar]
-        public Constants.Element element;
+    public virtual void Primary()
+    {
+        //actionScheduler.SetAbility(actionScheduler.abilities[0]);
+    }
 
-        public Color color;
+    public virtual void Special()
+    {
 
-        public int Health
-        {
-            get => health;
-            set => health = value;
-        }
+    }
 
-        public void Damage(int damage)
-        {
-            Health -= damage;
-        }
+    public virtual void BlockReflect()
+    {
 
-        private void Start()
-        {
-            if (!isServer) { return; }
+    }
 
-        }
+    public virtual void Recovery()
+    {
+
+    }
+
+    private void Start()
+    {
+        if (!isServer) { return; }
+
     }
 }

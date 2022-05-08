@@ -133,6 +133,8 @@ GameObject:
   - component: {fileID: 2269082057783875035}
   - component: {fileID: 3081123101634139685}
   - component: {fileID: 5741704820000185811}
+  - component: {fileID: 6214218376887738848}
+  - component: {fileID: 4435569177227760953}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -320,17 +322,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  health: 200
+  dmgSum: 0
+  actionScheduler: {fileID: 0}
   dmgMultiplier: 1
   kbMultiplier: 1
   moveMultiplier: 1
-  structure: {fileID: 6322194229183626605, guid: b6bdf7a2991918840be2ca3d88cc783a,
-    type: 3}
   baseProjectile: {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68,
     type: 3}
-  specialProjectile: {fileID: 0}
   element: 0
   color: {r: 0, g: 0, b: 0, a: 0}
+  structure: {fileID: 6322194229183626605, guid: b6bdf7a2991918840be2ca3d88cc783a,
+    type: 3}
+  structureProjectile: {fileID: 0}
+--- !u!114 &6214218376887738848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd6f93b82a1877469e9a442cd471acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ability: {fileID: 11400000, guid: f534b6bfc5f33b44c994280b9a6e456a, type: 2}
+  key: 9
+--- !u!114 &4435569177227760953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9de2bbb6fc9bd478bd71bacbc2e6f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilities:
+  - {fileID: 0}
+  currentAbility: {fileID: 11400000, guid: f534b6bfc5f33b44c994280b9a6e456a, type: 2}
 --- !u!1 &5467285085316221438
 GameObject:
   m_ObjectHideFlags: 0

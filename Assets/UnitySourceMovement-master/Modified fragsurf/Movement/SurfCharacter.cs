@@ -229,7 +229,6 @@ namespace Fragsurf.Movement {
             if (!isLocalPlayer)
                 return;
 
-
             _colliderObject.transform.rotation = Quaternion.identity;
 
 

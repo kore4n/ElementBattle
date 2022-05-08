@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fragsurf.Movement;
-using Player;
 using Mirror;
 
 public class MyCharacterController : NetworkBehaviour
@@ -49,24 +48,15 @@ public class MyCharacterController : NetworkBehaviour
         SpawnBaseProjectileCommand();
     }
 
+    [Command]
     public void SpawnBaseProjectileCommand()
     {
         // Logic
-        GameObject projectile = Instantiate(projectilePrefab, transform.position + Vector3.forward, Quaternion.identity);
+        GameObject projectile = Instantiate(projectilePrefab, transform.position + cameraShoot.transform.forward, Quaternion.identity);
         projectile.GetComponent<Rigidbody>().AddForce(cameraShoot.transform.forward * 30, ForceMode.VelocityChange);
+
         NetworkServer.Spawn(projectile, connectionToClient);
-
-        Debug.Log("Shooting projectile!");
     }
-
-    [ClientRpc]
-    public void SpawnBaseProjectileClientRpc()
-    {
-        // Visuals
-        Debug.Log("Shot projectile!");
-    }
-
-    
 
     void MovementAnimation()
     {
