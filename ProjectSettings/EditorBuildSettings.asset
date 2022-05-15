@@ -9,24 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Arena.unity
-    guid: 2abe0b1b6b0f6c9428865a6eca0e1b0f
-  - enabled: 1
-    path: Assets/Mirror/Examples/AdditiveLevels/Scenes/SubLevel1.unity
-    guid: 91c0fa5f4542be14dbad5c838292056b
-  - enabled: 1
-    path: Assets/Mirror/Examples/AdditiveLevels/Scenes/SubLevel2.unity
-    guid: e8e2dc8c3ef824b468c6f6e1980a4b27
-  - enabled: 1
-    path: Assets/Mirror/Examples/AdditiveLevels/Scenes/Online.unity
-    guid: 3c63960543989ea41ba3d3fb04d6dcf3
-  - enabled: 1
-    path: Assets/Mirror/Examples/AdditiveLevels/Scenes/Offline.unity
-    guid: 9959d9d8e637be64dab77006a85135c1
-  - enabled: 1
-    path: Assets/Mirror/Examples/AdditiveScenes/Scenes/MainScene.unity
-    guid: 7a0eee2f518e9dc4fb628d96dc452faf
-  - enabled: 1
-    path: Assets/Mirror/Examples/AdditiveScenes/Scenes/SubScene.unity
-    guid: 7f4fd683fc6d866418c95f99977533a6
+    path: Assets/Scenes/Subscene.unity
+    guid: 4cac6380c05cee840992a4317f0ab680
   m_configObjects: {}

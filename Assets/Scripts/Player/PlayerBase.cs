@@ -6,6 +6,8 @@ using Mirror;
 public class PlayerBase : NetworkBehaviour, IDamageable
 {
     [SyncVar]
+    public string playerName;
+    [SyncVar]
     public int dmgSum = 0;
 
     public AbilityScheduler actionScheduler;

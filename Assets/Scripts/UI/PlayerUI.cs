@@ -26,9 +26,16 @@ namespace Game.UI
         public void CreatePlayer(CreatePlayerMessage info)
         {
             // Disable menu
-            menuCamera.SetActive(false);
-            buttonsParent.SetActive(false);
+            if (menuCamera != null)
+            {
+                menuCamera.SetActive(false);
+            }
+            if (buttonsParent != null)
+            {
+                buttonsParent.SetActive(false);
+            }
 
+            // TODO: Set more player info
             Constants.Element element = info.element;
 
             // Set player sprite in UI
@@ -37,7 +44,14 @@ namespace Game.UI
 
         public void Awake()
         {
-            // Subscribe to all element-select buttons
+            DontDestroyOnLoad(this);
+
+            SubscribeElementButtons();
+        }
+
+        // Subscribe to all element-select buttons
+        private void SubscribeElementButtons()
+        {
             // Ensure order: Water, Earth, Fire, Air
             SubscribeToButton(buttons[0], "fred", Constants.Element.water);
             SubscribeToButton(buttons[1], "fred", Constants.Element.earth);

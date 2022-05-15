@@ -18,6 +18,12 @@ namespace Game.Networking
         // have to cast to this type everywhere.
         public static new MyNetworkManager singleton { get; private set; }
 
+        [Header("Maps")]
+        [SerializeField] private int numberOfRounds = 1;
+        [SerializeField] private MapSet mapSet = null;
+
+        private MapHandler mapHandler;
+
         // All element choose buttons
         public Button[] buttons;
 
@@ -37,10 +43,7 @@ namespace Game.Networking
             base.Awake();
 
             // Subscribe to all element-select buttons + in PlayerUI to tell what to spawn player as
-            SubscribeToButton(buttons[0], "fred", Constants.Element.water);
-            SubscribeToButton(buttons[1], "fred", Constants.Element.earth);
-            SubscribeToButton(buttons[2], "fred", Constants.Element.fire);
-            SubscribeToButton(buttons[3], "fred", Constants.Element.air);
+            SubscribeElementButtons();
         }
 
         /// <summary>
@@ -58,6 +61,14 @@ namespace Game.Networking
         /// </summary>
         public override void LateUpdate()
         {
+            // remove/edit later
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                mapHandler = new MapHandler(mapSet, numberOfRounds);
+
+                ServerChangeScene("MainMenu");
+            }
+
             base.LateUpdate();
         }
 
@@ -101,6 +112,8 @@ namespace Game.Networking
         /// <param name="newSceneName"></param>
         public override void ServerChangeScene(string newSceneName)
         {
+            // Do specific round/game logic here
+            
             base.ServerChangeScene(newSceneName);
         }
 
@@ -242,9 +255,14 @@ namespace Game.Networking
         {
             base.OnStartServer();
 
-
+            // What happens when we receive a message?
             // Messages from "CreatePlayerMessage" will call function "OnCreatePlayer"
             NetworkServer.RegisterHandler<CreatePlayerMessage>(OnCreatePlayer);
+
+            // Change to main map
+            mapHandler = new MapHandler(mapSet, numberOfRounds);
+
+            ServerChangeScene(mapHandler.NextMap);
         }
 
         /// <summary>
@@ -277,7 +295,8 @@ namespace Game.Networking
             // Typically Player would be a component you write with syncvars or properties
             PlayerBase player = gameobject.GetComponent(typeof(PlayerBase)) as PlayerBase; //PlayerBase player = gameObject.GetComponent<PlayerBase>(); doesn't work for some reason
 
-            player.name = message.name;
+            // Set Player Syncvars here
+            player.playerName = message.name;
             player.element = message.element;
 
             // call this to use this gameobject as the primary controller
@@ -315,7 +334,7 @@ namespace Game.Networking
         #endregion
 
 
-
+        // Called when any element button is pressed
         public void SubscribeToButton(Button button, string name, Constants.Element element)
         {
             CreatePlayerMessage playerInfo = new CreatePlayerMessage();
@@ -323,6 +342,15 @@ namespace Game.Networking
             playerInfo.element = element;
 
             button.onClick.AddListener(delegate { CreatePlayer(playerInfo); });
+        }
+
+        // Subscribe to all element-select buttons + in PlayerUI to tell what to spawn player as
+        private void SubscribeElementButtons()
+        {
+            SubscribeToButton(buttons[0], "fred", Constants.Element.water);
+            SubscribeToButton(buttons[1], "fred", Constants.Element.earth);
+            SubscribeToButton(buttons[2], "fred", Constants.Element.fire);
+            SubscribeToButton(buttons[3], "fred", Constants.Element.air);
         }
     }
 }
