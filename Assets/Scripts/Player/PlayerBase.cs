@@ -10,10 +10,6 @@ public class PlayerBase : NetworkBehaviour, IDamageable
     [SyncVar]
     public int dmgSum = 0;
 
-    public AbilityScheduler actionScheduler;
-
-    //public virtual Ability baseProjectile;
-
     // as a %
     public float dmgMultiplier = 1f;
     public float kbMultiplier = 1f;    // knock back multiplier

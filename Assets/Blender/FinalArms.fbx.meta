@@ -4,14 +4,83 @@ ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
-      74: -8933494012447502998
-    second: Human FPS|Attack
+      74: 7839886945461030238
+    second: Human FPS|Action
+  - first:
+      74: 8092302411894980380
+    second: Human FPS|AttackA
+  - first:
+      74: -4244511330586272703
+    second: Human FPS|AttackE
+  - first:
+      74: 1029339580255191044
+    second: Human FPS|AttackF
+  - first:
+      74: -9050204942111878428
+    second: Human FPS|AttackW
+  - first:
+      74: -8271586772751241038
+    second: Human FPS|BIGHANDS
+  - first:
+      74: 9073827692572565659
+    second: Human FPS|BlockA
+  - first:
+      74: -1454431987330028744
+    second: Human FPS|BlockE
+  - first:
+      74: 8696293889498499980
+    second: Human FPS|BlockF
+  - first:
+      74: -5178716858309043210
+    second: Human FPS|BlockW
   - first:
       74: 5060355414740890334
     second: Human FPS|Idle
   - first:
-      74: -4513008960287255997
-    second: Human FPS|RaiseUp
+      74: -6683917565512777315
+    second: Human FPS|IdleA
+  - first:
+      74: 2926951300181277179
+    second: Human FPS|IdleE
+  - first:
+      74: -867989528750547933
+    second: Human FPS|IdleF
+  - first:
+      74: -1233292037913257335
+    second: Human FPS|IdleW
+  - first:
+      74: 872424788637835117
+    second: Human FPS|RecoveryA
+  - first:
+      74: 7818664542620335663
+    second: Human FPS|RecoveryE
+  - first:
+      74: -4334265011771062287
+    second: Human FPS|RecoveryF
+  - first:
+      74: 784779503787455514
+    second: Human FPS|SpecialCrouchA
+  - first:
+      74: 7700915386925813734
+    second: Human FPS|SpecialCrouchE
+  - first:
+      74: 901766250628311691
+    second: Human FPS|SpecialCrouchF
+  - first:
+      74: 5374192076286016314
+    second: Human FPS|SpecialStillA
+  - first:
+      74: -7858524448042095451
+    second: Human FPS|SpecialStillE
+  - first:
+      74: 1079888845913400223
+    second: Human FPS|SpecialStillF
+  - first:
+      74: -6446126632845202392
+    second: Human FPS|SpecialStillW
+  - first:
+      74: 9047697284897767984
+    second: Human FPS|TPose
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -40,94 +109,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Human FPS|Attack
-      takeName: Human FPS|Attack
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 10
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Human FPS|Idle
-      takeName: Human FPS|Idle
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Human FPS|RaiseUp
-      takeName: Human FPS|RaiseUp
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 10
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []

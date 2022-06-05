@@ -10,6 +10,10 @@ public class MyCharacterController : NetworkBehaviour
     private Animator playerBodyAnimator;
     [SerializeField]
     private Animator armsAnimator;
+
+    public ArmController allArmControllers;
+
+    // Just to turn off your own mesh
     [SerializeField]
     private SkinnedMeshRenderer skinnedMeshRenderer;
 
@@ -24,15 +28,28 @@ public class MyCharacterController : NetworkBehaviour
     {
         if (!isLocalPlayer)
         {
-            Animator animator = GetComponent<Animator>();
-
             return;
         }
 
         // Hide local body
         skinnedMeshRenderer.enabled = false;
 
-
+        // Change arm controller (animations) depending on element
+        switch (gameObject.GetComponent<PlayerBase>().element)
+        {
+            case (Constants.Element.water):
+                armsAnimator.runtimeAnimatorController = allArmControllers.waterArms;
+                break;
+            case (Constants.Element.earth):
+                armsAnimator.runtimeAnimatorController = allArmControllers.earthArms;
+                break;
+            case (Constants.Element.fire):
+                armsAnimator.runtimeAnimatorController = allArmControllers.fireArms;
+                break;
+            case (Constants.Element.air):
+                armsAnimator.runtimeAnimatorController = allArmControllers.airArms;
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -100,7 +117,20 @@ public class MyCharacterController : NetworkBehaviour
         // Raise arms
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            armsAnimator.SetTrigger("RaiseUp");
+            armsAnimator.SetTrigger("Block");
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            armsAnimator.SetTrigger("Recovery");
+        }
+        // TODO: Specials will have different buttons for now
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            armsAnimator.SetTrigger("SpecialStill");
+        }
+        else if (Input.GetKeyDown(KeyCode.G))
+        {
+            armsAnimator.SetTrigger("SpecialCrouch");
         }
     }
 }
