@@ -19,15 +19,19 @@ public class MapHandler
         ResetMaps();
     }
 
-
-    public string NextMap
+    public string MainMenu
     {
         get
         {
-            string map = remainingMaps[0];
+            return remainingMaps[0];
+        }
+    }
 
-
-            return map;
+    public string Arena
+    {
+        get
+        {
+            return remainingMaps[1];
         }
     }
 

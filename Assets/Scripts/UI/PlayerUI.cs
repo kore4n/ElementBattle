@@ -44,7 +44,7 @@ namespace Game.UI
 
         public void Awake()
         {
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
 
             SubscribeElementButtons();
         }
@@ -53,10 +53,10 @@ namespace Game.UI
         private void SubscribeElementButtons()
         {
             // Ensure order: Water, Earth, Fire, Air
-            SubscribeToButton(buttons[0], "fred", Constants.Element.water);
-            SubscribeToButton(buttons[1], "fred", Constants.Element.earth);
-            SubscribeToButton(buttons[2], "fred", Constants.Element.fire);
-            SubscribeToButton(buttons[3], "fred", Constants.Element.air);
+            //SubscribeToButton(buttons[0], "fred", Constants.Element.water);
+            //SubscribeToButton(buttons[1], "fred", Constants.Element.earth);
+            //SubscribeToButton(buttons[2], "fred", Constants.Element.fire);
+            //SubscribeToButton(buttons[3], "fred", Constants.Element.air);
         }
 
         /// <summary>

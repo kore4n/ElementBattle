@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7255ef0c697404da9e719f0b2d34b1, type: 3}
+  m_Name: Element Prefabs
+  m_EditorClassIdentifier: 
+  waterBasicProjectile: {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68,
+    type: 3}
+  earthBasicProjectile: {fileID: 1503367248009200961, guid: 7f9c12b010c72e1429580fd5b0cdf110,
+    type: 3}
+  fireBasicProjectile: {fileID: 1503367248009200961, guid: c15a07d9ca87de048a29b63c64090281,
+    type: 3}
+  airBasicProjectile: {fileID: 1503367248009200961, guid: de7a7d35702e7b240a80dc72e7ba064b,
+    type: 3}

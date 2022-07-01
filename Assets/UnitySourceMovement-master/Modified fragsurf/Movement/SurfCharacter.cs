@@ -11,6 +11,8 @@ namespace Fragsurf.Movement {
     /// </summary>
     [AddComponentMenu ("Fragsurf/Surf Character")]
     public class SurfCharacter : NetworkBehaviour, ISurfControllable {
+        // Added by J
+        [SerializeField] GameObject playerCollider;
 
         public enum ColliderType {
             Capsule,
@@ -112,11 +114,12 @@ namespace Fragsurf.Movement {
 
         }
 
-        private void Start () {
-            
-            _colliderObject = new GameObject ("PlayerCollider");
+        protected virtual void Start () {
+
+            _colliderObject = new GameObject("PlayerCollider");
+            //_colliderObject = playerCollider;
             _colliderObject.layer = gameObject.layer;
-            _colliderObject.transform.SetParent (transform);
+            _colliderObject.transform.SetParent(transform);
             _colliderObject.transform.rotation = Quaternion.identity;
             _colliderObject.transform.localPosition = Vector3.zero;
             _colliderObject.transform.SetSiblingIndex (0);
@@ -217,17 +220,17 @@ namespace Fragsurf.Movement {
 
 
             // remove later
-            if (!isLocalPlayer)
-            {
-                // Not just camera, also has audio listener we dont want to have active
-                viewTransform.gameObject.SetActive(false);  
-            }
+            //if (!hasAuthority)
+            //{
+            //    // Not just camera, also has audio listener we dont want to have active
+            //    viewTransform.gameObject.SetActive(false);  
+            //}
         }
 
-        private void Update () {
+        protected virtual void Update () {
             // remove later
-            if (!isLocalPlayer)
-                return;
+            //if (!hasAuthority)
+            //    return;
 
             _colliderObject.transform.rotation = Quaternion.identity;
 

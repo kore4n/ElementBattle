@@ -11,7 +11,7 @@ public class MyCharacterController : NetworkBehaviour
     [SerializeField]
     private Animator armsAnimator;
 
-    public ArmController allArmControllers;
+    public ElementController elementController;
 
     // Just to turn off your own mesh
     [SerializeField]
@@ -26,7 +26,7 @@ public class MyCharacterController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!isLocalPlayer)
+        if (!hasAuthority)
         {
             return;
         }
@@ -38,16 +38,20 @@ public class MyCharacterController : NetworkBehaviour
         switch (gameObject.GetComponent<PlayerBase>().element)
         {
             case (Constants.Element.water):
-                armsAnimator.runtimeAnimatorController = allArmControllers.waterArms;
+                projectilePrefab = elementController.elementPrefabs.waterBasicProjectile;
+                armsAnimator.runtimeAnimatorController = elementController.armController.waterArms;
                 break;
             case (Constants.Element.earth):
-                armsAnimator.runtimeAnimatorController = allArmControllers.earthArms;
+                projectilePrefab = elementController.elementPrefabs.earthBasicProjectile;
+                armsAnimator.runtimeAnimatorController = elementController.armController.earthArms;
                 break;
             case (Constants.Element.fire):
-                armsAnimator.runtimeAnimatorController = allArmControllers.fireArms;
+                projectilePrefab = elementController.elementPrefabs.fireBasicProjectile;
+                armsAnimator.runtimeAnimatorController = elementController.armController.fireArms;
                 break;
             case (Constants.Element.air):
-                armsAnimator.runtimeAnimatorController = allArmControllers.airArms;
+                projectilePrefab = elementController.elementPrefabs.airBasicProjectile;
+                armsAnimator.runtimeAnimatorController = elementController.armController.airArms;
                 break;
         }
     }
@@ -55,7 +59,7 @@ public class MyCharacterController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!hasAuthority)
             return;
 
 
@@ -72,6 +76,7 @@ public class MyCharacterController : NetworkBehaviour
     {
         // Logic
         GameObject projectile = Instantiate(projectilePrefab, transform.position + cameraShoot.transform.forward, Quaternion.identity);
+        projectile.transform.forward = cameraShoot.transform.forward;
         projectile.GetComponent<Rigidbody>().AddForce(cameraShoot.transform.forward * 30, ForceMode.VelocityChange);
 
         NetworkServer.Spawn(projectile, connectionToClient);
