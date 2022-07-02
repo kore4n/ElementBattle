@@ -27,7 +27,7 @@ public class PlayerSelectButton : MonoBehaviour
     {
         PlayerInfo playerInfo = new PlayerInfo()
         {
-            playerName = "Test Name",
+            playerName = "a test Name",
             element = elementType,
         };
 
@@ -40,19 +40,19 @@ public class PlayerSelectButton : MonoBehaviour
 
     public void MakePlayerWater()
     {
-        MakePlayer(Constants.Element.water);
+        MakePlayer(Constants.Element.Water);
     }
     public void MakePlayerEarth()
     {
-        MakePlayer(Constants.Element.earth);
+        MakePlayer(Constants.Element.Earth);
     }
     public void MakePlayerFire()
     {
-        MakePlayer(Constants.Element.fire);
+        MakePlayer(Constants.Element.Fire);
     }
     public void MakePlayerAir()
     {
-        MakePlayer(Constants.Element.air);
+        MakePlayer(Constants.Element.Air);
     }
 }
 

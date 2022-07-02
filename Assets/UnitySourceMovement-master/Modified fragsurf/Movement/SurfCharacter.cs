@@ -117,7 +117,6 @@ namespace Fragsurf.Movement {
         protected virtual void Start () {
 
             _colliderObject = new GameObject("PlayerCollider");
-            //_colliderObject = playerCollider;
             _colliderObject.layer = gameObject.layer;
             _colliderObject.transform.SetParent(transform);
             _colliderObject.transform.rotation = Quaternion.identity;
@@ -217,21 +216,9 @@ namespace Fragsurf.Movement {
 
             _moveData.useStepOffset = useStepOffset;
             _moveData.stepOffset = stepOffset;
-
-
-            // remove later
-            //if (!hasAuthority)
-            //{
-            //    // Not just camera, also has audio listener we dont want to have active
-            //    viewTransform.gameObject.SetActive(false);  
-            //}
         }
 
         protected virtual void Update () {
-            // remove later
-            //if (!hasAuthority)
-            //    return;
-
             _colliderObject.transform.rotation = Quaternion.identity;
 
 

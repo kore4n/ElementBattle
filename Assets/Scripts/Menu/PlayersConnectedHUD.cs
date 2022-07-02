@@ -31,7 +31,7 @@ public class PlayersConnectedHUD : MonoBehaviour
             GameObject newSlotHUD = Instantiate(playerSlotHUD);
             PlayerSlotHUD newPlayerSlotHUD = newSlotHUD.GetComponent<PlayerSlotHUD>();
             newPlayerSlotHUD.SetName(p.GetDisplayName());
-            newPlayerSlotHUD.SetSprite(p.GetSprite());
+            newPlayerSlotHUD.SetSprite(p.GetElementSprite());
 
             newSlotHUD.transform.SetParent(canvas.transform);
 

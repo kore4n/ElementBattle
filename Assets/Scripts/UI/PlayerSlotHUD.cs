@@ -12,6 +12,8 @@ public class PlayerSlotHUD : MonoBehaviour
     public void SetName(string newName)
     {
         nameText.text = newName;
+
+        //Debug.Log($"New name is {newName}");
     }
 
     public void SetSprite(Sprite newSprite)

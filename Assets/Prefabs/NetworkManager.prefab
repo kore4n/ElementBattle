@@ -48,27 +48,27 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
-  serverTickRate: 120
+  serverTickRate: 60
   offlineScene: Assets/Scenes/Scene_Menu.unity
   onlineScene: Assets/Scenes/Scene_Map_01.unity
   transport: {fileID: 5583441940336834052}
   networkAddress: localhost
-  maxConnections: 100
+  maxConnections: 24
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 5838053597012773154, guid: 54058e860f72fe44b9d3dc2cc585cdfa,
     type: 3}
-  autoCreatePlayer: 1
+  autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68, type: 3}
   - {fileID: 5467285084242854813, guid: a840589249729984398df665ca6e2508, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  buttons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  players: []
+  redPlayers: 0
+  bluePlayers: 0
+  specPlayers: 0
+  spectatorCamera: {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180,
+    type: 3}
+  playerNameInputField: {fileID: 0}
 --- !u!114 &5583441940336834052
 MonoBehaviour:
   m_ObjectHideFlags: 0

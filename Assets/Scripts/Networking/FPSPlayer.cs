@@ -9,27 +9,30 @@ public class FPSPlayer : NetworkBehaviour
     [SerializeField] private GameObject playerCharacter;
     private GameObject activePlayerCharacter;
 
-    public static Action OnPlayerSpawn;
-
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     public string playerName;
 
-    [SerializeField]     //Remove later
-    private Sprite elementSprite = null;
+    [SyncVar(hook = nameof(ClientHandlePlayerElementUpdated))]
+    public Constants.Element playerElement = Constants.Element.Missing;
+    public Constants.Team playerTeam = Constants.Team.Missing;
 
+    //Remove later
+    //[SyncVar(hook = nameof(ClientHandlePlayerSpriteUpdated))]
+    //[SyncVar]
+    public Sprite elementSprite = null;
+
+    public static Action OnPlayerSpawn;
     public static event Action ClientOnInfoUpdated;
 
-    [SerializeField] private Sprite waterSprite;
-    [SerializeField] private Sprite earthSprite;
-    [SerializeField] private Sprite fireSprite;
-    [SerializeField] private Sprite airSprite;
+    [SerializeField] private Sprite[] elementSprites = new Sprite[4];
 
-    public void SetDisplayName(string name)
+    [Server]
+    public void SetDisplayName(string newName)
     {
-        playerName = name;
+        playerName = newName;
     }
 
-    public Sprite GetSprite()
+    public Sprite GetElementSprite()
     {
         return elementSprite;
     }
@@ -54,34 +57,13 @@ public class FPSPlayer : NetworkBehaviour
 
         GameObject myPlayer = Instantiate(playerCharacter, new Vector3(0, 0, 0), Quaternion.identity);
         activePlayerCharacter = myPlayer;
+        SetDisplayName(playerInfo.playerName);
 
-        //myPlayer.GetComponent<FPSPlayer>().playerName = playerInfo.playerName;
-        //myPlayer.GetComponent<FPSPlayer>().elementSprite = DetermineSprite(playerInfo.element);
+        playerElement = playerInfo.element;
 
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }
 
-    private Sprite DetermineSprite(Constants.Element elementType)
-    {
-        Sprite elementSprite = null;
-        switch (elementType)
-        {
-            case (Constants.Element.water):
-                elementSprite = waterSprite;
-                break;
-            case (Constants.Element.earth):
-                elementSprite = earthSprite;
-                break;
-            case (Constants.Element.fire):
-                elementSprite = fireSprite;
-                break;
-            case (Constants.Element.air):
-                elementSprite = airSprite;
-                break;
-        }
-
-        return elementSprite;
-    }
 
     #endregion
 
@@ -99,6 +81,7 @@ public class FPSPlayer : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
 
         ((FPSNetworkManager)NetworkManager.singleton).players.Add(this);
+
     }
 
     public override void OnStopClient()
@@ -113,6 +96,18 @@ public class FPSPlayer : NetworkBehaviour
     }
 
     private void ClientHandleDisplayNameUpdated(string oldName, string newName)
+    {
+        ClientOnInfoUpdated?.Invoke();
+    }
+
+    private void ClientHandlePlayerElementUpdated(Constants.Element oldElement, Constants.Element newElement)
+    {
+        elementSprite = elementSprites[(int)playerElement];
+
+        ClientOnInfoUpdated?.Invoke();
+    }
+
+    private void ClientHandlePlayerSpriteUpdated(Sprite oldSprite, Sprite newSprite)
     {
         ClientOnInfoUpdated?.Invoke();
     }

@@ -66,7 +66,11 @@ MonoBehaviour:
   syncInterval: 0.1
   playerCharacter: {fileID: 5467285084242854813, guid: a840589249729984398df665ca6e2508,
     type: 3}
-  waterSprite: {fileID: 21300000, guid: 9afc28d057cd31846b74bed464914ecb, type: 3}
-  earthSprite: {fileID: 21300000, guid: ff10be9cb3c4f75478ccf6777bde414e, type: 3}
-  fireSprite: {fileID: 21300000, guid: 99be0ba0112111348a14e1a2022fe6bf, type: 3}
-  airSprite: {fileID: 21300000, guid: 8c0dc35be9d1f1d42bb1ca59aeb6943d, type: 3}
+  playerName: 
+  playerElement: 4
+  elementSprite: {fileID: 0}
+  elementSprites:
+  - {fileID: 21300000, guid: 9afc28d057cd31846b74bed464914ecb, type: 3}
+  - {fileID: 21300000, guid: ff10be9cb3c4f75478ccf6777bde414e, type: 3}
+  - {fileID: 21300000, guid: 99be0ba0112111348a14e1a2022fe6bf, type: 3}
+  - {fileID: 21300000, guid: 8c0dc35be9d1f1d42bb1ca59aeb6943d, type: 3}

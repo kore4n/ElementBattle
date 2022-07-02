@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fragsurf.Movement;
 using Mirror;
+using UnityEditor.Animations;
 
 public class MyCharacterController : NetworkBehaviour
 {
@@ -11,7 +12,9 @@ public class MyCharacterController : NetworkBehaviour
     [SerializeField]
     private Animator armsAnimator;
 
-    public ElementController elementController;
+    // Water, earth, fire, air
+    [SerializeField] private GameObject[] basicProjectiles = new GameObject[4];
+    [SerializeField] private RuntimeAnimatorController[] armAnimators = new RuntimeAnimatorController[4];
 
     // Just to turn off your own mesh
     [SerializeField]
@@ -34,26 +37,29 @@ public class MyCharacterController : NetworkBehaviour
         // Hide local body
         skinnedMeshRenderer.enabled = false;
 
-        // Change arm controller (animations) depending on element
-        switch (gameObject.GetComponent<PlayerBase>().element)
-        {
-            case (Constants.Element.water):
-                projectilePrefab = elementController.elementPrefabs.waterBasicProjectile;
-                armsAnimator.runtimeAnimatorController = elementController.armController.waterArms;
-                break;
-            case (Constants.Element.earth):
-                projectilePrefab = elementController.elementPrefabs.earthBasicProjectile;
-                armsAnimator.runtimeAnimatorController = elementController.armController.earthArms;
-                break;
-            case (Constants.Element.fire):
-                projectilePrefab = elementController.elementPrefabs.fireBasicProjectile;
-                armsAnimator.runtimeAnimatorController = elementController.armController.fireArms;
-                break;
-            case (Constants.Element.air):
-                projectilePrefab = elementController.elementPrefabs.airBasicProjectile;
-                armsAnimator.runtimeAnimatorController = elementController.armController.airArms;
-                break;
-        }
+        Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
+
+        projectilePrefab = basicProjectiles[(int)myElement];
+        armsAnimator.runtimeAnimatorController = armAnimators[(int)myElement];
+        //switch (myElement)
+        //{
+        //    case (Constants.Element.water):
+        //        projectilePrefab = elementController.elementPrefabs.waterBasicProjectile;
+        //        armsAnimator.runtimeAnimatorController = elementController.armController.waterArms;
+        //        break;
+        //    case (Constants.Element.earth):
+        //        projectilePrefab = elementController.elementPrefabs.earthBasicProjectile;
+        //        armsAnimator.runtimeAnimatorController = elementController.armController.earthArms;
+        //        break;
+        //    case (Constants.Element.fire):
+        //        projectilePrefab = elementController.elementPrefabs.fireBasicProjectile;
+        //        armsAnimator.runtimeAnimatorController = elementController.armController.fireArms;
+        //        break;
+        //    case (Constants.Element.air):
+        //        projectilePrefab = elementController.elementPrefabs.airBasicProjectile;
+        //        armsAnimator.runtimeAnimatorController = elementController.armController.airArms;
+        //        break;
+        //}
     }
 
     // Update is called once per frame

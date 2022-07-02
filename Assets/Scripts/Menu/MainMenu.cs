@@ -1,10 +1,13 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private TMP_InputField addressInput = null;
+    [SerializeField] private TMP_InputField nameInput = null;
 
     public void ButtonHost()
     {
@@ -18,6 +21,7 @@ public class MainMenu : MonoBehaviour
 
     public void ButtonClient()
     {
+        NetworkManager.singleton.networkAddress = addressInput.text;
         NetworkManager.singleton.StartClient();
     }
 }
