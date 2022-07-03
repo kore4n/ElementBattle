@@ -3191,29 +3191,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
         type: 3}
-      propertyPath: playerNameInputField
-      value: 
-      objectReference: {fileID: 941160105}
-    - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
-        type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
         type: 3}
-      propertyPath: spawnPrefabs.Array.data[0]
+      propertyPath: spawnPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180,
+      objectReference: {fileID: 7704066016196562582, guid: 27b0299d19490b4479ecb6ccd59cd70a,
         type: 3}
     - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
         type: 3}
-      propertyPath: spawnPrefabs.Array.data[1]
+      propertyPath: spawnPrefabs.Array.data[2]
       value: 
       objectReference: {fileID: 5467285084242854813, guid: a840589249729984398df665ca6e2508,
         type: 3}
     - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
         type: 3}
-      propertyPath: spawnPrefabs.Array.data[2]
+      propertyPath: spawnPrefabs.Array.data[3]
       value: 
       objectReference: {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68,
         type: 3}

@@ -14,7 +14,12 @@ public class FPSPlayer : NetworkBehaviour
 
     [SyncVar(hook = nameof(ClientHandlePlayerElementUpdated))]
     public Constants.Element playerElement = Constants.Element.Missing;
+
+    [SyncVar(hook = nameof(ClientHandlePlayerTeamUpdated))]
     public Constants.Team playerTeam = Constants.Team.Missing;
+
+    [SyncVar]
+    private bool readiedUp = false;
 
     //Remove later
     //[SyncVar(hook = nameof(ClientHandlePlayerSpriteUpdated))]
@@ -30,6 +35,40 @@ public class FPSPlayer : NetworkBehaviour
     public void SetDisplayName(string newName)
     {
         playerName = newName;
+    }
+
+    [Server]    //TODO: Should this be server?
+    public void SetTeam(Constants.Team team)
+    {
+        playerTeam = team;
+
+        FPSNetworkManager myNetworkManager = ((FPSNetworkManager)NetworkManager.singleton);
+
+        
+    }
+
+    public bool GetReadiedUp()
+    {
+        return readiedUp;
+    }
+
+    [Command]
+    public void CmdSetReadiedUp(bool newReadyState)
+    {
+        readiedUp = newReadyState;
+
+        RpcClientInfoUpdated();
+    }
+
+    public Constants.Team GetTeam()
+    {
+        return playerTeam;
+    }
+
+    [Command]
+    public void CmdSetTeam(Constants.Team team)
+    {
+        SetTeam(team);
     }
 
     public Sprite GetElementSprite()
@@ -57,9 +96,10 @@ public class FPSPlayer : NetworkBehaviour
 
         GameObject myPlayer = Instantiate(playerCharacter, new Vector3(0, 0, 0), Quaternion.identity);
         activePlayerCharacter = myPlayer;
-        SetDisplayName(playerInfo.playerName);
+        //SetDisplayName(playerInfo.playerName);
 
         playerElement = playerInfo.element;
+        activePlayerCharacter.GetComponent<PlayerCharacter>().SetTeam(playerTeam);
 
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }
@@ -72,6 +112,22 @@ public class FPSPlayer : NetworkBehaviour
     private void Start()
     {
         OnPlayerSpawn?.Invoke();
+    }
+
+    private void Update()
+    {
+        if (!hasAuthority) { return; }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            CmdSetReadiedUp(!readiedUp);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcClientInfoUpdated()
+    {
+        ClientOnInfoUpdated?.Invoke();
     }
 
     public override void OnStartClient()
@@ -108,6 +164,11 @@ public class FPSPlayer : NetworkBehaviour
     }
 
     private void ClientHandlePlayerSpriteUpdated(Sprite oldSprite, Sprite newSprite)
+    {
+        ClientOnInfoUpdated?.Invoke();
+    }
+
+    private void ClientHandlePlayerTeamUpdated(Constants.Team oldTeam, Constants.Team newTeam)
     {
         ClientOnInfoUpdated?.Invoke();
     }

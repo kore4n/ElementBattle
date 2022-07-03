@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5583441940336834054}
   - component: {fileID: 5583441940336834073}
   - component: {fileID: 5583441940336834052}
+  - component: {fileID: 8278872548592060949}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -60,15 +61,17 @@ MonoBehaviour:
   autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs:
-  - {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68, type: 3}
+  - {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180, type: 3}
   - {fileID: 5467285084242854813, guid: a840589249729984398df665ca6e2508, type: 3}
+  - {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68, type: 3}
   players: []
   redPlayers: 0
   bluePlayers: 0
   specPlayers: 0
-  spectatorCamera: {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180,
+  spectatorCameraPrefab: {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180,
     type: 3}
-  playerNameInputField: {fileID: 0}
+  gameOverHandlerPrefab: {fileID: 7704066016196562582, guid: 27b0299d19490b4479ecb6ccd59cd70a,
+    type: 3}
 --- !u!114 &5583441940336834052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,3 +101,15 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
+--- !u!114 &8278872548592060949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5583441940336834050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3746b82faaf424795e14c6395af9a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

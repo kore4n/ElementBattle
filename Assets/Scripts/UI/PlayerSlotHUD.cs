@@ -8,16 +8,20 @@ public class PlayerSlotHUD : MonoBehaviour
 {
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private Image imageSprite;
+    [SerializeField] private GameObject readyCheckmark;
 
     public void SetName(string newName)
     {
         nameText.text = newName;
-
-        //Debug.Log($"New name is {newName}");
     }
 
     public void SetSprite(Sprite newSprite)
     {
         imageSprite.sprite = newSprite;
+    }
+
+    public void SetReady(bool readyState)
+    {
+        readyCheckmark.SetActive(readyState);
     }
 }

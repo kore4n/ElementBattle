@@ -21,11 +21,10 @@ public static class Constants
         Spectator,
         Missing,
     }
-
-    
 }
 
 public struct CreateFPSPlayerMessage : NetworkMessage
 {
     public string playerName;
+    //public Sprite sprite;
 }

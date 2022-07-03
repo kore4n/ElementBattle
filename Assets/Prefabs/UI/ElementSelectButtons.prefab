@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9087f4808f0fc97459e7a967e41e269c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elementSelectionParent: {fileID: 1452168686103699091}
+  elementSelectionParent: {fileID: 6560081210432392895}
 --- !u!1 &4232188178816019638
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,7 +463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5972610632880539765
 RectTransform:
   m_ObjectHideFlags: 0

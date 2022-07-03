@@ -3,26 +3,68 @@ using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
 using TMPro;
+using Steamworks;
+using UnityEngine.SceneManagement;
 
 public class FPSNetworkManager : NetworkManager
 {
-    public List<FPSPlayer> players = new List<FPSPlayer> ();
+    public List<FPSPlayer> players = new List<FPSPlayer>();
 
-    public int redPlayers = 0;
-    public int bluePlayers = 0;
-    public int specPlayers = 0;
+    private int redPlayers = 0;
+    private int bluePlayers = 0;
+    private int specPlayers = 0;
 
-    [SerializeField] private GameObject spectatorCamera;    // Camera to spawn after death
+    private bool isGameInProgress = false;
 
-    [SerializeField] private TMP_InputField playerNameInputField = null;
+    [SerializeField] private GameObject spectatorCameraPrefab;    // Camera to spawn after death
+    [SerializeField] private GameObject gameOverHandlerPrefab;
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
+    #region GetSets
+
     public GameObject GetSpectatorCamera()
     {
-        return spectatorCamera;
+        return spectatorCameraPrefab;
     }
+
+    public bool IsGameInProgress()
+    {
+        return isGameInProgress;
+    }
+
+    //public int GetRedPlayers()
+    //{
+    //    return redPlayers;
+    //}
+
+    //public int GetBluePlayers()
+    //{
+    //    return bluePlayers;
+    //}
+
+    //public int GetSpecPlayers()
+    //{
+    //    return specPlayers;
+    //}
+
+    //public void SetRedPlayers(int newRedPlayers)
+    //{
+    //    redPlayers = newRedPlayers;
+    //}
+
+    //public void SetBluePlayers(int newBluePlayers)
+    //{
+    //    bluePlayers = newBluePlayers;
+    //}
+
+    //public void SetSpecPlayers(int newSpecPlayers)
+    //{
+    //    specPlayers = newSpecPlayers;
+    //}
+
+    #endregion
 
     #region Server
 
@@ -45,14 +87,14 @@ public class FPSNetworkManager : NetworkManager
         players.Add(player);
     }
 
-    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+    public override void OnServerSceneChanged(string sceneName)
     {
-        base.OnServerAddPlayer(conn);
+        if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
+        {
+            GameObject gameOverHandler = Instantiate(gameOverHandlerPrefab);
 
-        //FPSPlayer player = conn.identity.GetComponent<FPSPlayer>();
-
-        //Debug.Log("Adding player to list!");
-        //players.Add(player);
+            NetworkServer.Spawn(gameOverHandler);
+        }
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -74,7 +116,7 @@ public class FPSNetworkManager : NetworkManager
 
         CreateFPSPlayerMessage createFPSPlayerMessage = new CreateFPSPlayerMessage()
         {
-            playerName = playerNameInputField.text
+            playerName = SteamClient.Name,
         };
         NetworkClient.Send(createFPSPlayerMessage);
 

@@ -21,12 +21,12 @@ public class Health : NetworkBehaviour
     {
         currentHealth = maxHealth;
 
-        PlayerCharacter.ServerOnPlayerDie += ServerHandlePlayerDie;
+        PlayerCharacter.ServerOnPlayerCharacterDie += ServerHandlePlayerDie;
     }
 
     public override void OnStopServer()
     {
-        PlayerCharacter.ServerOnPlayerDie -= ServerHandlePlayerDie;
+        PlayerCharacter.ServerOnPlayerCharacterDie -= ServerHandlePlayerDie;
     }
 
     [Server]

@@ -8,21 +8,33 @@ public class PlayerCharacter : NetworkBehaviour
 {
     [SerializeField] private Health health;
 
-    public static Action<int> ServerOnPlayerDie;
-    public static event Action<PlayerCharacter> ServerOnPlayerSpawned;
-    public static event Action<PlayerCharacter> ServerOnPlayerDespawned;
+    [SyncVar] 
+    private Constants.Team team = Constants.Team.Missing;
+
+    public static Action<int> ServerOnPlayerCharacterDie;
+    public static event Action<PlayerCharacter> ServerOnPlayerCharacterSpawned;
+    public static event Action<PlayerCharacter> ServerOnPlayerCharacterDespawned;
+
+    public Constants.Team GetTeam()
+    {
+        return team;
+    }
+
+    public void SetTeam(Constants.Team newTeam)
+    {
+        team = newTeam;
+    }
 
     public override void OnStartServer()
     {
         health.ServerOnDie += ServerHandleDie;
 
-        ServerOnPlayerSpawned?.Invoke(this);
+        ServerOnPlayerCharacterSpawned?.Invoke(this);
     }
 
     public override void OnStopServer()
     {
-
-        ServerOnPlayerDespawned?.Invoke(this);
+        ServerOnPlayerCharacterDespawned?.Invoke(this);
 
         health.ServerOnDie -= ServerHandleDie;
     }
@@ -30,9 +42,8 @@ public class PlayerCharacter : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-        ServerOnPlayerDie?.Invoke(connectionToClient.connectionId);
+        ServerOnPlayerCharacterDie?.Invoke(connectionToClient.connectionId);
 
         NetworkServer.Destroy(gameObject);
     }
-
 }

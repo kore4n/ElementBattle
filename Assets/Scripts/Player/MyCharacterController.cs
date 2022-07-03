@@ -26,7 +26,11 @@ public class MyCharacterController : NetworkBehaviour
     public GameObject structurePrefab;
     public GameObject projectilePrefab;
 
-    // Start is called before the first frame update
+    public GameObject GetCameraHolder()
+    {
+        return cameraShoot;
+    }
+
     void Start()
     {
         if (!hasAuthority)

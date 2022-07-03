@@ -18,6 +18,8 @@ public class PlayerSelectButton : MonoBehaviour
         FPSPlayer.OnPlayerSpawn -= HandlePlayerSpawn;
     }
 
+    // Shouldn't have to do this but I do.
+    // Placing line in Start makes it run too early
     private void HandlePlayerSpawn()
     {
         player = NetworkClient.connection.identity.GetComponent<FPSPlayer>();
@@ -27,7 +29,6 @@ public class PlayerSelectButton : MonoBehaviour
     {
         PlayerInfo playerInfo = new PlayerInfo()
         {
-            playerName = "a test Name",
             element = elementType,
         };
 

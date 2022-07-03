@@ -10,10 +10,19 @@ public class DeathZone : MonoBehaviour
     {
         if (other.transform.parent.TryGetComponent<PlayerCharacter>(out PlayerCharacter playerCharacter))
         {
-            DestroyObject(other.transform.parent.gameObject);
+            GameObject playerCharacterObject = playerCharacter.gameObject;
+            GameObject playerCamera = playerCharacter.GetComponent<MyCharacterController>().GetCameraHolder();
 
-            GameObject spectatorCamera = Instantiate(((FPSNetworkManager)NetworkManager.singleton).GetSpectatorCamera());
+            var rotation = new Quaternion();    // TODO: Rotation Not matching
+            rotation.eulerAngles = new Vector3(playerCharacterObject.transform.eulerAngles.x, playerCamera.transform.localEulerAngles.y, 0f);
+
+            GameObject spectatorCamera = Instantiate(
+                ((FPSNetworkManager)NetworkManager.singleton).GetSpectatorCamera(),
+                playerCamera.transform.position,
+                rotation);
             NetworkServer.Spawn(spectatorCamera, playerCharacter.connectionToClient);
+
+            DestroyObject(playerCharacterObject);
         }
     }
 

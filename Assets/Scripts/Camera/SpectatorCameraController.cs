@@ -19,16 +19,27 @@ public class SpectatorCameraController : NetworkBehaviour
 
     void FixedUpdate()
     {
-        float keyboardX = Input.GetAxisRaw("Horizontal") * Time.deltaTime * 30f;
-        float keyboardY = Input.GetAxisRaw("Vertical") * Time.deltaTime * 30f;
+        float moveSpeedConstant = Time.deltaTime * 30f;
 
-        turn.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity * 300f * Time.deltaTime;
-        turn.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity * 300f * Time.deltaTime;
+        float keyboardX = Input.GetAxisRaw("Horizontal") * moveSpeedConstant;
+        float keyboardY = Input.GetAxisRaw("Vertical") * moveSpeedConstant;
+
+        turn.x += Input.GetAxisRaw("Mouse X") * mouseSensitivity * 600f * Time.deltaTime;
+        turn.y += Input.GetAxisRaw("Mouse Y") * mouseSensitivity * 600f * Time.deltaTime;
         turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
         Vector3 finalDir = new Vector3(keyboardX, 0f, keyboardY);
 
         transform.Translate(finalDir, Space.Self);
+
+        if (Input.GetKey(KeyCode.Space)) 
+        {
+            transform.Translate(Vector3.up * moveSpeedConstant, Space.World); 
+        }
+        if (Input.GetKey(KeyCode.LeftShift)) 
+        { 
+            transform.Translate(Vector3.down * moveSpeedConstant, Space.World); 
+        }
 
         transform.localRotation = Quaternion.Euler(-turn.y, turn.x, 0f);
     }
