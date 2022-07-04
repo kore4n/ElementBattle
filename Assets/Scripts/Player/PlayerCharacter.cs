@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerCharacter : NetworkBehaviour
 {
+    // TODO: Make serializefield later
+    public string playerCharacterName = "Missing name";
     [SerializeField] private Health health;
 
     [SyncVar] 

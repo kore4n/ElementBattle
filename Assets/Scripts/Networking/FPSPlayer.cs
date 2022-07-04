@@ -18,8 +18,8 @@ public class FPSPlayer : NetworkBehaviour
     [SyncVar(hook = nameof(ClientHandlePlayerTeamUpdated))]
     public Constants.Team playerTeam = Constants.Team.Missing;
 
-    [SyncVar]
-    private bool readiedUp = false;
+    [SyncVar(hook = nameof(ClientHandlePlayerReadyUpdated))]
+    public bool readiedUp = false;  // Remove Public later
 
     //Remove later
     //[SyncVar(hook = nameof(ClientHandlePlayerSpriteUpdated))]
@@ -37,14 +37,23 @@ public class FPSPlayer : NetworkBehaviour
         playerName = newName;
     }
 
-    [Server]    //TODO: Should this be server?
+    [Server]
     public void SetTeam(Constants.Team team)
     {
         playerTeam = team;
+    }
 
-        FPSNetworkManager myNetworkManager = ((FPSNetworkManager)NetworkManager.singleton);
+    [Server]
+    public void SetReady(bool newReadyState)
+    {
+        readiedUp = newReadyState; 
+    }
 
-        
+
+    [Command]
+    public void CmdSetReadiedUp(bool newReadyState)
+    {
+        SetReady(newReadyState);
     }
 
     public bool GetReadiedUp()
@@ -52,13 +61,6 @@ public class FPSPlayer : NetworkBehaviour
         return readiedUp;
     }
 
-    [Command]
-    public void CmdSetReadiedUp(bool newReadyState)
-    {
-        readiedUp = newReadyState;
-
-        RpcClientInfoUpdated();
-    }
 
     public Constants.Team GetTeam()
     {
@@ -96,9 +98,9 @@ public class FPSPlayer : NetworkBehaviour
 
         GameObject myPlayer = Instantiate(playerCharacter, new Vector3(0, 0, 0), Quaternion.identity);
         activePlayerCharacter = myPlayer;
-        //SetDisplayName(playerInfo.playerName);
-
+        
         playerElement = playerInfo.element;
+        activePlayerCharacter.GetComponent<PlayerCharacter>().playerCharacterName = playerName;
         activePlayerCharacter.GetComponent<PlayerCharacter>().SetTeam(playerTeam);
 
         NetworkServer.Spawn(myPlayer, connectionToClient);
@@ -122,12 +124,6 @@ public class FPSPlayer : NetworkBehaviour
         {
             CmdSetReadiedUp(!readiedUp);
         }
-    }
-
-    [ClientRpc]
-    private void RpcClientInfoUpdated()
-    {
-        ClientOnInfoUpdated?.Invoke();
     }
 
     public override void OnStartClient()
@@ -169,6 +165,11 @@ public class FPSPlayer : NetworkBehaviour
     }
 
     private void ClientHandlePlayerTeamUpdated(Constants.Team oldTeam, Constants.Team newTeam)
+    {
+        ClientOnInfoUpdated?.Invoke();
+    }
+
+    private void ClientHandlePlayerReadyUpdated(bool oldReadyState, bool newReadyState)
     {
         ClientOnInfoUpdated?.Invoke();
     }

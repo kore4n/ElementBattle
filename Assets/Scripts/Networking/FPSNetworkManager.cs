@@ -10,9 +10,9 @@ public class FPSNetworkManager : NetworkManager
 {
     public List<FPSPlayer> players = new List<FPSPlayer>();
 
-    private int redPlayers = 0;
-    private int bluePlayers = 0;
-    private int specPlayers = 0;
+    //private int redPlayers = 0;
+    //private int bluePlayers = 0;
+    //private int specPlayers = 0;
 
     private bool isGameInProgress = false;
 
@@ -21,6 +21,8 @@ public class FPSNetworkManager : NetworkManager
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
+
+    public static event Action<Constants.GameAction> ClientOnArenaAction;
 
     #region GetSets
 

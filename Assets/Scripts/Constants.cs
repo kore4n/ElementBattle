@@ -21,6 +21,12 @@ public static class Constants
         Spectator,
         Missing,
     }
+
+    public enum GameAction
+    {
+        Start,
+        End,
+    }
 }
 
 public struct CreateFPSPlayerMessage : NetworkMessage

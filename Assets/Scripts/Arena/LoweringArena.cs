@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class LoweringArena : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        FPSNetworkManager.ClientOnArenaAction += ClientHandleArenaAction;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        FPSNetworkManager.ClientOnArenaAction -= ClientHandleArenaAction;
+    }
+
+    private void ClientHandleArenaAction(Constants.GameAction gameAction)
+    {
+        Debug.Log(gameAction);
     }
 }

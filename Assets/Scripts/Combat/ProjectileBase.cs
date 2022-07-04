@@ -39,10 +39,10 @@ public class ProjectileBase : NetworkBehaviour
             health.DealDamage((int)damageToDeal);
         }
 
-        if (other.gameObject.layer == 0) { DestroySelf(); }
+        if (other.gameObject.layer == 0) { DestroySelf(); } // TODO: Doesnt work
 
-        Debug.Log(playerCharacter.name);
-        Debug.Log(playerCharacter.GetComponent<NetworkIdentity>());
+        //Debug.Log(playerCharacter.name);
+        //Debug.Log(playerCharacter.GetComponent<NetworkIdentity>());
 
         DestroySelf();  // Called when hit anything that doesn't belong to self
     }
