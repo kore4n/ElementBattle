@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SelectTeamUI : MonoBehaviour
 {
-    FPSPlayer player = null;
+    private FPSPlayer player = null;
     [SerializeField] private GameObject teamSelectionUI = null;
     [SerializeField] private GameObject elementSelectionUI = null;
 

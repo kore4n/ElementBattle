@@ -526,6 +526,8 @@ MonoBehaviour:
   cameraShoot: {fileID: 5467285085316221438}
   structurePrefab: {fileID: 6322194229183626605, guid: b6bdf7a2991918840be2ca3d88cc783a,
     type: 3}
+  fakeProjectilePrefab: {fileID: 5785333882706828015, guid: a29e2f8091385374e802891ed8400e3d,
+    type: 3}
   projectilePrefab: {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68,
     type: 3}
 --- !u!114 &641746850858478456
@@ -557,6 +559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  playerCharacterName: Missing name
   health: {fileID: 641746850858478456}
 --- !u!1 &5467285085316221438
 GameObject:

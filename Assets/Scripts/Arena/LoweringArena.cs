@@ -1,21 +1,54 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoweringArena : MonoBehaviour
+public class LoweringArena : NetworkBehaviour
 {
+    [SerializeField] private float lowerOverTime = 10f;  // Time in which to lower arena over
+
     void Start()
     {
-        FPSNetworkManager.ClientOnArenaAction += ClientHandleArenaAction;
+        //GameManager.ServerOnArenaAction += ServerHandleArenaAction;
+        GameManager.ServerOnLowerArena += ServerHandleLowerArena;
     }
 
     private void OnDestroy()
     {
-        FPSNetworkManager.ClientOnArenaAction -= ClientHandleArenaAction;
+        //GameManager.ServerOnArenaAction -= ServerHandleArenaAction;
+        GameManager.ServerOnLowerArena -= ServerHandleLowerArena;
     }
 
-    private void ClientHandleArenaAction(Constants.GameAction gameAction)
+    //[Server]
+    //private void ServerHandleArenaAction(Constants.GameAction gameAction)
+    //{
+    //    switch (gameAction)
+    //    {
+    //        case Constants.GameAction.LowerArena:
+    //            StartCoroutine(ScaleOverTime(lowerOverTime));
+    //            break;
+    //    }
+    //}
+
+    IEnumerator ScaleOverTime(float time)
     {
-        Debug.Log(gameAction);
+        Vector3 originalScale = transform.localScale;
+
+        Vector3 destinationScale = new Vector3(transform.localScale.x, 0f, transform.localScale.z);
+
+        float currentTime = 0.0f;
+
+        do
+        {
+            transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time);
+            currentTime += Time.deltaTime;
+            yield return null;
+        } while (currentTime <= time);
+    }
+
+    private void ServerHandleLowerArena(LoweringArena loweringArena)
+    {
+        if (loweringArena.name != gameObject.name) { return; }
+        StartCoroutine(ScaleOverTime(lowerOverTime));
     }
 }

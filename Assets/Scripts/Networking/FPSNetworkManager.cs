@@ -10,19 +10,13 @@ public class FPSNetworkManager : NetworkManager
 {
     public List<FPSPlayer> players = new List<FPSPlayer>();
 
-    //private int redPlayers = 0;
-    //private int bluePlayers = 0;
-    //private int specPlayers = 0;
-
-    private bool isGameInProgress = false;
+    //private bool isGameInProgress = false;
 
     [SerializeField] private GameObject spectatorCameraPrefab;    // Camera to spawn after death
-    [SerializeField] private GameObject gameOverHandlerPrefab;
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
-    public static event Action<Constants.GameAction> ClientOnArenaAction;
 
     #region GetSets
 
@@ -31,39 +25,9 @@ public class FPSNetworkManager : NetworkManager
         return spectatorCameraPrefab;
     }
 
-    public bool IsGameInProgress()
-    {
-        return isGameInProgress;
-    }
-
-    //public int GetRedPlayers()
+    //public bool IsGameInProgress()
     //{
-    //    return redPlayers;
-    //}
-
-    //public int GetBluePlayers()
-    //{
-    //    return bluePlayers;
-    //}
-
-    //public int GetSpecPlayers()
-    //{
-    //    return specPlayers;
-    //}
-
-    //public void SetRedPlayers(int newRedPlayers)
-    //{
-    //    redPlayers = newRedPlayers;
-    //}
-
-    //public void SetBluePlayers(int newBluePlayers)
-    //{
-    //    bluePlayers = newBluePlayers;
-    //}
-
-    //public void SetSpecPlayers(int newSpecPlayers)
-    //{
-    //    specPlayers = newSpecPlayers;
+    //    return isGameInProgress;
     //}
 
     #endregion
@@ -89,15 +53,15 @@ public class FPSNetworkManager : NetworkManager
         players.Add(player);
     }
 
-    public override void OnServerSceneChanged(string sceneName)
-    {
-        if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
-        {
-            GameObject gameOverHandler = Instantiate(gameOverHandlerPrefab);
+    //public override void OnServerSceneChanged(string sceneName)
+    //{
+    //    if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
+    //    {
+    //        GameObject gameOverHandler = Instantiate(gameOverHandlerPrefab);
 
-            NetworkServer.Spawn(gameOverHandler);
-        }
-    }
+    //        NetworkServer.Spawn(gameOverHandler);
+    //    }
+    //}
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {

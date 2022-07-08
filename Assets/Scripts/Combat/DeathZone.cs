@@ -8,6 +8,7 @@ public class DeathZone : MonoBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.transform.parent.TryGetComponent<PlayerCharacter>(out PlayerCharacter playerCharacter))
         {
             GameObject playerCharacterObject = playerCharacter.gameObject;
@@ -15,6 +16,17 @@ public class DeathZone : MonoBehaviour
 
             var rotation = new Quaternion();    // TODO: Rotation Not matching
             rotation.eulerAngles = new Vector3(playerCharacterObject.transform.eulerAngles.x, playerCamera.transform.localEulerAngles.y, 0f);
+
+
+
+            //if (!GameManager.singleton.IsGameInProgress())
+            //{
+            //    DestroyObject(playerCharacterObject);
+            //    NetworkServer.Spawn(playerCharacterObject);
+            //    return;
+            //}
+
+
 
             GameObject spectatorCamera = Instantiate(
                 ((FPSNetworkManager)NetworkManager.singleton).GetSpectatorCamera(),

@@ -26,6 +26,8 @@ public static class Constants
     {
         Start,
         End,
+        AddRound,
+        LowerArena
     }
 }
 

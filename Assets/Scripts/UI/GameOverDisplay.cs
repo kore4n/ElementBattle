@@ -12,12 +12,12 @@ public class GameOverDisplay : MonoBehaviour
 
     private void Start()
     {
-        GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
+        GameManager.ClientOnGameOver += ClientHandleGameOver;
     }
 
     private void OnDestroy()
     {
-        GameOverHandler.ClientOnGameOver -= ClientHandleGameOver;
+        GameManager.ClientOnGameOver -= ClientHandleGameOver;
     }
 
     private void ClientHandleGameOver(Constants.Team winner)

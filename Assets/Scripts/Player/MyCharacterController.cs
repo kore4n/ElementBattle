@@ -8,9 +8,9 @@ using UnityEditor.Animations;
 public class MyCharacterController : NetworkBehaviour
 {
     [SerializeField]
-    private Animator playerBodyAnimator;
+    private Animator playerBodyAnimator = null;
     [SerializeField]
-    private Animator armsAnimator;
+    private Animator armsAnimator = null;
 
     // Water, earth, fire, air
     [SerializeField] private GameObject[] basicProjectiles = new GameObject[4];
@@ -18,13 +18,14 @@ public class MyCharacterController : NetworkBehaviour
 
     // Just to turn off your own mesh
     [SerializeField]
-    private SkinnedMeshRenderer skinnedMeshRenderer;
+    private SkinnedMeshRenderer skinnedMeshRenderer = null;
 
     [SerializeField]
-    private GameObject cameraShoot;
+    private GameObject cameraShoot = null;
 
-    public GameObject structurePrefab;
-    public GameObject projectilePrefab;
+    public GameObject structurePrefab = null;
+    public GameObject fakeProjectilePrefab = null;
+    public GameObject projectilePrefab = null;
 
     public GameObject GetCameraHolder()
     {
@@ -45,25 +46,6 @@ public class MyCharacterController : NetworkBehaviour
 
         projectilePrefab = basicProjectiles[(int)myElement];
         armsAnimator.runtimeAnimatorController = armAnimators[(int)myElement];
-        //switch (myElement)
-        //{
-        //    case (Constants.Element.water):
-        //        projectilePrefab = elementController.elementPrefabs.waterBasicProjectile;
-        //        armsAnimator.runtimeAnimatorController = elementController.armController.waterArms;
-        //        break;
-        //    case (Constants.Element.earth):
-        //        projectilePrefab = elementController.elementPrefabs.earthBasicProjectile;
-        //        armsAnimator.runtimeAnimatorController = elementController.armController.earthArms;
-        //        break;
-        //    case (Constants.Element.fire):
-        //        projectilePrefab = elementController.elementPrefabs.fireBasicProjectile;
-        //        armsAnimator.runtimeAnimatorController = elementController.armController.fireArms;
-        //        break;
-        //    case (Constants.Element.air):
-        //        projectilePrefab = elementController.elementPrefabs.airBasicProjectile;
-        //        armsAnimator.runtimeAnimatorController = elementController.armController.airArms;
-        //        break;
-        //}
     }
 
     // Update is called once per frame
@@ -78,11 +60,21 @@ public class MyCharacterController : NetworkBehaviour
 
         if (!Input.GetKeyDown(KeyCode.Mouse0)) { return; }
 
+        SpawnFakeProjectile();
         SpawnBaseProjectileCommand();
     }
 
+    [Client]
+    private void SpawnFakeProjectile()
+    {
+        GameObject projectile = Instantiate(fakeProjectilePrefab, transform.position + cameraShoot.transform.forward, Quaternion.identity);
+        projectile.transform.forward = cameraShoot.transform.forward;
+        projectile.GetComponent<Rigidbody>().AddForce(cameraShoot.transform.forward * 30, ForceMode.VelocityChange);
+    }
+
+
     [Command]
-    public void SpawnBaseProjectileCommand()
+    private void SpawnBaseProjectileCommand()
     {
         // Logic
         GameObject projectile = Instantiate(projectilePrefab, transform.position + cameraShoot.transform.forward, Quaternion.identity);
@@ -92,7 +84,7 @@ public class MyCharacterController : NetworkBehaviour
         NetworkServer.Spawn(projectile, connectionToClient);
     }
 
-    void MovementAnimation()
+    private void MovementAnimation()
     {
         float dampTime = 0.1f;
         if (Input.GetKey(KeyCode.W))

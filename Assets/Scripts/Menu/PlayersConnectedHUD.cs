@@ -13,15 +13,15 @@ public class PlayersConnectedHUD : MonoBehaviour
     private void Start()
     {
         FPSPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
-        GameOverHandler.ServerOnGameStart += ClientHandleGameStart;
-        GameOverHandler.ServerOnGameOver += ClientHandleGameOver;
+        GameManager.ServerOnGameStart += ClientHandleGameStart;
+        GameManager.ServerOnGameOver += ClientHandleGameOver;
     }
 
     private void OnDestroy()
     {
         FPSPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
-        GameOverHandler.ServerOnGameStart -= ClientHandleGameStart;
-        GameOverHandler.ServerOnGameOver -= ClientHandleGameOver;
+        GameManager.ServerOnGameStart -= ClientHandleGameStart;
+        GameManager.ServerOnGameOver -= ClientHandleGameOver;
     }
 
     private void ClientHandleInfoUpdated()
