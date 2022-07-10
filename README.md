@@ -8,6 +8,8 @@ Inspired by Avatar The Last Airbender and [Funke's video](https://www.youtube.co
 
 - Unity Version: 2021.3.1f1
 - [Mirror](https://mirror-networking.com/)
+- [Facepunch.Steamworks v2.3.2](https://wiki.facepunch.com/steamworks/) by [Facepunch](https://github.com/Facepunch)
+- [FizzyFacepunch Transport](https://github.com/Chykary/FizzyFacepunch) by [Chykary](https://github.com/Chykary)
 
 ## Folder Structure
 We want to split folder in a reasonable way to work with a small, diverse skillset.
