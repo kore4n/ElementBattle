@@ -34,13 +34,10 @@ public class MyCharacterController : NetworkBehaviour
 
     void Start()
     {
-        if (!hasAuthority)
-        {
-            return;
-        }
+        if (!hasAuthority) { return; }
 
-        // Hide local body
-        skinnedMeshRenderer.enabled = false;
+        // Hide local body   TODO: Reenable after testing
+        //skinnedMeshRenderer.enabled = false;
 
         Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
 
@@ -51,8 +48,7 @@ public class MyCharacterController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!hasAuthority)
-            return;
+        if (!hasAuthority) { return; }
 
 
         ArmAnimation();
@@ -62,6 +58,15 @@ public class MyCharacterController : NetworkBehaviour
 
         SpawnFakeProjectile();
         SpawnBaseProjectileCommand();
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (!hasAuthority) { return; }
+
+        // Remove later just for testing
+        playerBodyAnimator.SetLookAtWeight(1);
+        playerBodyAnimator.SetLookAtPosition(cameraShoot.transform.position + cameraShoot.transform.forward);
     }
 
     [Client]
@@ -86,6 +91,8 @@ public class MyCharacterController : NetworkBehaviour
 
     private void MovementAnimation()
     {
+        Debug.Log(playerBodyAnimator.isHuman);
+
         float dampTime = 0.1f;
         if (Input.GetKey(KeyCode.W))
         {
