@@ -4,6 +4,8 @@
 
 Inspired by Avatar The Last Airbender and [Funke's video](https://www.youtube.com/watch?v=bJEy09Sm37Y).
 
+Icons inspired by [Mardek](https://store.steampowered.com/app/1302990/MARDEK/).
+
 ## Dependencies
 
 - Unity Version: 2021.3.1f1
