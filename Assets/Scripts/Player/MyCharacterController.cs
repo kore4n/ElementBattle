@@ -10,11 +10,11 @@ public class MyCharacterController : NetworkBehaviour
     [SerializeField]
     private Animator playerBodyAnimator = null;
     [SerializeField]
-    private Animator armsAnimator = null;
+    private Animator weaponAnimator = null;
 
     // Water, earth, fire, air
     [SerializeField] private GameObject[] basicProjectiles = new GameObject[4];
-    [SerializeField] private RuntimeAnimatorController[] armAnimators = new RuntimeAnimatorController[4];
+    //[SerializeField] private RuntimeAnimatorController[] armAnimators = new RuntimeAnimatorController[4];
 
     // Just to turn off your own mesh
     [SerializeField]
@@ -37,21 +37,20 @@ public class MyCharacterController : NetworkBehaviour
         if (!hasAuthority) { return; }
 
         // Hide local body   TODO: Reenable after testing
-        //skinnedMeshRenderer.enabled = false;
+        skinnedMeshRenderer.enabled = false;
 
         Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
 
         projectilePrefab = basicProjectiles[(int)myElement];
-        armsAnimator.runtimeAnimatorController = armAnimators[(int)myElement];
+        //armsAnimator.runtimeAnimatorController = armAnimators[(int)myElement];
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!hasAuthority) { return; }
 
 
-        ArmAnimation();
+        WeaponAnimation();
         MovementAnimation();
 
         if (!Input.GetKeyDown(KeyCode.Mouse0)) { return; }
@@ -91,8 +90,6 @@ public class MyCharacterController : NetworkBehaviour
 
     private void MovementAnimation()
     {
-        Debug.Log(playerBodyAnimator.isHuman);
-
         float dampTime = 0.1f;
         if (Input.GetKey(KeyCode.W))
         {
@@ -121,30 +118,32 @@ public class MyCharacterController : NetworkBehaviour
         }
     }
 
-    void ArmAnimation()
+    void WeaponAnimation()
     {
         // Attack
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            armsAnimator.SetTrigger("Attack");
+            weaponAnimator.SetTrigger("Attack");
+            Debug.Log("Triggering attack!");
         }
         // Raise arms
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            armsAnimator.SetTrigger("Block");
+            weaponAnimator.SetTrigger("Block");
+            Debug.Log("Triggering block!");
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
-            armsAnimator.SetTrigger("Recovery");
+            weaponAnimator.SetTrigger("Recovery");
         }
         // TODO: Specials will have different buttons for now
         else if (Input.GetKeyDown(KeyCode.F))
         {
-            armsAnimator.SetTrigger("SpecialStill");
+            weaponAnimator.SetTrigger("SpecialStill");
         }
         else if (Input.GetKeyDown(KeyCode.G))
         {
-            armsAnimator.SetTrigger("SpecialCrouch");
+            weaponAnimator.SetTrigger("SpecialCrouch");
         }
     }
 }

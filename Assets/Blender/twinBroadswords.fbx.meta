@@ -1,8 +1,29 @@
 fileFormatVersion: 2
-guid: 5cd07c6cc8442464aa57f392eb9a34f0
+guid: 96c8ea4217e5c6b41a4b02d3e3f078bd
 ModelImporter:
   serializedVersion: 21202
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 4723146814002874508
+    second: Armature|Attack
+  - first:
+      74: 4805745386581417271
+    second: Armature|Block
+  - first:
+      74: -8945691123924629249
+    second: Armature|Idle
+  - first:
+      74: -5634258956781064799
+    second: Armature|Recovery
+  - first:
+      74: 2162973069403603669
+    second: Armature|SpecialCrouch
+  - first:
+      74: -4473249389234453414
+    second: Armature|SpecialStill
+  - first:
+      74: 5152524018116331999
+    second: Armature|TPose
   externalObjects: {}
   materials:
     materialImportMode: 2

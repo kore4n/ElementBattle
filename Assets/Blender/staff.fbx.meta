@@ -1,8 +1,29 @@
 fileFormatVersion: 2
-guid: ac7e11779196ca645a8e88e0e6251dfa
+guid: 960ff6302ee839f46ac2f727b55fe2a2
 ModelImporter:
   serializedVersion: 21202
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -9114431301243938624
+    second: Staff|Attack
+  - first:
+      74: 4595450998405852093
+    second: Staff|Block
+  - first:
+      74: -2793960314309417828
+    second: Staff|Idle
+  - first:
+      74: 1462408402235352941
+    second: Staff|Recovery
+  - first:
+      74: 959473652901369043
+    second: Staff|SpecialCrouch
+  - first:
+      74: -2984555716057292424
+    second: Staff|SpecialStill
+  - first:
+      74: -3235143821451460931
+    second: Staff|TPose
   externalObjects: {}
   materials:
     materialImportMode: 2
