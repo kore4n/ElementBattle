@@ -2,7 +2,7 @@
 
 This is an alternative version of **[FizzySteamworks](https://github.com/Chykary/FizzySteamworks)** that uses Facepunch instead of Steamworks.NET.
 
-Mirror **[docs](https://mirror-networking.com/docs/Transports/Fizzy.html)** and the official community **[Discord](https://discord.gg/N9QVxbM)**.
+Mirror **[docs](https://mirror-networking.gitbook.io/docs/transports/fizzyfacepunch-transport)** and the official community **[Discord](https://discord.gg/N9QVxbM)**.
 
 FizzyFacepunch brings together **[Steam](https://store.steampowered.com)** and **[Mirror](https://github.com/vis2k/Mirror)** . It supports both the old SteamNetworking as well as the new SteamSockets.
 
@@ -13,10 +13,14 @@ Both of these projects need to be installed and working before you can use this 
 
 ## Setting Up
 
-1. Install Mirror **(Requires Mirror 35.0+)** from the official repo **[Download Mirror](https://github.com/vis2k/Mirror/releases)**.
+1. Install Mirror **(Requires Mirror 53.0+)** from the official repo **[Download Mirror](https://github.com/vis2k/Mirror/releases)**.
 2. Install FizzyFacepunch **[unitypackage](https://github.com/Chykary/FizzyFacepunch/releases)** from the release section.
-3. In your **"NetworkManager"** object replace **"Telepathy"** script with **"FizzyFacepunch"** script.
+3. In your **"NetworkManager"** object replace **"Telepathy/KCP"** script with **"FizzyFacepunch"** script.
 4. Enter your Steam App ID in the **"FizzyFacepunch"** script.
+
+If the latest FizzyFacepunch unitypackage doesn't work then download the source of this repo,
+and copy it to the `Assets/Mirror/Runtime/Transports/FizzyFacepunch` folder in your Unity project.
+(because maybe someone already fixed it)
 
 **Note: The  default 480(Spacewar) appid is a very grey area, technically, it's not allowed but they don't really do anything about it. When you have your own appid from steam then replace the 480 with your own game appid.
 If you know a better way around this please make a [Issue ticket.](https://github.com/Chykary/FizzyFacepunch/issues)**
@@ -31,4 +35,4 @@ To be able to have your game working you need to make sure you have Steam runnin
 5. Then they will be connected to you.
 
 ## Testing your game locally
-You cant connect to yourself locally while using **FizzyFacepunch** since it's using steams P2P. If you want to test your game locally you'll have to use **"Telepathy Transport"** instead of **FizzyFacepunch**.
+You cant connect to yourself locally while using **FizzyFacepunch** since it's using steams P2P. If you want to test your game locally you'll have to use **"Telepathy/KCP Transport"** instead of **FizzyFacepunch**.

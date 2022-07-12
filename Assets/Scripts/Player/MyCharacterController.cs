@@ -14,7 +14,7 @@ public class MyCharacterController : NetworkBehaviour
 
     // Water, earth, fire, air
     [SerializeField] private GameObject[] basicProjectiles = new GameObject[4];
-    //[SerializeField] private RuntimeAnimatorController[] armAnimators = new RuntimeAnimatorController[4];
+    [SerializeField] private GameObject[] weaponGameobjects = new GameObject[4];
 
     // Just to turn off your own mesh
     [SerializeField]
@@ -41,8 +41,19 @@ public class MyCharacterController : NetworkBehaviour
 
         Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
 
-        projectilePrefab = basicProjectiles[(int)myElement];
-        //armsAnimator.runtimeAnimatorController = armAnimators[(int)myElement];
+        int myElementIndex = (int)myElement;
+        projectilePrefab = basicProjectiles[myElementIndex];
+        weaponAnimator = weaponGameobjects[myElementIndex].GetComponent<Animator>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject curWeapon = weaponGameobjects[i];
+            
+            if (curWeapon == null) { continue; }
+            if (i == myElementIndex) { continue; }
+
+            curWeapon.SetActive(false);
+        }
     }
 
     void Update()
