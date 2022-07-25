@@ -306,8 +306,9 @@ GameObject:
   - component: {fileID: 2269082057783875035}
   - component: {fileID: -8353282346512603845}
   - component: {fileID: 3081123101634139685}
-  - component: {fileID: 641746850858478456}
+  - component: {fileID: 580572837297375788}
   - component: {fileID: 3685603250716001503}
+  - component: {fileID: 641746850858478456}
   m_Layer: 8
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -366,7 +367,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   sendInterval: 0.05
-  syncPosition: 1
+  syncPosition: 0
   syncRotation: 1
   syncScale: 0
   interpolatePosition: 1
@@ -511,27 +512,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  playerBodyAnimator: {fileID: 1302087242386848392}
-  weaponAnimator: {fileID: 4099389932018569043}
   basicProjectiles:
   - {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68, type: 3}
   - {fileID: 1503367248009200961, guid: 7f9c12b010c72e1429580fd5b0cdf110, type: 3}
   - {fileID: 1503367248009200961, guid: c15a07d9ca87de048a29b63c64090281, type: 3}
   - {fileID: 1503367248009200961, guid: de7a7d35702e7b240a80dc72e7ba064b, type: 3}
-  weaponGameobjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 657782331425745707}
-  - {fileID: 5105666830873318086}
-  skinnedMeshRenderer: {fileID: 4011332141792461447}
   cameraShoot: {fileID: 5467285085316221438}
   structurePrefab: {fileID: 6322194229183626605, guid: b6bdf7a2991918840be2ca3d88cc783a,
     type: 3}
-  fakeProjectilePrefab: {fileID: 5785333882706828015, guid: a29e2f8091385374e802891ed8400e3d,
-    type: 3}
   projectilePrefab: {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68,
     type: 3}
---- !u!114 &641746850858478456
+--- !u!114 &580572837297375788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -540,12 +531,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5467285084242854813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 548b30332d7c1454aab6283c960b9ab0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6eb76a0d07cee2d4d9fb26a5d870229a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  maxHealth: 100
+  playerBodyAnimator: {fileID: 1302087242386848392}
+  weaponGameobjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 657782331425745707}
+  - {fileID: 5105666830873318086}
+  skinnedMeshRenderer: {fileID: 4011332141792461447}
 --- !u!114 &3685603250716001503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,6 +559,21 @@ MonoBehaviour:
   syncInterval: 0.1
   playerCharacterName: Missing name
   health: {fileID: 641746850858478456}
+--- !u!114 &641746850858478456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 548b30332d7c1454aab6283c960b9ab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxHealth: 100
 --- !u!1 &5467285085316221438
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,12 +1363,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f04d7876ca1cc0948b706f0394829f1f, type: 3}
---- !u!95 &4099389932018569043 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 441209389371748070, guid: f04d7876ca1cc0948b706f0394829f1f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4538653116384829877}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5105666830873318086 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8657730585997128563, guid: f04d7876ca1cc0948b706f0394829f1f,
