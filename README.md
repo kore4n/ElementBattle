@@ -25,11 +25,11 @@ Feature | Description | Trello Link
 Name | Purpose
 --- | ---
 Extras | 3rd party asset packs, plugins, anything that was not made by us
-Game | All data related to the game including but not limited to: Animations, materials, models, prefabs, sounds, textures, etc.
+[Game](#game) | All data related to the game including but not limited to: Animations, materials, models, prefabs, sounds, textures, etc.
 Scenes | All scenes in the game
-Scripts | All C# and Shader scripts
+[Scripts](#scripts) | All C# and Shader scripts
 
-#### Game
+#### Game <a name="game"></a> 
 
 Name | Purpose
 --- | ---
@@ -41,7 +41,7 @@ Projectiles&Buildings | Assets used for projectiles and buildings which the play
 UI | Assets used for UI
 Weapons | Assets used for the player weapons
 
-#### Scripts
+#### Scripts <a name="scripts"></a> 
 
 Name | Purpose
 --- | ---
