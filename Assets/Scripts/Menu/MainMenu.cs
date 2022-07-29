@@ -7,7 +7,6 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private TMP_InputField addressInput = null;
-    [SerializeField] private TMP_InputField nameInput = null;
 
     public void ButtonHost()
     {
@@ -21,7 +20,12 @@ public class MainMenu : MonoBehaviour
 
     public void ButtonClient()
     {
-        NetworkManager.singleton.networkAddress = addressInput.text;
+        string finalAddress = "";
+
+        // If address field not empty then use custom address
+        if (addressInput.text.Trim() != "") { finalAddress = addressInput.text; }
+
+        NetworkManager.singleton.networkAddress = finalAddress;
         NetworkManager.singleton.StartClient();
     }
 }

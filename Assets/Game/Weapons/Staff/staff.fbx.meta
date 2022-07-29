@@ -22,6 +22,9 @@ ModelImporter:
       74: -2984555716057292424
     second: Staff|SpecialStill
   - first:
+      74: 4469204436827233903
+    second: Staff|SpecialStillV2
+  - first:
       74: -3235143821451460931
     second: Staff|TPose
   externalObjects: {}

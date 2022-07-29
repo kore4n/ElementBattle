@@ -1901,6 +1901,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 83144569084335075, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0.21568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 83144569144552254, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0.21568628
+      objectReference: {fileID: 0}
     - target: {fileID: 83144570653032804, guid: 9ae0b01386fd3324e8110668c054b1d6,
         type: 3}
       propertyPath: elementSelectionUI
@@ -1965,6 +1975,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TeamSelectButtons
+      objectReference: {fileID: 0}
+    - target: {fileID: 83144570751464239, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 0.21568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 83144570751464239, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83144570751464239, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83144570751464239, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83144570751464239, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 83144570988053901, guid: 9ae0b01386fd3324e8110668c054b1d6,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ae0b01386fd3324e8110668c054b1d6, type: 3}
