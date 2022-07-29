@@ -7,16 +7,29 @@ public class ButtonHandler : MonoBehaviour
 {
     [Range(1f, 3f)] 
     [SerializeField]
-    float sizeMultiplier = 1.2f;
+    private float sizeMultiplier = 1.2f;
 
     [Range(0.01f, 0.3f)]
     [SerializeField]
-    float occurOverTime = 0.1f;
+    private float occurOverTime = 0.1f;
 
-    Transform button = null;
+    private Transform button = null;
 
-    Vector3 smallScale;
-    Vector3 largeScale;
+    private Vector3 smallScale;
+    private Vector3 largeScale;
+
+    private Color defaultColor = Color.grey;
+    private Color onHoverColor = Color.yellow;
+
+    public Vector3 GetSmallScale()
+    {
+        return smallScale;
+    }
+
+    public Color GetDefaultColor()
+    {
+        return defaultColor;
+    }
 
     private void Start()
     {
@@ -30,7 +43,7 @@ public class ButtonHandler : MonoBehaviour
     {
         button.localScale = largeScale;
 
-        button.GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        button.GetComponent<TextMeshProUGUI>().color = onHoverColor;
 
         StartCoroutine(ScaleOverTime(smallScale, largeScale, occurOverTime));
     }
@@ -39,7 +52,7 @@ public class ButtonHandler : MonoBehaviour
     {
         button.localScale = smallScale;
 
-        button.GetComponent<TextMeshProUGUI>().color = Color.grey;
+        button.GetComponent<TextMeshProUGUI>().color = defaultColor;
 
         StartCoroutine(ScaleOverTime(largeScale, smallScale, occurOverTime));
     }
