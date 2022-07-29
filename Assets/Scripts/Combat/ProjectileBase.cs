@@ -7,6 +7,7 @@ public class ProjectileBase : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb = null;
     [SerializeField] private float launchForce = 10;
+    [SerializeField] bool isBlockable = true;
 
     // as a %
     [SerializeField] private float damageToDeal = 1f;
@@ -14,6 +15,9 @@ public class ProjectileBase : NetworkBehaviour
     [SerializeField] private float destroyAfterSeconds = 5f;
 
     public Constants.Element element;
+    public Constants.Team team;
+
+    public bool IsBlockable { get { return isBlockable; } }
 
     private void Start()
     {

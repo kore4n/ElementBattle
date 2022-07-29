@@ -36,7 +36,7 @@ public class MyCharacterController : NetworkBehaviour
 
         if (!Input.GetKeyDown(KeyCode.Mouse0)) { return; }
 
-        SpawnBaseProjectileCommand();
+        // SpawnBaseProjectileCommand();
     }
 
     #region Server

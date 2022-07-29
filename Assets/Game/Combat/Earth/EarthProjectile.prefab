@@ -206,6 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  rb: {fileID: -5516276021935700210}
+  launchForce: 10
   damageToDeal: 1
   kbMultiplier: 1
   destroyAfterSeconds: 5
