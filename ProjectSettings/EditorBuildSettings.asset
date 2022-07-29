@@ -11,7 +11,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene_Map_01.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Scenes/Subscene.unity
-    guid: 4cac6380c05cee840992a4317f0ab680
   m_configObjects: {}

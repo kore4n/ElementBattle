@@ -6,12 +6,13 @@ using UnityEngine;
 public class PlayerAnimatorController : NetworkBehaviour
 {
     [SerializeField] private Animator playerBodyAnimator = null;
+    [SerializeField] private NetworkAnimator networkWeaponAnimator;
+    private Animator weaponAnimator = null;
 
     [SerializeField] private GameObject[] weaponGameobjects = new GameObject[4];
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer = null;    // Just to turn off your own mesh
 
-    private Animator weaponAnimator = null;
 
     private void Start()
     {
@@ -32,13 +33,14 @@ public class PlayerAnimatorController : NetworkBehaviour
             if (i == myElementIndex) { continue; }
 
             curWeapon.SetActive(false);
+            networkWeaponAnimator.animator = weaponAnimator;
         }
+
     }
 
     private void Update()
     {
         if (!hasAuthority) { return; }
-
 
         WeaponAnimation();
         MovementAnimation();

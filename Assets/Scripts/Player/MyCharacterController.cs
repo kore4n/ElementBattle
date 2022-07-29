@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fragsurf.Movement;
 using Mirror;
-using UnityEditor.Animations;
 
 public class MyCharacterController : NetworkBehaviour
 {
     // Water, earth, fire, air
     [SerializeField] private GameObject[] basicProjectiles = new GameObject[4];
 
-    [SerializeField] private GameObject cameraShoot = null;
+    [SerializeField] private GameObject cameraHolder = null;
 
     public GameObject structurePrefab = null;
     public GameObject projectilePrefab = null;
 
     public GameObject GetCameraHolder()
     {
-        return cameraShoot;
+        return cameraHolder;
     }
 
     void Start()
     {
+        // Not just camera, also has audio listener we dont want to have active
+        //cameraHolder.GetComponent<PlayerAiming>().enabled = false;
+
         if (!hasAuthority) { return; }
 
         Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
@@ -45,7 +47,7 @@ public class MyCharacterController : NetworkBehaviour
     private void SpawnBaseProjectileCommand()
     {
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        projectile.transform.forward = cameraShoot.transform.forward;
+        projectile.transform.forward = cameraHolder.transform.forward;
 
         NetworkServer.Spawn(projectile, connectionToClient);
     }

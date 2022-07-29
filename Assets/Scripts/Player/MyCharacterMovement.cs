@@ -9,11 +9,11 @@ public class MyCharacterMovement : SurfCharacter
     {
         base.Start();
 
-        if (!hasAuthority)
-        {
-            // Not just camera, also has audio listener we dont want to have active
-            viewTransform.gameObject.SetActive(false);
-        }
+        //if (!hasAuthority)
+        //{
+        //    // Not just camera, also has audio listener we dont want to have active
+        //    viewTransform.gameObject.SetActive(false);
+        //}
     }
 
     protected override void Update()

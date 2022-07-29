@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterController
+  m_Controller: {fileID: 9100000, guid: d43b1eff6ba5e104da71d6859851e272, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -867989528750547933, guid: 7bf7d51da639ba943b0ae16fd4ff6fd6,
+      type: 3}
+    m_OverrideClip: {fileID: -8945691123924629249, guid: 47aa57279b9a408499d55a635b49ab6e,
+      type: 3}
+  - m_OriginalClip: {fileID: 1029339580255191044, guid: 7bf7d51da639ba943b0ae16fd4ff6fd6,
+      type: 3}
+    m_OverrideClip: {fileID: 4723146814002874508, guid: 47aa57279b9a408499d55a635b49ab6e,
+      type: 3}
+  - m_OriginalClip: {fileID: 8696293889498499980, guid: 7bf7d51da639ba943b0ae16fd4ff6fd6,
+      type: 3}
+    m_OverrideClip: {fileID: 4805745386581417271, guid: 47aa57279b9a408499d55a635b49ab6e,
+      type: 3}
+  - m_OriginalClip: {fileID: 901766250628311691, guid: 7bf7d51da639ba943b0ae16fd4ff6fd6,
+      type: 3}
+    m_OverrideClip: {fileID: 5152524018116331999, guid: 47aa57279b9a408499d55a635b49ab6e,
+      type: 3}
+  - m_OriginalClip: {fileID: -4334265011771062287, guid: 7bf7d51da639ba943b0ae16fd4ff6fd6,
+      type: 3}
+    m_OverrideClip: {fileID: -5634258956781064799, guid: 47aa57279b9a408499d55a635b49ab6e,
+      type: 3}
