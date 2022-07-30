@@ -6,21 +6,29 @@ using UnityEngine;
 public class PlayerAnimatorController : NetworkBehaviour
 {
     [SerializeField] private Animator playerBodyAnimator = null;
-    [SerializeField] private NetworkAnimator networkWeaponAnimator;
+    [SerializeField] private NetworkAnimator networkWeaponAnimator = null;
     private Animator weaponAnimator = null;
 
     [SerializeField] private GameObject[] weaponGameobjects = new GameObject[4];
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer = null;    // Just to turn off your own mesh
 
+    [SerializeField] GameObject cameraHolder = null;
+    [SerializeField] GameObject mainCamera = null;
+    [SerializeField] GameObject weaponCamera = null;
+
 
     private void Start()
     {
-        if (!hasAuthority) { return; }
+        if (!hasAuthority)
+        {
+            cameraHolder.GetComponent<PlayerAiming>().enabled = false;
+            mainCamera.SetActive(false);
+            weaponCamera.GetComponent<Camera>().enabled = false;
+        }
 
-        skinnedMeshRenderer.enabled = false;
 
-        Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
+        Constants.Element myElement = GetComponent<PlayerCharacter>().GetElement();
 
         int myElementIndex = (int)myElement;
         weaponAnimator = weaponGameobjects[myElementIndex].GetComponent<Animator>();
@@ -36,6 +44,25 @@ public class PlayerAnimatorController : NetworkBehaviour
             networkWeaponAnimator.animator = weaponAnimator;
         }
 
+        if (!hasAuthority) { return; }
+
+        skinnedMeshRenderer.enabled = false;
+
+        //Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
+
+        //int myElementIndex = (int)myElement;
+        //weaponAnimator = weaponGameobjects[myElementIndex].GetComponent<Animator>();
+
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    GameObject curWeapon = weaponGameobjects[i];
+
+        //    if (curWeapon == null) { continue; }
+        //    if (i == myElementIndex) { continue; }
+
+        //    curWeapon.SetActive(false);
+        //    networkWeaponAnimator.animator = weaponAnimator;
+        //}
     }
 
     private void Update()
@@ -94,25 +121,30 @@ public class PlayerAnimatorController : NetworkBehaviour
         // Attack
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            weaponAnimator.SetTrigger("Attack");
+            //weaponAnimator.SetTrigger("Attack");
+            networkWeaponAnimator.SetTrigger("Attack");
         }
         // Raise arms
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            weaponAnimator.SetTrigger("Block");
+            //weaponAnimator.SetTrigger("Block");
+            networkWeaponAnimator.SetTrigger("Block");
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
-            weaponAnimator.SetTrigger("Recovery");
+            //weaponAnimator.SetTrigger("Recovery");
+            networkWeaponAnimator.SetTrigger("Recovery");
         }
         // TODO: Specials will have different buttons for now
         else if (Input.GetKeyDown(KeyCode.F))
         {
-            weaponAnimator.SetTrigger("SpecialStill");
+            //weaponAnimator.SetTrigger("SpecialStill");
+            networkWeaponAnimator.SetTrigger("SpecialStill");
         }
         else if (Input.GetKeyDown(KeyCode.G))
         {
-            weaponAnimator.SetTrigger("SpecialCrouch");
+            //weaponAnimator.SetTrigger("SpecialCrouch");
+            networkWeaponAnimator.SetTrigger("SpecialCrouch");
         }
     }
 

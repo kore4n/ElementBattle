@@ -27,19 +27,10 @@ public class ButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public float fadeTime = 0.1f;
 
-    private void FadeOut()
-    {
-        textBox.color = Color.Lerp(textBox.color, onHoverColor, fadeTime * Time.deltaTime);
-    }
-
     public void RevertToDefault()
     {
         button.localScale = smallScale;
-
         textBox.color = defaultColor;
-
-
-        // TODO: Reset transparency
     }
 
     private void Start()

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f58f6bbe3bd8e624dbe15444aa2813e3, type: 3}
+  m_Name: Fire
+  m_EditorClassIdentifier: 
+  text: 'Fire is tenacious and aggressive. Keep up relentless attacks to knock your
+    opponents off stage before they can fire back.
+
+
+    Recovers stamina and shoot
+    15% faster.'

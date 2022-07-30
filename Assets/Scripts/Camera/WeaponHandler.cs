@@ -14,9 +14,8 @@ public class WeaponHandler : NetworkBehaviour
         if (hasAuthority) { return; }
 
         // If you have don't authority run this
-        cameraHolder.GetComponent<PlayerAiming>().enabled = false;
-        mainCamera.SetActive(false);
-        weaponCamera.GetComponent<Camera>().enabled = false;
-
+        //cameraHolder.GetComponent<PlayerAiming>().enabled = false;
+        //mainCamera.SetActive(false);
+        //weaponCamera.GetComponent<Camera>().enabled = false;
     }
 }

@@ -13,6 +13,8 @@ public class PlayerCharacter : NetworkBehaviour
     [SyncVar] 
     private Constants.Team team = Constants.Team.Missing;
 
+    [SyncVar] private Constants.Element element = Constants.Element.Missing;
+
     public static Action<int> ServerOnPlayerCharacterDie;
     public static event Action<PlayerCharacter> ServerOnPlayerCharacterSpawned;
     public static event Action<PlayerCharacter> ServerOnPlayerCharacterDespawned;
@@ -25,6 +27,15 @@ public class PlayerCharacter : NetworkBehaviour
     public void SetTeam(Constants.Team newTeam)
     {
         team = newTeam;
+    }
+
+    public Constants.Element GetElement()
+    {
+        return element;
+    }
+    public void SetElement(Constants.Element newElement)
+    {
+        element = newElement;
     }
 
     public override void OnStartServer()

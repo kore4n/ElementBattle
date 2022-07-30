@@ -102,6 +102,7 @@ public class FPSPlayer : NetworkBehaviour
         playerElement = playerInfo.element;
         activePlayerCharacter.GetComponent<PlayerCharacter>().playerCharacterName = playerName;
         activePlayerCharacter.GetComponent<PlayerCharacter>().SetTeam(playerTeam);
+        activePlayerCharacter.GetComponent<PlayerCharacter>().SetElement(playerElement);
 
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }

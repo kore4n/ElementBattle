@@ -562,6 +562,9 @@ MonoBehaviour:
   - {fileID: 657782331425745707}
   - {fileID: 5105666830873318086}
   skinnedMeshRenderer: {fileID: 4011332141792461447}
+  cameraHolder: {fileID: 5467285085316221438}
+  mainCamera: {fileID: 5467285083954485886}
+  weaponCamera: {fileID: 7157156064203118575}
 --- !u!114 &3685603250716001503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,11 +1483,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: staff Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 8657730585997128563, guid: f04d7876ca1cc0948b706f0394829f1f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f04d7876ca1cc0948b706f0394829f1f, type: 3}
 --- !u!1 &5105666830873318086 stripped
@@ -1672,11 +1670,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: twinBroadswords Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 7574551322360059564, guid: e2398b6517d05aa4c8b99beb0076f639,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2398b6517d05aa4c8b99beb0076f639, type: 3}
