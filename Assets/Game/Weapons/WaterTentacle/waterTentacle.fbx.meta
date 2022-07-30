@@ -1,32 +1,23 @@
 fileFormatVersion: 2
-guid: 960ff6302ee839f46ac2f727b55fe2a2
+guid: 47aa57279b9a408499d55a635b49ab6e
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
-      74: -9114431301243938624
-    second: Staff|Attack
+      74: 4723146814002874508
+    second: Armature|Attack
   - first:
-      74: 4595450998405852093
-    second: Staff|Block
+      74: 4805745386581417271
+    second: Armature|Block
   - first:
-      74: -2793960314309417828
-    second: Staff|Idle
+      74: -8945691123924629249
+    second: Armature|Idle
   - first:
-      74: 1462408402235352941
-    second: Staff|Recovery
+      74: -5634258956781064799
+    second: Armature|Recovery
   - first:
-      74: 959473652901369043
-    second: Staff|SpecialCrouch
-  - first:
-      74: -2984555716057292424
-    second: Staff|SpecialStill
-  - first:
-      74: 4469204436827233903
-    second: Staff|SpecialStillV2
-  - first:
-      74: -3235143821451460931
-    second: Staff|TPose
+      74: 5152524018116331999
+    second: Armature|TPose
   externalObjects: {}
   materials:
     materialImportMode: 2

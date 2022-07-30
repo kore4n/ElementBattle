@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LoweringArena : NetworkBehaviour
 {
-    [SerializeField] private float lowerOverTime = 10f;  // Time in which to lower arena over
+    [SerializeField] private float occurOverTime = 10f;  // Time in which to lower arena over
 
     void Start()
     {
@@ -49,6 +49,6 @@ public class LoweringArena : NetworkBehaviour
     private void ServerHandleLowerArena(LoweringArena loweringArena)
     {
         if (loweringArena.name != gameObject.name) { return; }
-        StartCoroutine(ScaleOverTime(lowerOverTime));
+        StartCoroutine(ScaleOverTime(occurOverTime));
     }
 }

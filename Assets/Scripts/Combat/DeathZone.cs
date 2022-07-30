@@ -8,7 +8,6 @@ public class DeathZone : MonoBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.transform.parent.TryGetComponent<PlayerCharacter>(out PlayerCharacter playerCharacter))
         {
             GameObject playerCharacterObject = playerCharacter.gameObject;
