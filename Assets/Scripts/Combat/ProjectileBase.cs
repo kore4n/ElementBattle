@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+[RequireComponent(typeof(Rigidbody))]
 public class ProjectileBase : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb = null;
@@ -15,7 +16,6 @@ public class ProjectileBase : NetworkBehaviour
     [SerializeField] private float destroyAfterSeconds = 5f;
 
     public Constants.Element element;
-    public Constants.Team team;
 
     public bool IsBlockable { get { return isBlockable; } }
 
@@ -29,28 +29,29 @@ public class ProjectileBase : NetworkBehaviour
         Invoke(nameof(DestroySelf), destroyAfterSeconds);
     }
 
-    //[ServerCallback]
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    GameObject playerCharacter = other.transform.parent.gameObject;
-    //    if (playerCharacter.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))
-    //    {
-    //        if (networkIdentity.connectionToClient == connectionToClient) { return; }
-    //    }
+    [ServerCallback]
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (TryDealDamage(collision.gameObject) || collision.gameObject.layer == 0) DestroySelf();
+    }
 
+    [ServerCallback]
+    private void OnTriggerEnter(Collider other)
+    {
+        if (TryDealDamage(other.gameObject)) DestroySelf();
+    }
 
-    //    if (playerCharacter.TryGetComponent<Health>(out Health health))
-    //    {
-    //        health.DealDamage((int)damageToDeal);
-    //    }
+    [Server]
+    private bool TryDealDamage(GameObject target)
+    {
+        if (!target.TryGetComponent(out NetworkIdentity networkIdentity)) return false;
+        if (!networkIdentity.connectionToClient.identity.TryGetComponent(out FPSPlayer otherPlayer)) return false;
+        if (!target.TryGetComponent(out Health health)) return false;
+        if (otherPlayer.GetTeam() == GetComponent<NetworkIdentity>().connectionToClient.identity.GetComponent<FPSPlayer>().GetTeam()) return false;
 
-    //    if (other.gameObject.layer == 0) { DestroySelf(); } // TODO: Doesnt work
-
-    //    //Debug.Log(playerCharacter.name);
-    //    //Debug.Log(playerCharacter.GetComponent<NetworkIdentity>());
-
-    //    DestroySelf();  // Called when hit anything that doesn't belong to self
-    //}
+        health.DealDamage((int)damageToDeal);
+        return true;
+    }
 
     [Server]
     private void DestroySelf()

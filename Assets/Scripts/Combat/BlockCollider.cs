@@ -27,7 +27,7 @@ namespace Game.Combat
         private void OnTriggerEnter(Collider other)
         {
             if (!TryGetComponent(out ProjectileBase projectile)) return;
-            if (projectile.team == ownerTeam || !projectile.IsBlockable) return;
+            if (projectile.connectionToClient.identity.GetComponent<FPSPlayer>().GetTeam() == ownerTeam || !projectile.IsBlockable) return;
 
             NetworkServer.Destroy(other.gameObject);
         }

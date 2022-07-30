@@ -5,14 +5,14 @@ namespace Game.Abilities
     [CreateAssetMenu(fileName = "BlockAbility", menuName = "Abilities/BlockAbility", order = 1)]
     public class BlockAbility : Ability
     {
-        public GameObject shieldPrefab;
+        public GameObject blockAreaPrefab;
 
         private BlockSpawnTriggerable spawner;
 
         public override void Initialize(GameObject obj)
         {
             spawner = obj.GetComponent<BlockSpawnTriggerable>();
-            spawner.shieldPrefab = shieldPrefab;
+            spawner.blockAreaPrefab = blockAreaPrefab;
         }
 
         public override void TriggerAbility()

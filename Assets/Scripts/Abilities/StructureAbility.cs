@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StructureAbility : MonoBehaviour
+namespace Game.Abilities
 {
-    // Start is called before the first frame update
-    void Start()
+    [CreateAssetMenu(fileName = "StructureAbility", menuName = "Abilities/StructureAbility", order = 1)]
+    public class StructureAbility : Ability
     {
-        
-    }
+        public GameObject structurePrefab;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private StructureSpawnTriggerable spawner;
+
+        public override void Initialize(GameObject obj)
+        {
+            spawner = obj.GetComponent<StructureSpawnTriggerable>();
+            spawner.structurePrefab = structurePrefab;
+        }
+
+        public override void TriggerAbility()
+        {
+            spawner.Spawn();
+        }
     }
 }

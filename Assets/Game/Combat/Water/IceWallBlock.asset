@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e47c58cbe3a1081449114bbb87b87e98, type: 3}
-  m_Name: BlockAbility
+  m_Script: {fileID: 11500000, guid: 1942e7e94e7b7b348994d3c0a12c500e, type: 3}
+  m_Name: IceWallBlock
   m_EditorClassIdentifier: 
-  abilityName: Block Ability
+  abilityName: IceWallBlock
   staminaCost: 1
-  shieldPrefab: {fileID: 5416356638601276947, guid: 6f50501335464144a95ed6c70cc28b0b,
+  structurePrefab: {fileID: 8823735725742302197, guid: b902bd7ae45e5cf418b6d6d182976bb9,
     type: 3}

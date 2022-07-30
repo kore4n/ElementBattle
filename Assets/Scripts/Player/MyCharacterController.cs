@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fragsurf.Movement;
 using Mirror;
-using UnityEditor.Animations;
 
 public class MyCharacterController : NetworkBehaviour
 {

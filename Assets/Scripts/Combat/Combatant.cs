@@ -12,49 +12,46 @@ namespace Game.Combat
         [SerializeField] MyCharacterController characterController;
         [SerializeField] Stamina stamina;
 
-        [SerializeField] Ability basicAttackAbility;
-        [SerializeField] Ability blockAbility;
-        [SerializeField] Ability specialAbility;
-        [SerializeField] Ability recoveryAbility;
+        public AbilitySet abilitySet;
 
         #region Server
 
         public override void OnStartServer()
         {
             // Temp initialization
-            basicAttackAbility.Initialize(gameObject);
-            blockAbility.Initialize(gameObject);
+            abilitySet.basicAttackAbility.Initialize(gameObject);
+            if (abilitySet.blockAbility != null) abilitySet.blockAbility.Initialize(gameObject);
         }
 
         [Command]
         public void CmdUseAttack()
         {
-            if (stamina.GetStamina() < basicAttackAbility.staminaCost) return;
+            if (stamina.GetStamina() < abilitySet.basicAttackAbility.staminaCost) return;
 
-            basicAttackAbility.TriggerAbility();
-            stamina.SetStamina(stamina.GetStamina() - basicAttackAbility.staminaCost);
+            abilitySet.basicAttackAbility.TriggerAbility();
+            stamina.SetStamina(stamina.GetStamina() - abilitySet.basicAttackAbility.staminaCost);
         }
 
         [Command]
         public void CmdUseBlock()
         {
-            if (stamina.GetStamina() < blockAbility.staminaCost) return;
+            if (stamina.GetStamina() < abilitySet.blockAbility.staminaCost) return;
 
-            blockAbility.TriggerAbility();
-            stamina.SetStamina(stamina.GetStamina() - blockAbility.staminaCost);
+            abilitySet.blockAbility.TriggerAbility();
+            stamina.SetStamina(stamina.GetStamina() - abilitySet.blockAbility.staminaCost);
         }
 
         [Command]
         public void CmdUseSpecial()
         {
-            if (stamina.GetStamina() < specialAbility.staminaCost) return;
+            if (stamina.GetStamina() < abilitySet.specialAbility.staminaCost) return;
         
         }
 
         [Command]
         public void CmdUseRecovery()
         {
-            if (stamina.GetStamina() < recoveryAbility.staminaCost) return;
+            if (stamina.GetStamina() < abilitySet.recoveryAbility.staminaCost) return;
         
         }
 

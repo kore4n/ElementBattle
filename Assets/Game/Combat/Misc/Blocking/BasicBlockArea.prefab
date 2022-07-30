@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6807171740292826391}
   - component: {fileID: 4550673210227182828}
   m_Layer: 8
-  m_Name: BlockCollider
+  m_Name: BasicBlockArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  duration: 0.5
+  duration: 0.75
 --- !u!114 &4550673210227182828
 MonoBehaviour:
   m_ObjectHideFlags: 0

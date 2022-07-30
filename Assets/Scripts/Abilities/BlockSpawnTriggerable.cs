@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class BlockSpawnTriggerable : NetworkBehaviour
 {
-    [HideInInspector] public GameObject shieldPrefab;
-    public Transform shieldSpawn;
+    [HideInInspector] public GameObject blockAreaPrefab;
+    public Transform blockAreaSpawn;
 
     public void Spawn()
     {
-        GameObject shieldInstance = Instantiate(shieldPrefab, shieldSpawn);
+        GameObject shieldInstance = Instantiate(blockAreaPrefab, blockAreaSpawn);
 
         NetworkServer.Spawn(shieldInstance, connectionToClient);
     }
