@@ -2,8 +2,9 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ButtonHandler : MonoBehaviour
+public class ButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Range(1f, 3f)] 
     [SerializeField]
@@ -15,44 +16,62 @@ public class ButtonHandler : MonoBehaviour
 
     private Transform button = null;
 
+    private TextMeshProUGUI textBox = null;
+    
+
     private Vector3 smallScale;
     private Vector3 largeScale;
 
-    private Color defaultColor = Color.grey;
-    private Color onHoverColor = Color.yellow;
+    [SerializeField] protected Color defaultColor = Color.grey;
+    [SerializeField] protected Color onHoverColor = Color.yellow;
 
-    public Vector3 GetSmallScale()
+    public float fadeTime = 0.1f;
+
+    private void FadeOut()
     {
-        return smallScale;
+        textBox.color = Color.Lerp(textBox.color, onHoverColor, fadeTime * Time.deltaTime);
     }
 
-    public Color GetDefaultColor()
+    public void RevertToDefault()
     {
-        return defaultColor;
+        button.localScale = smallScale;
+
+        textBox.color = defaultColor;
+
+
+        // TODO: Reset transparency
     }
 
     private void Start()
     {
         button = transform;
+        TryGetComponent<TextMeshProUGUI>(out textBox);
 
         smallScale = button.gameObject.transform.localScale;
         largeScale = smallScale * sizeMultiplier;
     }
 
-    public void EnlargeButton()
+    public virtual void OnHover()
     {
         button.localScale = largeScale;
 
-        button.GetComponent<TextMeshProUGUI>().color = onHoverColor;
+        if (textBox != null)
+        {
+            textBox.color = onHoverColor;
+        }
 
         StartCoroutine(ScaleOverTime(smallScale, largeScale, occurOverTime));
+
     }
 
-    public void ShrinkButton()
+    public virtual void OnStopHover()
     {
         button.localScale = smallScale;
 
-        button.GetComponent<TextMeshProUGUI>().color = defaultColor;
+        if (textBox != null)
+        {
+            textBox.color = defaultColor;
+        }
 
         StartCoroutine(ScaleOverTime(largeScale, smallScale, occurOverTime));
     }
@@ -69,4 +88,15 @@ public class ButtonHandler : MonoBehaviour
         } while (currentTime <= time);
     }
 
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        // TODO: Play OnHover button sounds like Terraria
+
+        OnHover();
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
+        OnStopHover();
+    }
 }
