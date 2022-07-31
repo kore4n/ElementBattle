@@ -218,7 +218,7 @@ namespace Fragsurf.Movement {
             _moveData.stepOffset = stepOffset;
         }
 
-        protected virtual void Update () {
+        protected virtual void Update() {
             _colliderObject.transform.rotation = Quaternion.identity;
 
 

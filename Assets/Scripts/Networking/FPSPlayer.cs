@@ -1,3 +1,5 @@
+using Game.Abilities;
+using Game.Combat;
 using Mirror;
 using System;
 using System.Collections;
@@ -30,6 +32,9 @@ public class FPSPlayer : NetworkBehaviour
     public static event Action ClientOnInfoUpdated;
 
     [SerializeField] private Sprite[] elementSprites = new Sprite[4];
+    [SerializeField] AbilitySet[] abilitySets = new AbilitySet[4];
+
+    #region Getters/Setters
 
     [Server]
     public void SetDisplayName(string newName)
@@ -83,6 +88,8 @@ public class FPSPlayer : NetworkBehaviour
         return playerName;
     }
 
+    #endregion
+
     #region Server
 
     [Command]
@@ -96,13 +103,16 @@ public class FPSPlayer : NetworkBehaviour
     {
         if (activePlayerCharacter != null) { return; }
 
-        GameObject myPlayer = Instantiate(playerCharacter, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject myPlayer = Instantiate(this.playerCharacter, new Vector3(0, 0, 0), Quaternion.identity);
         activePlayerCharacter = myPlayer;
         
         playerElement = playerInfo.element;
-        activePlayerCharacter.GetComponent<PlayerCharacter>().playerCharacterName = playerName;
-        activePlayerCharacter.GetComponent<PlayerCharacter>().SetTeam(playerTeam);
-        activePlayerCharacter.GetComponent<PlayerCharacter>().SetElement(playerElement);
+        PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
+        playerCharacter.playerCharacterName = playerName;
+        playerCharacter.SetTeam(playerTeam);
+        playerCharacter.SetElement(playerElement);
+
+        //activePlayerCharacter.GetComponent<Combatant>().abilitySet = abilitySets[(int)playerElement];
 
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }
