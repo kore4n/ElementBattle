@@ -10,6 +10,8 @@ public class ProjectileBase : NetworkBehaviour
     [SerializeField] private float launchForce = 10;
     [SerializeField] bool isBlockable = true;
 
+    [SerializeField] private float rotationSpeed = 5f;
+
     // as a %
     [SerializeField] private float damageToDeal = 1f;
     [SerializeField] private float kbMultiplier = 1f;
@@ -21,7 +23,13 @@ public class ProjectileBase : NetworkBehaviour
 
     private void Start()
     {
+        float min = 1f, max = 4f;
         rb.velocity = transform.forward * launchForce;
+        rb.angularVelocity = new Vector3(Random.Range(min, max), Random.Range(min, max), Random.Range(min, max));
+        //rb.angularVelocity.Normalize();   // Doesn't work for some reason
+        rb.angularVelocity = rb.angularVelocity.normalized;
+
+        rb.angularVelocity *= rotationSpeed;
     }
 
     public override void OnStartServer()

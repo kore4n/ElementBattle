@@ -110,6 +110,7 @@ public class FPSPlayer : NetworkBehaviour
         PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
         playerCharacter.playerCharacterName = playerName;
         playerCharacter.SetTeam(playerTeam);
+        playerCharacter.SetElement(playerElement);
 
         //activePlayerCharacter.GetComponent<Combatant>().abilitySet = abilitySets[(int)playerElement];
 

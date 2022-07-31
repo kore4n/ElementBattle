@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSelectButton : MonoBehaviour
+public class PlayerSelectElementCanvas : MonoBehaviour
 {
     private FPSPlayer player;
     [SerializeField] private GameObject elementSelectionParent;

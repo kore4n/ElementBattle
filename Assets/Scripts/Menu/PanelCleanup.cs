@@ -13,9 +13,7 @@ public class PanelCleanup : MonoBehaviour
         {
             if (button == null) { continue; }
 
-            button.transform.localScale = button.GetSmallScale();
-            button.TryGetComponent<TextMeshProUGUI>(out TextMeshProUGUI buttonTMPRO);
-            buttonTMPRO.color = button.GetDefaultColor();
+            button.RevertToDefault();
         }
     }
 }
