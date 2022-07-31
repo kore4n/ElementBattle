@@ -12,32 +12,34 @@ public class Structure : NetworkBehaviour
     [SerializeField] Vector3 spawnOffset = Vector3.zero;
     [SerializeField] float spawnTime = 0.2f;
 
-    Vector3 finalPos;
-    float currentSpawnMoveTime;
-
     public override void OnStartServer()
     {
-        finalPos = transform.position;
-        currentSpawnMoveTime = spawnTime;
-        if (spawnOffset != Vector3.zero) transform.position += spawnOffset;
+        if (spawnOffset != Vector3.zero)
+        {
+            Vector3 finalPos = transform.position;
+            transform.position += spawnOffset;
+            StartCoroutine(MoveOverTime(transform.position, finalPos, spawnTime));
+        }
 
         if (duration > 0) Invoke(nameof(DestroySelf), duration);
 
         if (rb == null) return;
         rb.AddForce(moveForce * forceDirection);
     }
-
-    [ServerCallback]
-    private void Update()
+    IEnumerator MoveOverTime(Vector3 originalLocation, Vector3 finalLocation, float time)
     {
-        if (currentSpawnMoveTime <= 0) return;
+        float currentTime = 0.0f;
 
-        transform.position = Vector3.Lerp(transform.position, finalPos, 1 - currentSpawnMoveTime / spawnTime);
-        currentSpawnMoveTime -= Time.deltaTime;
+        do
+        {
+            transform.position = Vector3.Lerp(originalLocation, finalLocation, currentTime / time);
+            currentTime += Time.deltaTime;
+            yield return null;
+        } while (currentTime <= time);
     }
 
     [Server]
-    void DestroySelf()
+    public void DestroySelf()
     {
         NetworkServer.Destroy(gameObject);
     }

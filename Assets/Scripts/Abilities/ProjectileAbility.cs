@@ -19,5 +19,10 @@ namespace Game.Abilities
         {
             launcher.Launch();
         }
+
+        public override void TriggerAbilityPreview()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -16,3 +16,4 @@ MonoBehaviour:
   staminaCost: 1
   structurePrefab: {fileID: 8823735725742302197, guid: 3c1a9e7ce1a76524fb99fa9f03dde1ff,
     type: 3}
+  maxStructureInstaces: 2

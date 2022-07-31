@@ -8,6 +8,7 @@ namespace Game.Abilities
     public class StructureAbility : Ability
     {
         public GameObject structurePrefab;
+        public int maxStructureInstaces = 1;
 
         private StructureSpawnTriggerable spawner;
 
@@ -15,11 +16,17 @@ namespace Game.Abilities
         {
             spawner = obj.GetComponent<StructureSpawnTriggerable>();
             spawner.structurePrefab = structurePrefab;
+            spawner.maxStructureInstances = maxStructureInstaces;
         }
 
         public override void TriggerAbility()
         {
             spawner.Spawn();
+        }
+
+        public override void TriggerAbilityPreview()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
