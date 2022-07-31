@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d80d41e7f8b29949b018180d2cac951, type: 3}
   m_Name: BasicWaterAttack
   m_EditorClassIdentifier: 
+  hasPreviewPhase: 0
   abilityName: BasicWaterAttack
   staminaCost: 1
-  projectilePrefab: {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68,
+  projectilePrefab: {fileID: 1153311218007518878, guid: 7f988169e7c3c384a8e4add4058e3be0,
     type: 3}

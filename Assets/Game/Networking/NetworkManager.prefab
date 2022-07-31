@@ -61,11 +61,14 @@ MonoBehaviour:
   autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs:
+  - {fileID: 5467285084242854813, guid: a840589249729984398df665ca6e2508, type: 3}
   - {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180, type: 3}
   - {fileID: 7704066016196562582, guid: 27b0299d19490b4479ecb6ccd59cd70a, type: 3}
-  - {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68, type: 3}
+  - {fileID: 5569155685969963254, guid: 696533030d432994eae0fb6d7babbac6, type: 3}
+  - {fileID: 1153311218007518878, guid: 0105ee50a47ae2b49bb0dc967bf9c4d8, type: 3}
+  - {fileID: 1153311218007518878, guid: e4b6c25691ec61643b66965cd2a11cd0, type: 3}
+  - {fileID: 1153311218007518878, guid: 7f988169e7c3c384a8e4add4058e3be0, type: 3}
   - {fileID: 7986576540008204794, guid: f9e6ab8f5e35ed14592b55acfb377c1d, type: 3}
-  - {fileID: 5467285084242854813, guid: a840589249729984398df665ca6e2508, type: 3}
   players: []
   spectatorCameraPrefab: {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180,
     type: 3}

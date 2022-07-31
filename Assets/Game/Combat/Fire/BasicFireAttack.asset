@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d80d41e7f8b29949b018180d2cac951, type: 3}
   m_Name: BasicFireAttack
   m_EditorClassIdentifier: 
+  hasPreviewPhase: 0
   abilityName: BasicFireAttack
   staminaCost: 1
-  projectilePrefab: {fileID: 1503367248009200961, guid: c15a07d9ca87de048a29b63c64090281,
+  projectilePrefab: {fileID: 1153311218007518878, guid: e4b6c25691ec61643b66965cd2a11cd0,
     type: 3}
