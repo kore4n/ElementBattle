@@ -540,6 +540,8 @@ MonoBehaviour:
     type: 3}
   projectilePrefab: {fileID: 1503367248009200961, guid: fb505ddcd58313b4bbb9a431574b1f68,
     type: 3}
+  testProjectile: {fileID: 7920206312693105972, guid: 80902f91176121243878c78acad18fdd,
+    type: 3}
 --- !u!114 &580572837297375788
 MonoBehaviour:
   m_ObjectHideFlags: 0

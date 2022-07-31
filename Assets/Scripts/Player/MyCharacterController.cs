@@ -13,6 +13,7 @@ public class MyCharacterController : NetworkBehaviour
 
     public GameObject structurePrefab = null;
     public GameObject projectilePrefab = null;
+    [SerializeField] GameObject testProjectile = null;
 
     public GameObject GetCameraHolder()
     {
@@ -35,6 +36,12 @@ public class MyCharacterController : NetworkBehaviour
     void Update()
     {
         if (!hasAuthority) { return; }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Instantiate(testProjectile, transform.position, Quaternion.identity);
+            Debug.Log(Cursor.lockState);
+        }
 
         if (!Input.GetKeyDown(KeyCode.Mouse0)) { return; }
 
