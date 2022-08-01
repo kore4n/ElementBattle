@@ -4,17 +4,26 @@ ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
-      74: -5619899724499761664
-    second: Hammer|Attack
+      74: 4723146814002874508
+    second: Armature|Attack
   - first:
-      74: -4699719003830478360
-    second: Hammer|Block
+      74: 4805745386581417271
+    second: Armature|Block
   - first:
-      74: 8023710824314540555
-    second: Hammer|Idle
+      74: -8945691123924629249
+    second: Armature|Idle
   - first:
-      74: -8022301133007559869
-    second: Hammer|TPose
+      74: -5634258956781064799
+    second: Armature|Recovery
+  - first:
+      74: 2162973069403603669
+    second: Armature|SpecialCrouch
+  - first:
+      74: -4473249389234453414
+    second: Armature|SpecialStill
+  - first:
+      74: 5152524018116331999
+    second: Armature|TPose
   externalObjects: {}
   materials:
     materialImportMode: 2
