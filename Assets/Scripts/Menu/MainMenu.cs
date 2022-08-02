@@ -11,6 +11,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject startPanel = null;
     [SerializeField] private GameObject multiplayerPanel = null;
     [SerializeField] private GameObject connectPanel = null;
+    [SerializeField] private GameObject settingsPanel = null;
+    [SerializeField] private GameObject creditsPanel = null;
+
 
     public void ButtonHost()
     {
@@ -55,6 +58,30 @@ public class MainMenu : MonoBehaviour
     {
         connectPanel.SetActive(false);
         multiplayerPanel.SetActive(true);
+    }
+
+    public void OpenSettingsPanel()
+    {
+        settingsPanel.SetActive(true);
+        startPanel.SetActive(false);
+    }
+
+    public void CloseSettingsPanel()
+    {
+        settingsPanel.SetActive(false);
+        startPanel.SetActive(true);
+    }
+
+    public void OpenCreditsPanel()
+    {
+        creditsPanel.SetActive(true);
+        startPanel.SetActive(false);
+    }
+
+    public void CloseCreditsPanel()
+    {
+        creditsPanel.SetActive(false);
+        startPanel.SetActive(true);
     }
     #endregion
 
