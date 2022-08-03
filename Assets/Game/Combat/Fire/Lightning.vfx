@@ -27,25 +27,13 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614555}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614620}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614605}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614623}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614632}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614558}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614634}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614636}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614628}
@@ -74,28 +62,10 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614651}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614695}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614647}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614697}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614682}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614685}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614717}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614686}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614700}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614711}
@@ -167,31 +137,13 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614842}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 0}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614846}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614861}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614872}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614875}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614877}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614880}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614881}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614883}
       id: 0
       isStickyNote: 0
   - title: Impact Glow
