@@ -69,6 +69,9 @@ MonoBehaviour:
   - {fileID: 1153311218007518878, guid: e4b6c25691ec61643b66965cd2a11cd0, type: 3}
   - {fileID: 1153311218007518878, guid: 7f988169e7c3c384a8e4add4058e3be0, type: 3}
   - {fileID: 7986576540008204794, guid: f9e6ab8f5e35ed14592b55acfb377c1d, type: 3}
+  - {fileID: 8823735725742302197, guid: 3c1a9e7ce1a76524fb99fa9f03dde1ff, type: 3}
+  - {fileID: 8823735725742302197, guid: b902bd7ae45e5cf418b6d6d182976bb9, type: 3}
+  - {fileID: 5416356638601276947, guid: 6f50501335464144a95ed6c70cc28b0b, type: 3}
   players: []
   spectatorCameraPrefab: {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180,
     type: 3}

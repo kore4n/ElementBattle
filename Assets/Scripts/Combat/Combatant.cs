@@ -20,7 +20,9 @@ namespace Game.Combat
         {
             // Temp initialization
             abilitySet.basicAttackAbility.Initialize(gameObject);
-            if (abilitySet.blockAbility != null) abilitySet.blockAbility.Initialize(gameObject);
+            abilitySet.blockAbility.Initialize(gameObject);
+            abilitySet.recoveryAbility.Initialize(gameObject);
+            if (abilitySet.specialAbility != null) abilitySet.specialAbility.Initialize(gameObject);
         }
 
         [Command]
@@ -45,14 +47,15 @@ namespace Game.Combat
         public void CmdUseSpecial()
         {
             if (stamina.GetStamina() < abilitySet.specialAbility.staminaCost) return;
-        
+            abilitySet.specialAbility.TriggerAbility();
         }
 
         [Command]
         public void CmdUseRecovery()
         {
             if (stamina.GetStamina() < abilitySet.recoveryAbility.staminaCost) return;
-        
+
+            abilitySet.recoveryAbility.TriggerAbility();
         }
 
         #endregion
@@ -72,6 +75,14 @@ namespace Game.Combat
             if (Input.GetKeyDown(KeyCode.E))
             {
                 CmdUseBlock();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                CmdUseRecovery();
+            }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                CmdUseSpecial();
             }
         }
         #endregion

@@ -15,6 +15,16 @@ namespace Game.Abilities
         };
 
         /// <summary>
+        /// Activates when an ability activates successfully with the stamina cost as the parameter
+        /// </summary>
+        public static event Action<int> OnAbilityActivationSuccess;
+
+        protected void InvokeOnAbilityActivationSuccess(int staminaCost)
+        {
+            OnAbilityActivationSuccess?.Invoke(staminaCost);
+        }
+
+        /// <summary>
         /// If the given ability is keyUp activated and has a preview when holding keydown (like a structure)
         /// </summary>
         public bool hasPreviewPhase = false;

@@ -19,14 +19,6 @@ namespace Game.Abilities
 
         Bounds structurePrefabBounds;
 
-        private void Start()
-        {
-            // Wack thing to get the bounds because you need to instantiate a prefab to get it's bounds
-            GameObject s = Instantiate(structurePrefab);
-            structurePrefabBounds = s.GetComponent<Collider>().bounds;
-            DestroyImmediate(s);
-        }
-
         [Server]
         public void Spawn()
         {
@@ -57,15 +49,25 @@ namespace Game.Abilities
         /// <returns>Whether or not the given point yields a valid surfaceHitPoint</returns>
         private bool FindSpawnableSurface(Vector3 point, out Vector3 surfaceHitPoint)
         {
+            if (structurePrefabBounds == null) LoadStructurePrefabBounds();
+
             surfaceHitPoint = Vector3.zero;
 
-            if (!Physics.Raycast(new Ray(point, Vector3.down), out RaycastHit hit, Mathf.Infinity, groundLayerMask)) return false;
+            if (!Physics.Raycast(new Ray(point, Vector3.down), out RaycastHit hit, maxDistanceFromSurface, groundLayerMask)) return false;
 
             surfaceHitPoint = hit.point;
 
             if (Physics.CheckBox(surfaceHitPoint + structurePrefabBounds.center, structurePrefabBounds.extents, transform.rotation, structureLayerMask)) return false;
 
             return true;
+        }
+
+        private void LoadStructurePrefabBounds()
+        {
+            // Wack thing to get the bounds because you need to instantiate a prefab to get it's bounds
+            GameObject s = Instantiate(structurePrefab);
+            structurePrefabBounds = s.GetComponent<Collider>().bounds;
+            DestroyImmediate(s);
         }
     }
 }

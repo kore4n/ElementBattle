@@ -9,7 +9,6 @@ public class ProjectileBase : NetworkBehaviour
     [SerializeField] private Rigidbody rb = null;
     [SerializeField] private float launchForce = 10;
     [SerializeField] bool isBlockable = true;
-
     [SerializeField] private float rotationSpeed = 5f;
 
     // as a %
@@ -38,15 +37,10 @@ public class ProjectileBase : NetworkBehaviour
     }
 
     [ServerCallback]
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (TryDealDamage(collision.gameObject) || collision.gameObject.layer == 0) DestroySelf();
-    }
-
-    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
-        if (TryDealDamage(other.gameObject)) DestroySelf();
+        TryDealDamage(other.gameObject);
+        DestroySelf();
     }
 
     [Server]

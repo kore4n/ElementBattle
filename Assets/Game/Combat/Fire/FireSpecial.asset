@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5352ad63fc21f3243a54f0beb3a89949, type: 3}
+  m_Name: FireSpecial
+  m_EditorClassIdentifier: 
+  hasPreviewPhase: 0
+  abilityName: FireSpecial
+  staminaCost: 2
+  normalAbility: {fileID: 11400000, guid: 6794a410b00a4024e91350d82a3ddb22, type: 2}
+  crouchedAbility: {fileID: 11400000, guid: 1b6c996b321f7cd42bd6bb1f5c98c3b4, type: 2}

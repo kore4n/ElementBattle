@@ -15,4 +15,4 @@ MonoBehaviour:
   basicAttackAbility: {fileID: 11400000, guid: f5e19e85750845d48a9501890c0bb44b, type: 2}
   blockAbility: {fileID: 11400000, guid: 792d66e4ebf292442bbbfe2a2922d211, type: 2}
   specialAbility: {fileID: 0}
-  recoveryAbility: {fileID: 0}
+  recoveryAbility: {fileID: 11400000, guid: 226a5836db0efb147af45ea804c5c2bf, type: 2}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4ca451b5a916a4ebcb6c5e9f402918, type: 3}
+  m_Name: LightningSpecial
+  m_EditorClassIdentifier: 
+  hasPreviewPhase: 0
+  abilityName: Lightning
+  staminaCost: 0
+  visualModelPrefab: {fileID: 599129688910736153, guid: 647a5e9010f2ac847af0918a3b3234fe,
+    type: 3}
+  weaponRange: 20
+  weaponDamage: 10
