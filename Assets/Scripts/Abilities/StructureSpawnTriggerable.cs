@@ -7,36 +7,40 @@ namespace Game.Abilities
 {
     public class StructureSpawnTriggerable : NetworkBehaviour
     {
-        [HideInInspector] public GameObject structurePrefab;
-        [HideInInspector] public int maxStructureInstances;
-
         [SerializeField] Transform spawnPos;
         [SerializeField] LayerMask groundLayerMask;
         [SerializeField] LayerMask structureLayerMask;
         [SerializeField] float maxDistanceFromSurface = Mathf.Infinity;
 
-        readonly List<Structure> structureInstances = new();
+        readonly Dictionary<GameObject, List<Structure>> structureInstances = new();
 
-        Bounds structurePrefabBounds;
+        readonly Dictionary<GameObject, Bounds> structurePrefabBounds = new();
 
         [Server]
-        public void Spawn()
+        public void Spawn(GameObject structurePrefab, int maxInstances)
         {
-            // This is needed to remove any destroyed structures that may still be in the list
-            structureInstances.RemoveAll(item => item == null);
-
-            if (structureInstances.Count == maxStructureInstances)
+            if (!structureInstances.ContainsKey(structurePrefab))
             {
-                Structure firstStructure = structureInstances[0];
-                structureInstances.RemoveAt(0);
+                structureInstances.Add(structurePrefab, new List<Structure>());
+            }
+
+            List<Structure> structureInstanceList = structureInstances[structurePrefab];
+
+            // This is needed to remove any destroyed structures that may still be in the list
+            structureInstanceList.RemoveAll(item => item == null);
+
+            if (structureInstanceList.Count == maxInstances)
+            {
+                Structure firstStructure = structureInstanceList[0];
+                structureInstanceList.RemoveAt(0);
                 firstStructure.DestroySelf();
                 return;
             }
 
-            if (!FindSpawnableSurface(spawnPos.position, out Vector3 surfaceHitPoint)) return;
+            if (!FindSpawnableSurface(structurePrefab, spawnPos.position, out Vector3 surfaceHitPoint)) return;
 
             GameObject structureInstance = Instantiate(structurePrefab, surfaceHitPoint, transform.rotation);
-            structureInstances.Add(structureInstance.GetComponent<Structure>());
+            structureInstanceList.Add(structureInstance.GetComponent<Structure>());
 
             NetworkServer.Spawn(structureInstance, connectionToClient);
         }
@@ -47,9 +51,11 @@ namespace Game.Abilities
         /// <param name="point">Point in world space to spawn</param>
         /// <param name="surfaceHitPoint">Point on a valid surface to spawn the structurePrefab</param>
         /// <returns>Whether or not the given point yields a valid surfaceHitPoint</returns>
-        private bool FindSpawnableSurface(Vector3 point, out Vector3 surfaceHitPoint)
+        private bool FindSpawnableSurface(GameObject structurePrefab, Vector3 point, out Vector3 surfaceHitPoint)
         {
-            if (structurePrefabBounds == null) LoadStructurePrefabBounds();
+            if (!structurePrefabBounds.ContainsKey(structurePrefab)) LoadStructurePrefabBounds(structurePrefab);
+
+            Bounds structureBound = structurePrefabBounds[structurePrefab];
 
             surfaceHitPoint = Vector3.zero;
 
@@ -57,16 +63,16 @@ namespace Game.Abilities
 
             surfaceHitPoint = hit.point;
 
-            if (Physics.CheckBox(surfaceHitPoint + structurePrefabBounds.center, structurePrefabBounds.extents, transform.rotation, structureLayerMask)) return false;
+            if (Physics.CheckBox(surfaceHitPoint + structureBound.center, structureBound.extents, transform.rotation, structureLayerMask)) return false;
 
             return true;
         }
 
-        private void LoadStructurePrefabBounds()
+        private void LoadStructurePrefabBounds(GameObject structurePrefab)
         {
             // Wack thing to get the bounds because you need to instantiate a prefab to get it's bounds
             GameObject s = Instantiate(structurePrefab);
-            structurePrefabBounds = s.GetComponent<Collider>().bounds;
+            structurePrefabBounds[structurePrefab] = s.GetComponent<Collider>().bounds;
             DestroyImmediate(s);
         }
     }

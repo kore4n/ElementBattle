@@ -15,13 +15,11 @@ namespace Game.Abilities
         public override void Initialize(GameObject obj)
         {
             spawner = obj.GetComponent<StructureSpawnTriggerable>();
-            spawner.structurePrefab = structurePrefab;
-            spawner.maxStructureInstances = maxStructureInstaces;
         }
 
         public override void TriggerAbility()
         {
-            spawner.Spawn();
+            spawner.Spawn(structurePrefab, maxStructureInstaces);
         }
 
         public override void TriggerAbilityPreview()

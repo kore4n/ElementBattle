@@ -16,4 +16,4 @@ MonoBehaviour:
   abilityName: EarthSpecial
   staminaCost: 2
   normalAbility: {fileID: 0}
-  crouchedAbility: {fileID: 0}
+  crouchedAbility: {fileID: 11400000, guid: 74665ce0d1f0da548acfcbd9f0eea026, type: 2}

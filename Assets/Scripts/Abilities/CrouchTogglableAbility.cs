@@ -18,8 +18,8 @@ namespace Game.Abilities
             activator.normalAbility = normalAbility;
             activator.crouchAbility = crouchedAbility;
 
-            normalAbility.Initialize(obj);
-            crouchedAbility.Initialize(obj);
+            if (normalAbility != null) normalAbility.Initialize(obj);
+            if(crouchedAbility != null) crouchedAbility.Initialize(obj);
         }
 
         public override void TriggerAbility()

@@ -15,7 +15,9 @@ MonoBehaviour:
   hasPreviewPhase: 0
   abilityName: Lightning
   staminaCost: 0
-  visualModelPrefab: {fileID: 599129688910736153, guid: 647a5e9010f2ac847af0918a3b3234fe,
+  visualModelPrefab: {fileID: 7920206312693105972, guid: 80902f91176121243878c78acad18fdd,
     type: 3}
-  weaponRange: 20
+  delayLineColour: {r: 0.13679248, g: 0.92905873, b: 1, a: 0}
+  weaponRange: 30
   weaponDamage: 10
+  shootDelay: 1
