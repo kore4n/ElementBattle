@@ -7266,6 +7266,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
         type: 3}
+      propertyPath: onlineScene
+      value: Assets/Scenes/Scene_Map_02.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
+        type: 3}
       propertyPath: spawnPrefabs.Array.size
       value: 8
       objectReference: {fileID: 0}

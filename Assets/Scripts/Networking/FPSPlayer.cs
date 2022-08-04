@@ -103,7 +103,31 @@ public class FPSPlayer : NetworkBehaviour
     {
         if (activePlayerCharacter != null) { return; }
 
-        GameObject myPlayer = Instantiate(this.playerCharacter, new Vector3(0, 0, 0), Quaternion.identity);
+        Vector3 spawnLocation = Vector3.zero;
+        Quaternion spawnRotation = Quaternion.identity;
+
+        switch (playerTeam)
+        {
+            case Constants.Team.Red:
+                Transform redSpawn = ((FPSNetworkManager)NetworkManager.singleton).GetRedSpawn();
+                spawnLocation = redSpawn.position;
+                spawnRotation = redSpawn.rotation;
+                break;
+            case Constants.Team.Blue:
+                Transform blueSpawn = ((FPSNetworkManager)NetworkManager.singleton).GetBlueSpawn();
+                spawnLocation = blueSpawn.position;
+                spawnRotation = blueSpawn.rotation;
+                break;
+            case Constants.Team.Spectator:
+                // TODO: Spawn spectator camera
+
+                break;
+            case Constants.Team.Missing:
+                Debug.Log("Invalid Team. Error has occurred.");
+                break;
+        }
+
+        GameObject myPlayer = Instantiate(this.playerCharacter, spawnLocation, spawnRotation);
         activePlayerCharacter = myPlayer;
         
         playerElement = playerInfo.element;
