@@ -8,8 +8,8 @@ using UnityEngine;
 
 public class FPSPlayer : NetworkBehaviour
 {
-    [SerializeField] private GameObject playerCharacter;
-    private GameObject activePlayerCharacter;
+    [SerializeField] private GameObject playerCharacterPrefab;
+    [SerializeField] private GameObject activePlayerCharacter;
 
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     public string playerName;
@@ -33,6 +33,17 @@ public class FPSPlayer : NetworkBehaviour
 
     [SerializeField] private Sprite[] elementSprites = new Sprite[4];
     [SerializeField] AbilitySet[] abilitySets = new AbilitySet[4];
+
+    #region Subscribe/Unsubscribe
+    private void OnEnable()
+    {
+        Debug.Log("Player has joined!");
+    }
+
+    private void OnDisable()
+    {
+    }
+    #endregion
 
     #region Getters/Setters
 
@@ -59,6 +70,16 @@ public class FPSPlayer : NetworkBehaviour
     public void CmdSetReadiedUp(bool newReadyState)
     {
         SetReady(newReadyState);
+    }
+
+    public FPSPlayer GetActivePlayerCharacter()
+    {
+        return activePlayerCharacter.GetComponent<FPSPlayer>();
+    }
+
+    public void SetActivePlayerCharacter(GameObject newActivePlayerCharacter)
+    {
+        activePlayerCharacter = newActivePlayerCharacter;
     }
 
     public bool GetReadiedUp()
@@ -109,12 +130,12 @@ public class FPSPlayer : NetworkBehaviour
         switch (playerTeam)
         {
             case Constants.Team.Red:
-                Transform redSpawn = ((FPSNetworkManager)NetworkManager.singleton).GetRedSpawn();
+                Transform redSpawn = GameManager.singleton.GetRedSpawn();
                 spawnLocation = redSpawn.position;
                 spawnRotation = redSpawn.rotation;
                 break;
             case Constants.Team.Blue:
-                Transform blueSpawn = ((FPSNetworkManager)NetworkManager.singleton).GetBlueSpawn();
+                Transform blueSpawn = GameManager.singleton.GetBlueSpawn();
                 spawnLocation = blueSpawn.position;
                 spawnRotation = blueSpawn.rotation;
                 break;
@@ -127,9 +148,14 @@ public class FPSPlayer : NetworkBehaviour
                 break;
         }
 
-        GameObject myPlayer = Instantiate(this.playerCharacter, spawnLocation, spawnRotation);
+        GameObject myPlayer = Instantiate(this.playerCharacterPrefab, spawnLocation, Quaternion.identity);
+
+        // TODO: Line doesn't work. Want player to spawn facing correct side.
+        myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
+
         activePlayerCharacter = myPlayer;
-        
+
+        playerElement = playerInfo.element;
         PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
         playerCharacter.playerCharacterName = playerName;
         playerCharacter.SetTeam(playerTeam);
@@ -140,7 +166,24 @@ public class FPSPlayer : NetworkBehaviour
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }
 
+    [Server]
+    public void RespawnPlayer()
+    {
+        //if (activePlayerCharacter != playerCharacter) { return; }
 
+        // If it is us
+        if (GameManager.singleton.IsGameInProgress()) { return; }
+
+        // If game not in progress, it's pregame and respawn character
+
+        PlayerInfo playerInfo = new PlayerInfo
+        { 
+            element = playerElement,
+            playerName = playerName,
+        };
+
+        CreatePlayerCharacter(playerInfo);
+    }
     #endregion
 
     #region Client

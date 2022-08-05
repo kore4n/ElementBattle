@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
+    [SerializeField] private int killBoxDamage = 9999;
+
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
@@ -16,16 +18,14 @@ public class DeathZone : MonoBehaviour
             var rotation = new Quaternion();    // TODO: Rotation Not matching
             rotation.eulerAngles = new Vector3(playerCharacterObject.transform.eulerAngles.x, playerCamera.transform.localEulerAngles.y, 0f);
 
+            Health playerHealth = playerCharacter.GetComponent<Health>();
 
-
-            //if (!GameManager.singleton.IsGameInProgress())
-            //{
-            //    DestroyObject(playerCharacterObject);
-            //    NetworkServer.Spawn(playerCharacterObject);
-            //    return;
-            //}
-
-
+            // Respawn in pregame
+            if (!GameManager.singleton.IsGameInProgress())
+            {
+                playerHealth.DealDamage(killBoxDamage);
+                return;
+            }
 
             GameObject spectatorCamera = Instantiate(
                 ((FPSNetworkManager)NetworkManager.singleton).GetSpectatorCamera(),
@@ -33,7 +33,7 @@ public class DeathZone : MonoBehaviour
                 rotation);
             NetworkServer.Spawn(spectatorCamera, playerCharacter.connectionToClient);
 
-            DestroyObject(playerCharacterObject);
+            playerHealth.DealDamage(killBoxDamage);
         }
     }
 

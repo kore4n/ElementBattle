@@ -34,7 +34,8 @@ public class Health : NetworkBehaviour
     {
         if (connectionToClient.connectionId != connectionId) { return; }
 
-        // If it is us
+        // Destroy all objects owned by the player
+        // If it is us then kill self
         DealDamage(currentHealth);
     }
 
@@ -47,10 +48,10 @@ public class Health : NetworkBehaviour
 
         if (currentHealth != 0) { return; } // Health after damage
 
-        // We're dead
+        // We're dead - but don't put what to do when we die here
+        // Put it in script that listens for ServerOnDie for custom death logic
 
         ServerOnDie?.Invoke();
-        Debug.Log("We died");
     }
 
     #endregion
