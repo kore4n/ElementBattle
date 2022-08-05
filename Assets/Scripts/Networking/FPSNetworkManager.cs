@@ -9,32 +9,19 @@ using UnityEngine.SceneManagement;
 public class FPSNetworkManager : NetworkManager
 {
     public List<FPSPlayer> players = new List<FPSPlayer>();
-
-    //private bool isGameInProgress = false;
+    [SerializeField] private GameManager gameManagerPrefab = null;
 
     [SerializeField] private GameObject spectatorCameraPrefab;    // Camera to spawn after death
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
-    [SerializeField] private List<Transform> redSpawnPositions = new List<Transform>();
-    [SerializeField] private List<Transform> blueSpawnPositions = new List<Transform>();
 
     #region GetSets
 
     public GameObject GetSpectatorCamera()
     {
         return spectatorCameraPrefab;
-    }
-
-    public Transform GetRedSpawn()
-    {
-        return redSpawnPositions[0];
-    }
-
-    public Transform GetBlueSpawn()
-    {
-        return blueSpawnPositions[0];
     }
 
     //public bool IsGameInProgress()
@@ -65,15 +52,15 @@ public class FPSNetworkManager : NetworkManager
         players.Add(player);
     }
 
-    //public override void OnServerSceneChanged(string sceneName)
-    //{
-    //    if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
-    //    {
-    //        GameObject gameOverHandler = Instantiate(gameOverHandlerPrefab);
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
+        {
+            GameManager gameManager = Instantiate(gameManagerPrefab);
 
-    //        NetworkServer.Spawn(gameOverHandler);
-    //    }
-    //}
+            NetworkServer.Spawn(gameManager.gameObject);
+        }
+    }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
@@ -83,6 +70,8 @@ public class FPSNetworkManager : NetworkManager
 
         base.OnServerDisconnect(conn);
     }
+
+
 
     #endregion
 

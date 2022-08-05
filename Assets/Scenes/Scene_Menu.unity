@@ -7267,8 +7267,14 @@ PrefabInstance:
     - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
         type: 3}
       propertyPath: onlineScene
-      value: Assets/Scenes/Scene_Map_02.unity
+      value: Assets/Scenes/Scene_Map_01.unity
       objectReference: {fileID: 0}
+    - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
+        type: 3}
+      propertyPath: gameManagerPrefab
+      value: 
+      objectReference: {fileID: 6876454854242080342, guid: 27b0299d19490b4479ecb6ccd59cd70a,
+        type: 3}
     - target: {fileID: 5583441940336834073, guid: 7a55b0064e0b9cc4782ee1565e1968b0,
         type: 3}
       propertyPath: spawnPrefabs.Array.size

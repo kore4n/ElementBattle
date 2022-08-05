@@ -55,8 +55,19 @@ public class PlayerCharacter : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-        ServerOnPlayerCharacterDie?.Invoke(connectionToClient.connectionId);
+        ServerOnPlayerCharacterDie?.Invoke(connectionToClient.connectionId);    // Destroy all player owned objects with health
 
+        // What do we actually want to do when we die
+
+        if (GameManager.singleton.IsGameInProgress()) { return; }
+
+        connectionToClient.identity.GetComponent<FPSPlayer>().SetActivePlayerCharacter(null);
+        connectionToClient.identity.GetComponent<FPSPlayer>().RespawnPlayer();  // If game is not in progress, it's pregame and respawn character
+
+        // So that players are removed from clients
+        netIdentity.RemoveClientAuthority();
+
+        Debug.Log($"Destroying {gameObject}!");
         NetworkServer.Destroy(gameObject);
     }
 }

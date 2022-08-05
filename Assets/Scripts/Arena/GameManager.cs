@@ -41,8 +41,21 @@ public class GameManager : NetworkBehaviour
     private int blueCharacters = 0;
     private int specCharacters = 0;
 
+    [SerializeField] private List<Transform> redSpawnPositions = new List<Transform>();
+    [SerializeField] private List<Transform> blueSpawnPositions = new List<Transform>();
+
+    public Transform GetRedSpawn()
+    {
+        return redSpawnPositions[0];
+    }
+
+    public Transform GetBlueSpawn()
+    {
+        return blueSpawnPositions[0];
+    }
+
+
     [SyncVar(hook = nameof(UpdateRounds))]    // Remove later
-    //[SyncVar]
     public int blueRounds = 0;
     [SyncVar(hook = nameof(UpdateRounds))]     // Remove later
     public int redRounds = 0;
@@ -57,6 +70,33 @@ public class GameManager : NetworkBehaviour
     }
 
     #region Server
+
+    [Server]
+    private void Start()
+    {
+        PlayerSpawnPoint[] spawnPoints = FindObjectsOfType<PlayerSpawnPoint>();
+
+        // Add spawnpoints to manager to use to spawn character
+        foreach (PlayerSpawnPoint spawnPoint in spawnPoints)
+        {
+            switch (spawnPoint.GetTeam())
+            {
+                case Constants.Team.Red:
+                    redSpawnPositions.Add(spawnPoint.transform);
+                    break;
+                case Constants.Team.Blue:
+                    blueSpawnPositions.Add(spawnPoint.transform);
+                    break;
+                case Constants.Team.Spectator:
+                    // TODO: Spawn spectator camera here spectator
+
+                    break;
+                case Constants.Team.Missing:
+                    Debug.Log("Invalid Team. Error has occurred.");
+                    break;
+            }
+        }
+    }
 
     public override void OnStartServer()
     {
@@ -183,8 +223,8 @@ public class GameManager : NetworkBehaviour
         isGameInProgress = true;
 
         //ServerOnArenaAction?.Invoke(Constants.GameAction.LowerArena);
-        ServerOnLowerArena?.Invoke(platforms[0]);
-        ServerOnLowerArena?.Invoke(platforms[1]);
+        //ServerOnLowerArena?.Invoke(platforms[0]);
+        //ServerOnLowerArena?.Invoke(platforms[1]);
 
         RpcOnClientArenaAction(Constants.GameAction.Start);
     }
@@ -216,7 +256,16 @@ public class GameManager : NetworkBehaviour
     // Respawn all players
     private void RestartRound()
     {
+        List<FPSPlayer> players = ((FPSNetworkManager)NetworkManager.singleton).players;
 
+        foreach (FPSPlayer player in players)
+        {
+            if (player.GetActivePlayerCharacter() != null) { return; }
+
+            // Respawn their player
+            player.RespawnPlayer();
+
+        }
     }
 
 
