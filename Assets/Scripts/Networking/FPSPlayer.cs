@@ -130,13 +130,12 @@ public class FPSPlayer : NetworkBehaviour
         GameObject myPlayer = Instantiate(this.playerCharacter, spawnLocation, spawnRotation);
         activePlayerCharacter = myPlayer;
         
-        playerElement = playerInfo.element;
         PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
         playerCharacter.playerCharacterName = playerName;
         playerCharacter.SetTeam(playerTeam);
         playerCharacter.SetElement(playerElement);
 
-        activePlayerCharacter.GetComponent<Combatant>().abilitySet = abilitySets[(int)playerElement];
+        //activePlayerCharacter.GetComponent<Combatant>().abilitySet = abilitySets[(int)playerElement];
 
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }

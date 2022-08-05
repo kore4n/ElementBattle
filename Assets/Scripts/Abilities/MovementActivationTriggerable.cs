@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Game.Abilities
 {
-    [RequireComponent(typeof(Rigidbody))]
     public class MovementActivationTriggerable : NetworkBehaviour
     {
         [HideInInspector] public float movementForce;

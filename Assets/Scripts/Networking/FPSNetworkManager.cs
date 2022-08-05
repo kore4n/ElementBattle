@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class FPSNetworkManager : NetworkManager
 {
     public List<FPSPlayer> players = new List<FPSPlayer>();
+    public List<GameObject> playerCharacterPrefabs;
 
     //private bool isGameInProgress = false;
 

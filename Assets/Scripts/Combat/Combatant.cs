@@ -62,6 +62,15 @@ namespace Game.Combat
 
         #region Client
 
+        public override void OnStartClient()
+        {
+            // Temp initialization
+            abilitySet.basicAttackAbility.Initialize(gameObject);
+            abilitySet.blockAbility.Initialize(gameObject);
+            abilitySet.recoveryAbility.Initialize(gameObject);
+            if (abilitySet.specialAbility != null) abilitySet.specialAbility.Initialize(gameObject);
+        }
+
         [ClientCallback]
         private void Update()
         {

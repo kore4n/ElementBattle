@@ -12,37 +12,18 @@ namespace Game.Abilities
         [SerializeField] LayerMask structureLayerMask;
         [SerializeField] float maxDistanceFromSurface = Mathf.Infinity;
 
-        readonly Dictionary<GameObject, List<Structure>> structureInstances = new();
-
-        readonly Dictionary<GameObject, Bounds> structurePrefabBounds = new();
+        readonly Dictionary<int, Bounds> structurePrefabBounds = new();
 
         [Server]
-        public void Spawn(GameObject structurePrefab, int maxInstances)
+        public Structure Spawn(GameObject structurePrefab)
         {
-            if (!structureInstances.ContainsKey(structurePrefab))
-            {
-                structureInstances.Add(structurePrefab, new List<Structure>());
-            }
-
-            List<Structure> structureInstanceList = structureInstances[structurePrefab];
-
-            // This is needed to remove any destroyed structures that may still be in the list
-            structureInstanceList.RemoveAll(item => item == null);
-
-            if (structureInstanceList.Count == maxInstances)
-            {
-                Structure firstStructure = structureInstanceList[0];
-                structureInstanceList.RemoveAt(0);
-                firstStructure.DestroySelf();
-                return;
-            }
-
-            if (!FindSpawnableSurface(structurePrefab, spawnPos.position, out Vector3 surfaceHitPoint)) return;
+            if (!FindSpawnableSurface(structurePrefab, spawnPos.position, out Vector3 surfaceHitPoint)) return null;
 
             GameObject structureInstance = Instantiate(structurePrefab, surfaceHitPoint, transform.rotation);
-            structureInstanceList.Add(structureInstance.GetComponent<Structure>());
 
             NetworkServer.Spawn(structureInstance, connectionToClient);
+
+            return structureInstance.GetComponent<Structure>();
         }
 
         /// <summary>
@@ -53,9 +34,12 @@ namespace Game.Abilities
         /// <returns>Whether or not the given point yields a valid surfaceHitPoint</returns>
         private bool FindSpawnableSurface(GameObject structurePrefab, Vector3 point, out Vector3 surfaceHitPoint)
         {
-            if (!structurePrefabBounds.ContainsKey(structurePrefab)) LoadStructurePrefabBounds(structurePrefab);
+            if (!structurePrefabBounds.ContainsKey(structurePrefab.GetInstanceID()))
+            {
+                LoadStructurePrefabBounds(structurePrefab);
+            }
 
-            Bounds structureBound = structurePrefabBounds[structurePrefab];
+            Bounds structureBound = structurePrefabBounds[structurePrefab.GetInstanceID()];
 
             surfaceHitPoint = Vector3.zero;
 
@@ -72,7 +56,7 @@ namespace Game.Abilities
         {
             // Wack thing to get the bounds because you need to instantiate a prefab to get it's bounds
             GameObject s = Instantiate(structurePrefab);
-            structurePrefabBounds[structurePrefab] = s.GetComponent<Collider>().bounds;
+            structurePrefabBounds[structurePrefab.GetInstanceID()] = s.GetComponent<Collider>().bounds;
             DestroyImmediate(s);
         }
     }

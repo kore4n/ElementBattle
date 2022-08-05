@@ -7,12 +7,10 @@ public class PlayerAnimatorController : NetworkBehaviour
 {
     [SerializeField] private Animator playerBodyAnimator = null;
     [SerializeField] private NetworkAnimator networkWeaponAnimator = null;
-    private Animator weaponAnimator = null;
-
-    [SerializeField] private GameObject[] weaponGameobjects = new GameObject[4];
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer = null;    // Just to turn off your own mesh
 
+    [SerializeField] Animator weaponAnimator = null;
     [SerializeField] GameObject cameraHolder = null;
     [SerializeField] GameObject mainCamera = null;
     [SerializeField] GameObject weaponCamera = null;
@@ -25,23 +23,6 @@ public class PlayerAnimatorController : NetworkBehaviour
             cameraHolder.GetComponent<PlayerAiming>().enabled = false;
             mainCamera.SetActive(false);
             weaponCamera.GetComponent<Camera>().enabled = false;
-        }
-
-
-        Constants.Element myElement = GetComponent<PlayerCharacter>().GetElement();
-
-        int myElementIndex = (int)myElement;
-        weaponAnimator = weaponGameobjects[myElementIndex].GetComponent<Animator>();
-
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject curWeapon = weaponGameobjects[i];
-
-            if (curWeapon == null) { continue; }
-            if (i == myElementIndex) { continue; }
-
-            curWeapon.SetActive(false);
-            networkWeaponAnimator.animator = weaponAnimator;
         }
 
         if (!hasAuthority) { return; }

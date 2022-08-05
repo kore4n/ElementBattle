@@ -43,7 +43,7 @@ namespace Game.Abilities
             shooting = true;
 
             Update();
-            raycastLine.enabled = true;
+            RpcSetRaycastLineEnabled(true);
             surfCharacter.movementConfig.walkSpeed = 0.1f;
 
             StartCoroutine(DelayShootRaycast(damage, range, delayTime, visualModelPrefab));
@@ -54,7 +54,7 @@ namespace Game.Abilities
             yield return new WaitForSeconds(delayTime);
 
             surfCharacter.movementConfig.walkSpeed = originalWalkSpeed;
-            raycastLine.enabled = false;
+            RpcSetRaycastLineEnabled(false);
 
             Vector3 hitpoint;
             if (Physics.Raycast(transform.position, playerCamera.transform.forward, out RaycastHit hit, range, targetLayerMask))
@@ -74,12 +74,13 @@ namespace Game.Abilities
 
             NetworkServer.Spawn(lightningInstance, connectionToClient);
 
-            VisualEffect visual = lightningInstance.GetComponentInChildren<VisualEffect>();
-            visual.SetFloat("LightningLength", hitDist);
-            visual.SetFloat("ImpactOffset", -hitDist / 10);
-            visual.enabled = true;
-            visual.Play();
-            StartCoroutine(DisableAfterSeconds(visual, 2));
+            RpcActivateVisual(lightningInstance, hitDist);
+            //visual = lightningInstance.GetComponentInChildren<VisualEffect>();
+            //visual.SetFloat("LightningLength", hitDist);
+            //visual.SetFloat("ImpactOffset", -hitDist / 10);
+            //visual.enabled = true;
+            //visual.Play();
+            //StartCoroutine(DisableAfterSeconds(visual, 2));
 
             shooting = false;
         }
@@ -88,6 +89,23 @@ namespace Game.Abilities
         {
             yield return new WaitForSeconds(seconds);
             component.enabled = false;
+        }
+
+        [ClientRpc]
+        private void RpcSetRaycastLineEnabled(bool enabled)
+        {
+            raycastLine.enabled = enabled;
+        }
+
+        [ClientRpc]
+        private void RpcActivateVisual(GameObject lightningInstance, float hitDist)
+        {
+            VisualEffect visual = lightningInstance.GetComponentInChildren<VisualEffect>();
+            visual.SetFloat("LightningLength", hitDist);
+            visual.SetFloat("ImpactOffset", -hitDist / 10);
+            visual.enabled = true;
+            visual.Play();
+            StartCoroutine(DisableAfterSeconds(visual, 2));
         }
     }
 }
