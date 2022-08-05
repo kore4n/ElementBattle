@@ -17,12 +17,24 @@ public class FPSNetworkManager : NetworkManager
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
+    [SerializeField] private List<Transform> redSpawnPositions = new List<Transform>();
+    [SerializeField] private List<Transform> blueSpawnPositions = new List<Transform>();
 
     #region GetSets
 
     public GameObject GetSpectatorCamera()
     {
         return spectatorCameraPrefab;
+    }
+
+    public Transform GetRedSpawn()
+    {
+        return redSpawnPositions[0];
+    }
+
+    public Transform GetBlueSpawn()
+    {
+        return blueSpawnPositions[0];
     }
 
     //public bool IsGameInProgress()

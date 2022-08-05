@@ -56,6 +56,6 @@ Material:
     - _TopLine: 0.65
     m_Colors:
     - _BaseColor: {r: 0.14901961, g: 1.4980392, b: 1.4980392, a: 1}
-    - _BottomColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BottomColor: {r: 0, g: 0.16981131, b: 0.11427554, a: 1}
     - _TopColor: {r: 0, g: 0.62396055, b: 0.41788515, a: 1}
   m_BuildTextureStacks: []
