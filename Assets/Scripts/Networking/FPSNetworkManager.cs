@@ -11,6 +11,7 @@ public class FPSNetworkManager : NetworkManager
     public List<FPSPlayer> players = new List<FPSPlayer>();
     public List<GameObject> playerCharacterPrefabs;
 
+    [SerializeField] private GameManager gameManagerPrefab;
     [SerializeField] private GameObject spectatorCameraPrefab;    // Camera to spawn after death
 
     public static event Action ClientOnConnected;

@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class FPSPlayer : NetworkBehaviour
 {
-    [SerializeField] private GameObject playerCharacterPrefab;
     [SerializeField] private GameObject activePlayerCharacter;
 
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
@@ -148,20 +147,18 @@ public class FPSPlayer : NetworkBehaviour
                 break;
         }
 
-        GameObject myPlayer = Instantiate(this.playerCharacterPrefab, spawnLocation, Quaternion.identity);
+        playerElement = playerInfo.element;
+        GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
 
         // TODO: Line doesn't work. Want player to spawn facing correct side.
         myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
 
         activePlayerCharacter = myPlayer;
 
-        playerElement = playerInfo.element;
         PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
         playerCharacter.playerCharacterName = playerName;
         playerCharacter.SetTeam(playerTeam);
         playerCharacter.SetElement(playerElement);
-
-        //activePlayerCharacter.GetComponent<Combatant>().abilitySet = abilitySets[(int)playerElement];
 
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }
