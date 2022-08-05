@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1942e7e94e7b7b348994d3c0a12c500e, type: 3}
   m_Name: EarthWallBlock
   m_EditorClassIdentifier: 
+  hasPreviewPhase: 0
   abilityName: EarthWallBlock
   staminaCost: 1
   structurePrefab: {fileID: 8823735725742302197, guid: 3c1a9e7ce1a76524fb99fa9f03dde1ff,
     type: 3}
-  maxStructureInstaces: 2
+  maxStructureInstances: 2

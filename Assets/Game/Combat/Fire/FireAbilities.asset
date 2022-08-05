@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicAttackAbility: {fileID: 11400000, guid: 3ceb0b4329b510a4cbff3d8aacd4c52c, type: 2}
   blockAbility: {fileID: 11400000, guid: 847c9bd8771ec1643a0aaa3687ddd20d, type: 2}
-  specialAbility: {fileID: 0}
-  recoveryAbility: {fileID: 0}
+  specialAbility: {fileID: 11400000, guid: 773d7749e4c3a9147b159aba4ba04de8, type: 2}
+  recoveryAbility: {fileID: 11400000, guid: 0d20ffad95740714e9fbd9882ba4d19b, type: 2}

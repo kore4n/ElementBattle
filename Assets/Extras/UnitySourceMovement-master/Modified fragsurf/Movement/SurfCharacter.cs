@@ -62,7 +62,7 @@ namespace Fragsurf.Movement {
         private CameraWaterCheck _cameraWaterCheck;
 
         private MoveData _moveData = new MoveData ();
-        private SurfController _controller = new SurfController ();
+        public SurfController _controller = new SurfController ();
 
         private Rigidbody rb;
 

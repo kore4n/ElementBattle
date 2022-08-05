@@ -12,12 +12,11 @@ namespace Game.Abilities
         public override void Initialize(GameObject obj)
         {
             launcher = obj.GetComponent<ProjectileShootTriggerable>();
-            launcher.projectilePrefab = projectilePrefab;
         }
 
         public override void TriggerAbility()
         {
-            launcher.Launch();
+            launcher.Launch(projectilePrefab);
         }
 
         public override void TriggerAbilityPreview()

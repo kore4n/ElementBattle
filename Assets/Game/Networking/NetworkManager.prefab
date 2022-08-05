@@ -69,7 +69,20 @@ MonoBehaviour:
   - {fileID: 1153311218007518878, guid: e4b6c25691ec61643b66965cd2a11cd0, type: 3}
   - {fileID: 1153311218007518878, guid: 7f988169e7c3c384a8e4add4058e3be0, type: 3}
   - {fileID: 7986576540008204794, guid: f9e6ab8f5e35ed14592b55acfb377c1d, type: 3}
+  - {fileID: 6322194229183626605, guid: b6bdf7a2991918840be2ca3d88cc783a, type: 3}
+  - {fileID: 7920206312693105972, guid: 80902f91176121243878c78acad18fdd, type: 3}
+  - {fileID: 5416356638601276947, guid: 6f50501335464144a95ed6c70cc28b0b, type: 3}
+  - {fileID: 6153599314159925780, guid: 3d0dcaa3d6cade140a3824a8b519383e, type: 3}
+  - {fileID: 3263425955255852190, guid: a8a2f6d3b621f4e40b26f79fa07b8177, type: 3}
+  - {fileID: 8823735725742302197, guid: 3c1a9e7ce1a76524fb99fa9f03dde1ff, type: 3}
   players: []
+  playerCharacterPrefabs:
+  - {fileID: 3719584201268641368, guid: 7660dbdd1bca97c41830dd1252fb49d3, type: 3}
+  - {fileID: 3719584201268641368, guid: 9713d2e14f323634fb8330112b8f97f4, type: 3}
+  - {fileID: 4153136532699851387, guid: 3eed190e8934c3849a634ef4229c264f, type: 3}
+  - {fileID: 3719584201268641368, guid: cb034e80e9d873343ac557753c733617, type: 3}
+  gameManagerPrefab: {fileID: 6876454854242080342, guid: 27b0299d19490b4479ecb6ccd59cd70a,
+    type: 3}
   spectatorCameraPrefab: {fileID: 1639183098852747243, guid: 9806592a08e69e34dbcd308a777e2180,
     type: 3}
 --- !u!114 &5583441940336834052

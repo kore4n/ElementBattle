@@ -7,11 +7,10 @@ namespace Game.Abilities
     {
         [SerializeField] GameObject cameraShoot;
 
-        [HideInInspector] public GameObject projectilePrefab;
         public Transform projectileSpawn;
 
         [Server]
-        public void Launch()
+        public void Launch(GameObject projectilePrefab)
         {
             GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
             projectileInstance.transform.forward = cameraShoot.transform.forward;

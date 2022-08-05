@@ -9,8 +9,9 @@ using UnityEngine.SceneManagement;
 public class FPSNetworkManager : NetworkManager
 {
     public List<FPSPlayer> players = new List<FPSPlayer>();
-    [SerializeField] private GameManager gameManagerPrefab = null;
+    public List<GameObject> playerCharacterPrefabs;
 
+    [SerializeField] private GameManager gameManagerPrefab;
     [SerializeField] private GameObject spectatorCameraPrefab;    // Camera to spawn after death
 
     public static event Action ClientOnConnected;
