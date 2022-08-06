@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 public class FPSNetworkManager : NetworkManager
 {
     public List<FPSPlayer> players = new List<FPSPlayer>();
+    public List<SpectatorCameraController> spectatorCameras = new List<SpectatorCameraController> { };
+
     public List<GameObject> playerCharacterPrefabs;
 
     [SerializeField] private GameManager gameManagerPrefab;

@@ -13,15 +13,15 @@ public class PlayersConnectedHUD : MonoBehaviour
     private void Start()
     {
         FPSPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
-        GameManager.ServerOnGameStart += ClientHandleGameStart;
-        GameManager.ServerOnGameOver += ClientHandleGameOver;
+        GameManager.ClientOnGameStart += ClientHandleGameStart;
+        GameManager.ClientOnGameOver += ClientHandleGameOver;
     }
 
     private void OnDestroy()
     {
         FPSPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
-        GameManager.ServerOnGameStart -= ClientHandleGameStart;
-        GameManager.ServerOnGameOver -= ClientHandleGameOver;
+        GameManager.ClientOnGameStart -= ClientHandleGameStart;
+        GameManager.ClientOnGameOver -= ClientHandleGameOver;
     }
 
     private void ClientHandleInfoUpdated()
@@ -50,7 +50,7 @@ public class PlayersConnectedHUD : MonoBehaviour
         canvas.SetActive(false);
     }
 
-    private void ClientHandleGameOver()
+    private void ClientHandleGameOver(Constants.Team winner)
     {
         canvas.SetActive(true);
     }

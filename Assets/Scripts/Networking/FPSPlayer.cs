@@ -20,7 +20,7 @@ public class FPSPlayer : NetworkBehaviour
     public Constants.Team playerTeam = Constants.Team.Missing;
 
     [SyncVar(hook = nameof(ClientHandlePlayerReadyUpdated))]
-    public bool readiedUp = false;  // Remove Public later
+    private bool readiedUp = false;
 
     //Remove later
     //[SyncVar(hook = nameof(ClientHandlePlayerSpriteUpdated))]
@@ -29,6 +29,7 @@ public class FPSPlayer : NetworkBehaviour
 
     public static Action OnPlayerSpawn;
     public static event Action ClientOnInfoUpdated;
+    public static event Action ClientOnChooseTeam;
 
     [SerializeField] private Sprite[] elementSprites = new Sprite[4];
     [SerializeField] AbilitySet[] abilitySets = new AbilitySet[4];
@@ -36,7 +37,6 @@ public class FPSPlayer : NetworkBehaviour
     #region Subscribe/Unsubscribe
     private void OnEnable()
     {
-        Debug.Log("Player has joined!");
     }
 
     private void OnDisable()
@@ -71,9 +71,11 @@ public class FPSPlayer : NetworkBehaviour
         SetReady(newReadyState);
     }
 
-    public FPSPlayer GetActivePlayerCharacter()
+    public bool HasActivePlayerCharacter()
     {
-        return activePlayerCharacter.GetComponent<FPSPlayer>();
+        if (activePlayerCharacter != null) { return true; }
+
+        return false;
     }
 
     public void SetActivePlayerCharacter(GameObject newActivePlayerCharacter)
@@ -166,13 +168,6 @@ public class FPSPlayer : NetworkBehaviour
     [Server]
     public void RespawnPlayer()
     {
-        //if (activePlayerCharacter != playerCharacter) { return; }
-
-        // If it is us
-        if (GameManager.singleton.IsGameInProgress()) { return; }
-
-        // If game not in progress, it's pregame and respawn character
-
         PlayerInfo playerInfo = new PlayerInfo
         { 
             element = playerElement,
@@ -218,7 +213,7 @@ public class FPSPlayer : NetworkBehaviour
 
         ((FPSNetworkManager)NetworkManager.singleton).players.Remove(this); // Let all clients remove player list
 
-        if (!hasAuthority) { return; }
+        if (!hasAuthority) { return; }  // TODO: Find out why this line is here
     }
 
     private void ClientHandleDisplayNameUpdated(string oldName, string newName)
@@ -241,6 +236,7 @@ public class FPSPlayer : NetworkBehaviour
     private void ClientHandlePlayerTeamUpdated(Constants.Team oldTeam, Constants.Team newTeam)
     {
         ClientOnInfoUpdated?.Invoke();
+        //ClientOnChooseTeam?.Invoke();
     }
 
     private void ClientHandlePlayerReadyUpdated(bool oldReadyState, bool newReadyState)

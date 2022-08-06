@@ -84,7 +84,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   sendInterval: 0.05
-  syncPosition: 1
+  syncPosition: 0
   syncRotation: 1
   syncScale: 1
   interpolatePosition: 1

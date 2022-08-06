@@ -34,5 +34,12 @@ public class GameOverDisplay : MonoBehaviour
         }
 
         gameOverDisplayParent.SetActive(true);
+
+        Invoke(nameof(HideGameOverDisplay), Constants.timeAfterRoundEnd);
+    }
+
+    private void HideGameOverDisplay()
+    {
+        gameOverDisplayParent.SetActive(false);
     }
 }

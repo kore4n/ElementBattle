@@ -25,11 +25,10 @@ public class GameManager : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public static event Action ServerOnGameStart;
-    public static event Action ServerOnGameOver;
+    public static event Action ClientOnGameStart;
+    public static event Action<Constants.Team> ClientOnGameOver;
 
     public static event Action ClientOnRoundWin;
-    public static event Action<Constants.Team> ClientOnGameOver;
     public static event Action<LoweringArena> ServerOnLowerArena;
     public static event Action<Constants.GameAction> ServerOnArenaAction;
 
@@ -54,10 +53,9 @@ public class GameManager : NetworkBehaviour
         return blueSpawnPositions[0];
     }
 
-
-    [SyncVar(hook = nameof(UpdateRounds))]    // Remove later
+    [SyncVar(hook = nameof(UpdateRounds))]
     public int blueRounds = 0;
-    [SyncVar(hook = nameof(UpdateRounds))]     // Remove later
+    [SyncVar(hook = nameof(UpdateRounds))]
     public int redRounds = 0;
     [SerializeField]
     private int winLimit = 3;
@@ -155,38 +153,52 @@ public class GameManager : NetworkBehaviour
                 break;
         }
 
-        // TODO: Add ! back to berginning. Should only do gameover calculations when game is in progress
-        //if (((FPSNetworkManager)NetworkManager.singleton).IsGameInProgress()) { return; }
-        if (!isGameInProgress)  // Pregame: Revive player and do nothing
-        {
-            // TODO: This is not working. Also do not spawn spectator camera
-            NetworkServer.Spawn(playerCharacter.gameObject);
-            return; 
-        }
+        if (!IsGameInProgress()) { return; }
 
-        //Debug.Log($"Red: {redCharacters}");
-        //Debug.Log($"Blue: {blueCharacters}");
+        // Game is in progress! Update rounds
 
         if (blueCharacters == 0)
         {
             ServerOnUpdateRounds(Constants.Team.Red);
-            return;
         }
         else if (redCharacters == 0)
         {
             ServerOnUpdateRounds(Constants.Team.Blue);
-            return;
         }
 
         if (redRounds == winLimit)
         {
             RpcGameOver(Constants.Team.Red);
-            ServerOnGameOver?.Invoke();
+            EndGame();
         }
-        else
+        else if (blueRounds == winLimit)
         {
             RpcGameOver(Constants.Team.Blue);
-            ServerOnGameOver?.Invoke();
+            EndGame();
+        }
+
+        RestartRound();
+
+        int roundSum = redRounds + blueRounds;
+
+        if (roundSum == 0)
+        { 
+            Debug.Log("Game over!");
+            return;
+        }
+
+        Debug.Log($"Round {redRounds + blueRounds} over! ");
+    }
+
+    private void EndGame()
+    {
+        isGameInProgress = false;
+        blueRounds = 0;
+        redRounds = 0;
+
+        foreach (FPSPlayer player in ((FPSNetworkManager)NetworkManager.singleton).players)
+        {
+            player.SetReady(false);
         }
     }
 
@@ -222,15 +234,12 @@ public class GameManager : NetworkBehaviour
 
         isGameInProgress = true;
 
-        //ServerOnArenaAction?.Invoke(Constants.GameAction.LowerArena);
-        //ServerOnLowerArena?.Invoke(platforms[0]);
-        //ServerOnLowerArena?.Invoke(platforms[1]);
-
         RpcOnClientArenaAction(Constants.GameAction.Start);
     }
 
     private void ServerOnUpdateRounds(Constants.Team team)
     {
+        // Automatically updates round wins + UI with syncvars and hooks
         switch (team)
         {
             case Constants.Team.Red:
@@ -243,43 +252,37 @@ public class GameManager : NetworkBehaviour
                 Debug.Log("Invalid Team. Error has occurred.");
                 break;
         }
-
-        // TODO: Respawn player
-        // TODO: Update player rounds UI
-
-        RestartRound();
-        //RpcClientOnRoundWin(team);
-
-        Debug.Log($"Round {redRounds + blueRounds} over! ");
     }
 
-    // Respawn all players
     private void RestartRound()
     {
         List<FPSPlayer> players = ((FPSNetworkManager)NetworkManager.singleton).players;
+        List<SpectatorCameraController> spectatorCameras = ((FPSNetworkManager)NetworkManager.singleton).spectatorCameras;
 
+        // Respawn all players
         foreach (FPSPlayer player in players)
         {
-            if (player.GetActivePlayerCharacter() != null) { return; }
+            if (player.HasActivePlayerCharacter()) { continue; }
 
             // Respawn their player
             player.RespawnPlayer();
-
         }
+
+        // Destroy all spectator cameras
+        foreach (SpectatorCameraController spectatorCamera in spectatorCameras)
+        {
+            //spectatorCamera.netIdentity.serverOnly = true;
+            NetworkServer.Destroy(spectatorCamera.gameObject);
+        }
+
+        spectatorCameras.Clear();
     }
 
 
     #endregion
 
     #region Client
-
-    //[ClientRpc]
-    //private void RpcClientOnRoundWin(Constants.Team team)
-    //{
-    //    ClientOnRoundWin?.Invoke(team);
-    //}
-
-    [ClientRpc]
+    
     private void UpdateRounds(int oldRounds, int newRounds)
     {
         ClientOnRoundWin?.Invoke();
@@ -291,12 +294,10 @@ public class GameManager : NetworkBehaviour
         ClientOnGameOver?.Invoke(winner);
     }
 
-    
-
     [ClientRpc]
     private void RpcOnClientArenaAction(Constants.GameAction gameAction)
     {
-        if (gameAction == Constants.GameAction.Start) { ServerOnGameStart?.Invoke(); }
+        if (gameAction == Constants.GameAction.Start) { ClientOnGameStart?.Invoke(); }
 
         Debug.Log("Game is starting!");
     }

@@ -38,9 +38,13 @@ public class SelectTeamUI : MonoBehaviour
 
     private void MakePlayerTeam(Constants.Team team)
     {
-        elementSelectionUI.SetActive(true);
+        player.CmdSetTeam(team);
+
         teamSelectionUI.SetActive(false);
 
-        player.CmdSetTeam(team);
+        if (team == Constants.Team.Spectator) { return; }
+
+        elementSelectionUI.SetActive(true);
+
     }
 }

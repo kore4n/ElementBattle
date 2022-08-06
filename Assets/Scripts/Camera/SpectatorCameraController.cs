@@ -15,6 +15,20 @@ public class SpectatorCameraController : NetworkBehaviour
             gameObject.GetComponent<Camera>().enabled = false;
             gameObject.GetComponent<AudioListener>().enabled = false;
         }
+
+        if (NetworkServer.active) { return; }   // If running on server as well - stop
+
+        Debug.Log("Adding to spectator cameras!");
+        ((FPSNetworkManager)NetworkManager.singleton).spectatorCameras.Add(this);
+    }
+
+    public override void OnStopClient()
+    {
+        if (!isClientOnly) { return; }  // Dont let server run anything below
+
+        ((FPSNetworkManager)NetworkManager.singleton).spectatorCameras.Remove(this); // Let all clients remove player list
+
+        if (!hasAuthority) { return; }
     }
 
     void FixedUpdate()

@@ -854,6 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbacfb0da3d6ed94d937f6d0e523b6f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killBoxDamage: 9999
 --- !u!65 &1005234377
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2162,11 +2163,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerHUD
-      objectReference: {fileID: 0}
-    - target: {fileID: 8310764564526031972, guid: cfaa4ebdbc117a0498bf720cebb6edc2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8310764564526031975, guid: cfaa4ebdbc117a0498bf720cebb6edc2,
         type: 3}
