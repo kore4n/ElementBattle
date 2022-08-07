@@ -19,7 +19,6 @@ public class FPSNetworkManager : NetworkManager
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
-
     #region GetSets
 
     public GameObject GetSpectatorCamera()
@@ -73,8 +72,6 @@ public class FPSNetworkManager : NetworkManager
 
         base.OnServerDisconnect(conn);
     }
-
-
 
     #endregion
 

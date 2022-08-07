@@ -8,20 +8,37 @@ public class PlayersConnectedHUD : MonoBehaviour
     private List<GameObject> playersConnectedSlotHUD = new List<GameObject>();
 
     [SerializeField] private GameObject canvas = null;
-    [SerializeField] private GameObject playerSlotHUD = null; 
+    [SerializeField] private GameObject playerSlotHUD = null;
 
-    private void Start()
+    private void OnEnable()
     {
         FPSPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
         GameManager.ClientOnGameStart += ClientHandleGameStart;
         GameManager.ClientOnGameOver += ClientHandleGameOver;
+        GameManager.OnGameManagerSpawn += ClientHandleGameManagerSpawn;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         FPSPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
         GameManager.ClientOnGameStart -= ClientHandleGameStart;
         GameManager.ClientOnGameOver -= ClientHandleGameOver;
+        GameManager.OnGameManagerSpawn -= ClientHandleGameManagerSpawn;
+    }
+
+    private void Start()
+    {
+        
+    }
+
+    private void ClientHandleGameManagerSpawn()
+    {
+        Debug.Log(GameManager.singleton.name);
+        Debug.Log(!GameManager.singleton.IsGameInProgress());
+        if (!GameManager.singleton.IsGameInProgress()) { return; }
+
+        // Hide HUD if game in progress
+        ClientHandleGameStart();
     }
 
     private void ClientHandleInfoUpdated()
@@ -32,6 +49,8 @@ public class PlayersConnectedHUD : MonoBehaviour
 
         foreach (FPSPlayer p in players)
         {
+            if (p.GetTeam() == Constants.Team.Spectator) { continue; }  // Don't make a slot for spectators
+
             GameObject newSlotHUD = Instantiate(playerSlotHUD);
             PlayerSlotHUD newPlayerSlotHUD = newSlotHUD.GetComponent<PlayerSlotHUD>();
             newPlayerSlotHUD.SetName(p.GetDisplayName());

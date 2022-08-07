@@ -20,11 +20,8 @@ public class FPSPlayer : NetworkBehaviour
     public Constants.Team playerTeam = Constants.Team.Missing;
 
     [SyncVar(hook = nameof(ClientHandlePlayerReadyUpdated))]
-    private bool readiedUp = false;
+    private bool readiedUp = false; // Logic not taken into account for spectators for game start so dont worry about it
 
-    //Remove later
-    //[SyncVar(hook = nameof(ClientHandlePlayerSpriteUpdated))]
-    //[SyncVar]
     public Sprite elementSprite = null;
 
     public static Action OnPlayerSpawn;
@@ -56,6 +53,20 @@ public class FPSPlayer : NetworkBehaviour
     public void SetTeam(Constants.Team team)
     {
         playerTeam = team;
+
+        if (team != Constants.Team.Spectator) { return; }
+
+        FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
+        GameManager gameManager = GameManager.singleton;
+
+        // Make spectator camera
+        GameObject spectatorCamera = Instantiate(
+                networkManager.GetSpectatorCamera(),
+                gameManager.GetSpectatorSpawn().position,
+                Quaternion.identity);
+        NetworkServer.Spawn(spectatorCamera, connectionToClient);
+
+        networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
     }
 
     [Server]
@@ -63,7 +74,6 @@ public class FPSPlayer : NetworkBehaviour
     {
         readiedUp = newReadyState; 
     }
-
 
     [Command]
     public void CmdSetReadiedUp(bool newReadyState)
@@ -117,6 +127,25 @@ public class FPSPlayer : NetworkBehaviour
     [Command]
     public void CmdCreatePlayerCharacter(PlayerInfo playerInfo)
     {
+        GameManager gameManager = GameManager.singleton;
+
+        // If game in progress create spectator camera
+        if (gameManager.IsGameInProgress())
+        {
+            FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
+
+            GameObject spectatorCamera = Instantiate(
+                networkManager.GetSpectatorCamera(),
+                gameManager.GetSpectatorSpawn().position,
+                Quaternion.identity);
+            NetworkServer.Spawn(spectatorCamera, connectionToClient);
+
+            networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
+            return; 
+        }
+
+        // Only create player if in pregame
+
         CreatePlayerCharacter(playerInfo);
     }
 

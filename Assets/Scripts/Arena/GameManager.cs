@@ -25,6 +25,7 @@ public class GameManager : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public static event Action OnGameManagerSpawn;
     public static event Action ClientOnGameStart;
     public static event Action<Constants.Team> ClientOnGameOver;
 
@@ -40,9 +41,22 @@ public class GameManager : NetworkBehaviour
     private int blueCharacters = 0;
     private int specCharacters = 0;
 
+    [SyncVar(hook = nameof(UpdateRounds))]
+    public int blueRounds = 0;
+    [SyncVar(hook = nameof(UpdateRounds))]
+    public int redRounds = 0;
+    [SerializeField]
+    private int winLimit = 3;
+
+    [SyncVar]
+    [SerializeField] 
+    private bool isGameInProgress = false; // TODO: Remove SerializeField later, just to see
+
     [SerializeField] private List<Transform> redSpawnPositions = new List<Transform>();
     [SerializeField] private List<Transform> blueSpawnPositions = new List<Transform>();
+    [SerializeField] private List<Transform> spectatorSpawnPositions = new List<Transform>();
 
+    #region Getters/Setters
     public Transform GetRedSpawn()
     {
         return redSpawnPositions[0];
@@ -53,25 +67,27 @@ public class GameManager : NetworkBehaviour
         return blueSpawnPositions[0];
     }
 
-    [SyncVar(hook = nameof(UpdateRounds))]
-    public int blueRounds = 0;
-    [SyncVar(hook = nameof(UpdateRounds))]
-    public int redRounds = 0;
-    [SerializeField]
-    private int winLimit = 3;
-
-    private bool isGameInProgress = false;
+    public Transform GetSpectatorSpawn()
+    {
+        return spectatorSpawnPositions[0];
+    }
 
     public bool IsGameInProgress()
     {
         return isGameInProgress;
     }
+    #endregion
 
     #region Server
 
-    [Server]
     private void Start()
     {
+        Debug.Log("Spawning game manager");
+        OnGameManagerSpawn?.Invoke();
+
+        if (!isServer) { return; }
+
+        // Only server manages spawns
         PlayerSpawnPoint[] spawnPoints = FindObjectsOfType<PlayerSpawnPoint>();
 
         // Add spawnpoints to manager to use to spawn character
@@ -86,8 +102,7 @@ public class GameManager : NetworkBehaviour
                     blueSpawnPositions.Add(spawnPoint.transform);
                     break;
                 case Constants.Team.Spectator:
-                    // TODO: Spawn spectator camera here spectator
-
+                    spectatorSpawnPositions.Add(spawnPoint.transform);
                     break;
                 case Constants.Team.Missing:
                     Debug.Log("Invalid Team. Error has occurred.");

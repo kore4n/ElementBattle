@@ -16,6 +16,9 @@ public class SpectatorCameraController : NetworkBehaviour
             gameObject.GetComponent<AudioListener>().enabled = false;
         }
 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         if (NetworkServer.active) { return; }   // If running on server as well - stop
 
         Debug.Log("Adding to spectator cameras!");
