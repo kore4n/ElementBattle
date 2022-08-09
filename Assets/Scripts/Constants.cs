@@ -38,5 +38,4 @@ public static class Constants
 public struct CreateFPSPlayerMessage : NetworkMessage
 {
     public string playerName;
-    //public Sprite sprite;
 }

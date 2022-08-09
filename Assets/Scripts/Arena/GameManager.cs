@@ -249,6 +249,7 @@ public class GameManager : NetworkBehaviour
 
         isGameInProgress = true;
 
+        RestartRound();
         RpcOnClientArenaAction(Constants.GameAction.Start);
     }
 
@@ -279,8 +280,14 @@ public class GameManager : NetworkBehaviour
         {
             if (player.HasActivePlayerCharacter()) { continue; }
 
-            // Respawn their player
             player.RespawnPlayer();
+        }
+
+        foreach (FPSPlayer player in players)
+        {
+            // Player is respawned, now move player characters to the correct position
+
+            MoveToCorrectSpot(player.GetActivePlayerCharacter());
         }
 
         // Destroy all spectator cameras
@@ -293,11 +300,49 @@ public class GameManager : NetworkBehaviour
         spectatorCameras.Clear();
     }
 
+    [Server]
+    private void MoveToCorrectSpot(PlayerCharacter playerCharacter)
+    {
+        var owner = playerCharacter.netIdentity.connectionToClient;
+        Debug.Log(owner.identity.GetComponent<FPSPlayer>().GetTeam());
+
+        playerCharacter.netIdentity.RemoveClientAuthority();    // Both must be taken away to give server authority over transform
+        playerCharacter.GetComponent<NetworkTransform>().clientAuthority = false;
+        switch (playerCharacter.GetTeam())
+        {
+            case (Constants.Team.Red):
+                playerCharacter.gameObject.transform.position = redSpawnPositions[0].position;
+                break;
+            case (Constants.Team.Blue):
+                playerCharacter.gameObject.transform.position = blueSpawnPositions[0].position;
+                break;
+            case (Constants.Team.Spectator):
+                Debug.Log("This should not exist! Spectators should not be allowed to own player characters.");
+                break;
+            case (Constants.Team.Missing):
+                Debug.Log("This should not exist! Player character team is missing. Player characters should either be blue or red.");
+                break;
+        }
+
+        // TODO: This is a bad solution but can't come up with anything else
+        StartCoroutine(GiveAuthorityBack(playerCharacter, owner));
+    }
+
+    IEnumerator GiveAuthorityBack(PlayerCharacter playerCharacter, NetworkConnectionToClient owner)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        // TODO: This gives authority back but it doesn't teleport clients
+        // when placed in above function
+        // Maybe gives authority back too early so this is my solution
+        playerCharacter.netIdentity.AssignClientAuthority(owner);
+        playerCharacter.GetComponent<NetworkTransform>().clientAuthority = true;
+    }
 
     #endregion
 
     #region Client
-    
+
     private void UpdateRounds(int oldRounds, int newRounds)
     {
         ClientOnRoundWin?.Invoke();

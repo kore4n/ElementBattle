@@ -33,8 +33,6 @@ public class PlayersConnectedHUD : MonoBehaviour
 
     private void ClientHandleGameManagerSpawn()
     {
-        Debug.Log(GameManager.singleton.name);
-        Debug.Log(!GameManager.singleton.IsGameInProgress());
         if (!GameManager.singleton.IsGameInProgress()) { return; }
 
         // Hide HUD if game in progress

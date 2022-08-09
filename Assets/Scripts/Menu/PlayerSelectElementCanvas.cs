@@ -11,11 +11,13 @@ public class PlayerSelectElementCanvas : MonoBehaviour
     void Start()
     {
         FPSPlayer.OnPlayerSpawn += HandlePlayerSpawn;
+        FPSPlayer.ClientOnChooseElement += ClientHandleChooseElement;
     }
 
     private void OnDestroy()
     {
         FPSPlayer.OnPlayerSpawn -= HandlePlayerSpawn;
+        FPSPlayer.ClientOnChooseElement -= ClientHandleChooseElement;
     }
 
     // Shouldn't have to do this but I do.
@@ -25,15 +27,20 @@ public class PlayerSelectElementCanvas : MonoBehaviour
         player = NetworkClient.connection.identity.GetComponent<FPSPlayer>();
     }
 
-    private void MakePlayer(Constants.Element elementType)
+    private void SetPlayerElement(Constants.Element elementType)
     {
         PlayerInfo playerInfo = new PlayerInfo()
         {
             element = elementType,
         };
 
-        player.CmdCreatePlayerCharacter(playerInfo);
+        player.CmdChooseElement(playerInfo);
 
+    }
+
+    [Client]
+    private void ClientHandleChooseElement()
+    {
         elementSelectionParent.SetActive(false);
 
         Camera.main.gameObject.SetActive(false);
@@ -41,19 +48,19 @@ public class PlayerSelectElementCanvas : MonoBehaviour
 
     public void MakePlayerWater()
     {
-        MakePlayer(Constants.Element.Water);
+        SetPlayerElement(Constants.Element.Water);
     }
     public void MakePlayerEarth()
     {
-        MakePlayer(Constants.Element.Earth);
+        SetPlayerElement(Constants.Element.Earth);
     }
     public void MakePlayerFire()
     {
-        MakePlayer(Constants.Element.Fire);
+        SetPlayerElement(Constants.Element.Fire);
     }
     public void MakePlayerAir()
     {
-        MakePlayer(Constants.Element.Air);
+        SetPlayerElement(Constants.Element.Air);
     }
 }
 

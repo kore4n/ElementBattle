@@ -27,6 +27,7 @@ public class FPSPlayer : NetworkBehaviour
     public static Action OnPlayerSpawn;
     public static event Action ClientOnInfoUpdated;
     public static event Action ClientOnChooseTeam;
+    public static event Action ClientOnChooseElement;
 
     [SerializeField] private Sprite[] elementSprites = new Sprite[4];
     [SerializeField] AbilitySet[] abilitySets = new AbilitySet[4];
@@ -42,6 +43,11 @@ public class FPSPlayer : NetworkBehaviour
     #endregion
 
     #region Getters/Setters
+
+    public PlayerCharacter GetActivePlayerCharacter()
+    {
+        return activePlayerCharacter.GetComponent<PlayerCharacter>();
+    }
 
     [Server]
     public void SetDisplayName(string newName)
@@ -125,15 +131,24 @@ public class FPSPlayer : NetworkBehaviour
     #region Server
 
     [Command]
-    public void CmdCreatePlayerCharacter(PlayerInfo playerInfo)
+    public void CmdChooseElement(PlayerInfo playerInfo)
     {
+        FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
+
+        // Check if anyone is the same element
+        foreach (FPSPlayer player in networkManager.players)
+        {
+            if (player.playerElement == playerInfo.element) { return; }
+        }
+
+        // Element is open
+        TargetClientElementAvailable();    // Tell user to close menu
+
         GameManager gameManager = GameManager.singleton;
 
         // If game in progress create spectator camera
         if (gameManager.IsGameInProgress())
         {
-            FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
-
             GameObject spectatorCamera = Instantiate(
                 networkManager.GetSpectatorCamera(),
                 gameManager.GetSpectatorSpawn().position,
@@ -191,6 +206,7 @@ public class FPSPlayer : NetworkBehaviour
         playerCharacter.SetTeam(playerTeam);
         playerCharacter.SetElement(playerElement);
 
+        myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
         NetworkServer.Spawn(myPlayer, connectionToClient);
     }
 
@@ -218,10 +234,18 @@ public class FPSPlayer : NetworkBehaviour
     {
         if (!hasAuthority) { return; }
 
+        if (playerTeam != Constants.Team.Red && playerTeam != Constants.Team.Blue) { return; }
+
         if (Input.GetKeyDown(KeyCode.F4))
         {
             CmdSetReadiedUp(!readiedUp);
         }
+    }
+
+    [TargetRpc]
+    private void TargetClientElementAvailable()
+    {
+        ClientOnChooseElement?.Invoke();
     }
 
     public override void OnStartClient()

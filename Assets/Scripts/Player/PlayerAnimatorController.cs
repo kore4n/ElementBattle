@@ -23,27 +23,26 @@ public class PlayerAnimatorController : NetworkBehaviour
             cameraHolder.GetComponent<PlayerAiming>().enabled = false;
             mainCamera.SetActive(false);
             weaponCamera.GetComponent<Camera>().enabled = false;
+
+            // So weapons don't show through players
+            int playerLayer = LayerMask.NameToLayer("Player");
+            foreach (Transform childTransform in transform.GetComponentsInChildren<Transform>())
+            {
+               childTransform.gameObject.layer = playerLayer;
+            }
+            // Make non-local earth weapon smaller
+            if (GetComponent<PlayerCharacter>().GetElement() == Constants.Element.Earth)
+            {
+                var weaponTransform = weaponAnimator.transform;
+                weaponTransform.localScale *= 0.2f;
+                weaponTransform.localPosition = new Vector3(-0.50f, 0f, 0f);
+            }
+
+            return;
         }
 
-        if (!hasAuthority) { return; }
 
         skinnedMeshRenderer.enabled = false;
-
-        //Constants.Element myElement = NetworkClient.connection.identity.GetComponent<FPSPlayer>().playerElement;
-
-        //int myElementIndex = (int)myElement;
-        //weaponAnimator = weaponGameobjects[myElementIndex].GetComponent<Animator>();
-
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    GameObject curWeapon = weaponGameobjects[i];
-
-        //    if (curWeapon == null) { continue; }
-        //    if (i == myElementIndex) { continue; }
-
-        //    curWeapon.SetActive(false);
-        //    networkWeaponAnimator.animator = weaponAnimator;
-        //}
     }
 
     private void Update()
