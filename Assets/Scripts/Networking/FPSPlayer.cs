@@ -8,7 +8,9 @@ using UnityEngine;
 
 public class FPSPlayer : NetworkBehaviour
 {
-    [SerializeField] private GameObject activePlayerCharacter;
+    [SyncVar]
+    [SerializeField]
+    private GameObject activePlayerCharacter;
 
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     public string playerName;
@@ -68,7 +70,6 @@ public class FPSPlayer : NetworkBehaviour
     public void SetTeam(Constants.Team team)
     {
         playerTeam = team;
-        Debug.Log("My team is being set!");
         if (team != Constants.Team.Spectator) { return; }
 
         FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
@@ -206,13 +207,39 @@ public class FPSPlayer : NetworkBehaviour
                 break;
         }
 
+        //playerElement = playerInfo.element;
+        //Debug.Log($"Active player element is now {playerInfo.element}. Checking... is actually {playerElement}");
+        //GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
+
+        //// TODO: Line doesn't work. Want player to spawn facing correct side.
+        //myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
+
+        //activePlayerCharacter = myPlayer;
+        //Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
+
+        //PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
+        //playerCharacter.playerCharacterName = playerName;
+        //playerCharacter.SetTeam(playerTeam);
+        //playerCharacter.SetElement(playerElement);
+
+        //myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
+        //NetworkServer.Spawn(myPlayer, connectionToClient);
+
+
+
+
+
         playerElement = playerInfo.element;
+        //Debug.Log($"Active player element is now {playerInfo.element}. Checking... is actually {playerElement}");
         GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
+
+        NetworkServer.Spawn(myPlayer, connectionToClient);
+
+        activePlayerCharacter = myPlayer;   // Must spawn on server to have network identity to use as syncvar
+        Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
 
         // TODO: Line doesn't work. Want player to spawn facing correct side.
         myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
-
-        activePlayerCharacter = myPlayer;
 
         PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
         playerCharacter.playerCharacterName = playerName;
@@ -220,7 +247,6 @@ public class FPSPlayer : NetworkBehaviour
         playerCharacter.SetElement(playerElement);
 
         myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
-        NetworkServer.Spawn(myPlayer, connectionToClient);
     }
 
     [Server]
