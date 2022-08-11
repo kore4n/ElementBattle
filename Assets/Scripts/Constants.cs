@@ -32,6 +32,7 @@ public static class Constants
     public static Color32 redTeamColor = new Color32(220, 20, 60, 100);
     public static Color32 blueTeamColor = new Color32(0, 191, 255, 100);
 
+    public static int numberOfElements = 4;
     public static int timeAfterRoundEnd = 4;    // Time to wait after round/game ends
 }
 

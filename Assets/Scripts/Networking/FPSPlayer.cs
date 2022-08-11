@@ -13,9 +13,11 @@ public class FPSPlayer : NetworkBehaviour
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     public string playerName;
 
+    // TODO: Make this private
     [SyncVar(hook = nameof(ClientHandlePlayerElementUpdated))]
     public Constants.Element playerElement = Constants.Element.Missing;
 
+    // TODO: Make this private
     [SyncVar(hook = nameof(ClientHandlePlayerTeamUpdated))]
     public Constants.Team playerTeam = Constants.Team.Missing;
 
@@ -25,9 +27,11 @@ public class FPSPlayer : NetworkBehaviour
     public Sprite elementSprite = null;
 
     public static Action OnPlayerSpawn;
-    public static event Action ClientOnInfoUpdated;
-    public static event Action ClientOnChooseTeam;
-    public static event Action ClientOnChooseElement;
+    public static event Action ClientOnInfoUpdated; // Used for everything
+    public static event Action ClientOnChooseTeam;  
+    public static event Action ClientOnMeChooseElement;   // When "this player" chooses an element
+    public static event Action<Constants.Team> ClientOnMeChooseTeam;  // When anyone has chosen an element
+    public static event Action ClientOnAnyoneChooseElement;  // When anyone has chosen an element
 
     [SerializeField] private Sprite[] elementSprites = new Sprite[4];
     [SerializeField] AbilitySet[] abilitySets = new AbilitySet[4];
@@ -49,6 +53,11 @@ public class FPSPlayer : NetworkBehaviour
         return activePlayerCharacter.GetComponent<PlayerCharacter>();
     }
 
+    public Constants.Element GetElement()
+    {
+        return playerElement;
+    }
+
     [Server]
     public void SetDisplayName(string newName)
     {
@@ -59,7 +68,7 @@ public class FPSPlayer : NetworkBehaviour
     public void SetTeam(Constants.Team team)
     {
         playerTeam = team;
-
+        Debug.Log("My team is being set!");
         if (team != Constants.Team.Spectator) { return; }
 
         FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
@@ -114,6 +123,8 @@ public class FPSPlayer : NetworkBehaviour
     public void CmdSetTeam(Constants.Team team)
     {
         SetTeam(team);
+
+        TargetClientTeamAvailable(team);
     }
 
     public Sprite GetElementSprite()
@@ -135,9 +146,11 @@ public class FPSPlayer : NetworkBehaviour
     {
         FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
 
-        // Check if anyone is the same element
+        // Check if anyone on same team is the same element
         foreach (FPSPlayer player in networkManager.players)
         {
+            if (player.GetTeam() != playerTeam) { continue; }
+
             if (player.playerElement == playerInfo.element) { return; }
         }
 
@@ -245,7 +258,13 @@ public class FPSPlayer : NetworkBehaviour
     [TargetRpc]
     private void TargetClientElementAvailable()
     {
-        ClientOnChooseElement?.Invoke();
+        ClientOnMeChooseElement?.Invoke();
+    }
+    
+    [TargetRpc]
+    private void TargetClientTeamAvailable(Constants.Team team)
+    {
+        ClientOnMeChooseTeam?.Invoke(team);
     }
 
     public override void OnStartClient()
@@ -278,6 +297,7 @@ public class FPSPlayer : NetworkBehaviour
     {
         elementSprite = elementSprites[(int)playerElement];
 
+        ClientOnAnyoneChooseElement?.Invoke();
         ClientOnInfoUpdated?.Invoke();
     }
 

@@ -42,6 +42,7 @@ public class FPSNetworkManager : NetworkManager
         NetworkServer.RegisterHandler<CreateFPSPlayerMessage>(OnCreatePlayer);
     }
 
+    // Called on client join
     private void OnCreatePlayer(NetworkConnectionToClient conn, CreateFPSPlayerMessage message)
     {
         GameObject playerGameobject = Instantiate(playerPrefab);
@@ -81,6 +82,7 @@ public class FPSNetworkManager : NetworkManager
     {
         base.OnClientConnect();
 
+        // Create the player
         CreateFPSPlayerMessage createFPSPlayerMessage = new CreateFPSPlayerMessage()
         {
             playerName = SteamClient.Name,

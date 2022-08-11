@@ -47,7 +47,7 @@ public class PlayersConnectedHUD : MonoBehaviour
 
         foreach (FPSPlayer p in players)
         {
-            if (p.GetTeam() == Constants.Team.Spectator) { continue; }  // Don't make a slot for spectators
+            if (p.GetTeam() == Constants.Team.Missing || p.GetTeam() == Constants.Team.Spectator) { continue; }  // Don't make a slot for spectators
 
             GameObject newSlotHUD = Instantiate(playerSlotHUD);
             PlayerSlotHUD newPlayerSlotHUD = newSlotHUD.GetComponent<PlayerSlotHUD>();

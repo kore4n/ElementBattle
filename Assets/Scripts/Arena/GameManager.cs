@@ -82,7 +82,7 @@ public class GameManager : NetworkBehaviour
 
     private void Start()
     {
-        Debug.Log("Spawning game manager");
+        //Debug.Log("Spawning game manager");
         OnGameManagerSpawn?.Invoke();
 
         if (!isServer) { return; }
