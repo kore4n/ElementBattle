@@ -58,8 +58,8 @@ namespace Fragsurf.Movement {
         private Vector3 _angles;
         private Vector3 _startPosition;
         private GameObject _colliderObject;
-        private GameObject _cameraWaterCheckObject;
-        private CameraWaterCheck _cameraWaterCheck;
+        //private GameObject _cameraWaterCheckObject;
+        //private CameraWaterCheck _cameraWaterCheck;
 
         private MoveData _moveData = new MoveData ();
         public SurfController _controller = new SurfController ();
@@ -124,19 +124,19 @@ namespace Fragsurf.Movement {
             _colliderObject.transform.SetSiblingIndex (0);
 
             // Water check
-            _cameraWaterCheckObject = new GameObject ("Camera water check");
-            _cameraWaterCheckObject.layer = gameObject.layer;
-            _cameraWaterCheckObject.transform.position = viewTransform.position;
+            //_cameraWaterCheckObject = new GameObject ("Camera water check");
+            //_cameraWaterCheckObject.layer = gameObject.layer;
+            //_cameraWaterCheckObject.transform.position = viewTransform.position;
 
-            SphereCollider _cameraWaterCheckSphere = _cameraWaterCheckObject.AddComponent<SphereCollider> ();
-            _cameraWaterCheckSphere.radius = 0.1f;
-            _cameraWaterCheckSphere.isTrigger = true;
+            //SphereCollider _cameraWaterCheckSphere = _cameraWaterCheckObject.AddComponent<SphereCollider> ();
+            //_cameraWaterCheckSphere.radius = 0.1f;
+            //_cameraWaterCheckSphere.isTrigger = true;
 
-            Rigidbody _cameraWaterCheckRb = _cameraWaterCheckObject.AddComponent<Rigidbody> ();
-            _cameraWaterCheckRb.useGravity = false;
-            _cameraWaterCheckRb.isKinematic = true;
+            //Rigidbody _cameraWaterCheckRb = _cameraWaterCheckObject.AddComponent<Rigidbody> ();
+            //_cameraWaterCheckRb.useGravity = false;
+            //_cameraWaterCheckRb.isKinematic = true;
 
-            _cameraWaterCheck = _cameraWaterCheckObject.AddComponent<CameraWaterCheck> ();
+            //_cameraWaterCheck = _cameraWaterCheckObject.AddComponent<CameraWaterCheck> ();
 
             prevPosition = transform.position;
 
@@ -248,8 +248,8 @@ namespace Fragsurf.Movement {
 
             }
 
-            _moveData.cameraUnderwater = _cameraWaterCheck.IsUnderwater ();
-            _cameraWaterCheckObject.transform.position = viewTransform.position;
+            //_moveData.cameraUnderwater = _cameraWaterCheck.IsUnderwater ();
+            //_cameraWaterCheckObject.transform.position = viewTransform.position;
             moveData.underwater = underwater;
             
             if (allowCrouch)

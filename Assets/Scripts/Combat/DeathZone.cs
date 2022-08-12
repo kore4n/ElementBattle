@@ -20,6 +20,9 @@ public class DeathZone : MonoBehaviour
 
             Health playerHealth = playerCharacter.GetComponent<Health>();
 
+            NetworkConnectionToClient networkConnectionToClient = playerCharacter.connectionToClient;
+
+
             // Respawn in pregame
             if (!GameManager.singleton.IsGameInProgress())
             {
@@ -27,13 +30,20 @@ public class DeathZone : MonoBehaviour
                 return;
             }
 
+            // Spawn spectator camera then kill 
+            // Don't change order! Or else spectator camera not added to list when player dies
+            // and round may be restarted
+            FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
+
             GameObject spectatorCamera = Instantiate(
-                ((FPSNetworkManager)NetworkManager.singleton).GetSpectatorCamera(),
+                networkManager.GetSpectatorCamera(),
                 playerCamera.transform.position,
                 rotation);
-            NetworkServer.Spawn(spectatorCamera, playerCharacter.connectionToClient);
+            NetworkServer.Spawn(spectatorCamera, networkConnectionToClient);
 
+            networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
             playerHealth.DealDamage(killBoxDamage);
+
         }
     }
 

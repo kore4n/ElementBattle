@@ -35,7 +35,7 @@ public class Health : NetworkBehaviour
         if (connectionToClient.connectionId != connectionId) { return; }
 
         // Destroy all objects owned by the player
-        // If it is us then kill self
+        // If it is us then destroy self
         DealDamage(currentHealth);
     }
 

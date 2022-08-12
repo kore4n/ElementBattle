@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5216421335496952660}
   - component: {fileID: 6992838787843445806}
   m_Layer: 0
-  m_Name: HUDKillfeed
+  m_Name: KillfeedHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

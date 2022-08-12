@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerCharacter : NetworkBehaviour
 {
+    public FPSPlayer FPSOwner;
     // TODO: Make serializefield later
     public string playerCharacterName = "Missing name";
     [SerializeField] private Health health;
@@ -15,10 +16,36 @@ public class PlayerCharacter : NetworkBehaviour
 
     [SyncVar] private Constants.Element element = Constants.Element.Missing;
 
+    public static event Action<PlayerCharacter> ClientOnMyPlayerCharacterSpawned;
+    public static event Action<PlayerCharacter> ClientOnMyPlayerCharacterDespawned;
+
     public static Action<int> ServerOnPlayerCharacterDie;
     public static event Action<PlayerCharacter> ServerOnPlayerCharacterSpawned;
     public static event Action<PlayerCharacter> ServerOnPlayerCharacterDespawned;
 
+    private void Start()
+    {
+        if (!hasAuthority) { return; }
+
+
+        ClientOnMyPlayerCharacterSpawned?.Invoke(this);
+    }
+
+    //public override void OnStopAuthority()
+    //{
+    //    ClientOnMyPlayerCharacterDespawned?.Invoke(this);
+    //}
+
+    public override void OnStopClient()
+    {
+        if (!hasAuthority) { return; }
+
+        ClientOnMyPlayerCharacterDespawned?.Invoke(this);
+
+        //Debug.Log(hasAuthority);
+    }
+
+    #region Getters/Setters
     public Constants.Team GetTeam()
     {
         return team;
@@ -37,6 +64,7 @@ public class PlayerCharacter : NetworkBehaviour
     {
         element = newElement;
     }
+    #endregion
 
     public override void OnStartServer()
     {
@@ -58,16 +86,24 @@ public class PlayerCharacter : NetworkBehaviour
         ServerOnPlayerCharacterDie?.Invoke(connectionToClient.connectionId);    // Destroy all player owned objects with health
 
         // What do we actually want to do when we die
+        FPSPlayer fpsPlayer = connectionToClient.identity.GetComponent<FPSPlayer>();
+        fpsPlayer.SetActivePlayerCharacter(null);   // Helps for logic when respawning (null = no active playerCharacter)
+
+        // We're in midgame
+
+        // So that players are removed from clients
+        // Not sure why this fixes it - maybe because players have authority over themselves
+        netIdentity.serverOnly = true;
+
+        // Destroying player character
+        NetworkServer.Destroy(gameObject);
 
         if (GameManager.singleton.IsGameInProgress()) { return; }
 
-        connectionToClient.identity.GetComponent<FPSPlayer>().SetActivePlayerCharacter(null);
-        connectionToClient.identity.GetComponent<FPSPlayer>().RespawnPlayer();  // If game is not in progress, it's pregame and respawn character
+        // We're in pregame
 
-        // So that players are removed from clients
-        netIdentity.RemoveClientAuthority();
+        // Respawning player character 
+        fpsPlayer.RespawnPlayer();  // If game is not in progress, it's pregame and respawn character
 
-        Debug.Log($"Destroying {gameObject}!");
-        NetworkServer.Destroy(gameObject);
     }
 }

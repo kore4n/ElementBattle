@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 public class FPSNetworkManager : NetworkManager
 {
     public List<FPSPlayer> players = new List<FPSPlayer>();
+    public List<SpectatorCameraController> spectatorCameras = new List<SpectatorCameraController> { };
+
     public List<GameObject> playerCharacterPrefabs;
 
     [SerializeField] private GameManager gameManagerPrefab;
@@ -16,7 +18,6 @@ public class FPSNetworkManager : NetworkManager
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
-
 
     #region GetSets
 
@@ -41,6 +42,7 @@ public class FPSNetworkManager : NetworkManager
         NetworkServer.RegisterHandler<CreateFPSPlayerMessage>(OnCreatePlayer);
     }
 
+    // Called on client join
     private void OnCreatePlayer(NetworkConnectionToClient conn, CreateFPSPlayerMessage message)
     {
         GameObject playerGameobject = Instantiate(playerPrefab);
@@ -72,8 +74,6 @@ public class FPSNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
     }
 
-
-
     #endregion
 
     #region Client
@@ -82,6 +82,7 @@ public class FPSNetworkManager : NetworkManager
     {
         base.OnClientConnect();
 
+        // Create the player
         CreateFPSPlayerMessage createFPSPlayerMessage = new CreateFPSPlayerMessage()
         {
             playerName = SteamClient.Name,

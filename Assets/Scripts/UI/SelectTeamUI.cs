@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,13 +10,19 @@ public class SelectTeamUI : MonoBehaviour
     [SerializeField] private GameObject teamSelectionUI = null;
     [SerializeField] private GameObject elementSelectionUI = null;
 
-    void Start()
+    public static Action MeSelectedTeam;
+
+    private void OnEnable()
     {
         FPSPlayer.OnPlayerSpawn += HandlePlayerSpawn;
+        FPSPlayer.ClientOnMeChooseTeam += ClientHandleMeChooseTeam;
+
     }
-    private void OnDestroy()
+
+    private void OnDisable()
     {
         FPSPlayer.OnPlayerSpawn -= HandlePlayerSpawn;
+        FPSPlayer.ClientOnMeChooseTeam -= ClientHandleMeChooseTeam;
     }
 
     private void HandlePlayerSpawn()
@@ -38,9 +45,26 @@ public class SelectTeamUI : MonoBehaviour
 
     private void MakePlayerTeam(Constants.Team team)
     {
-        elementSelectionUI.SetActive(true);
+        player.CmdSetTeam(team);
+
+        
+
+    }
+
+    private void ClientHandleMeChooseTeam(Constants.Team team)
+    {
         teamSelectionUI.SetActive(false);
 
-        player.CmdSetTeam(team);
+        //Debug.Log("Invoking MeSelectedTeam!");
+        //MeSelectedTeam?.Invoke();
+        //Debug.Log($"ME TEMA IS {team}");
+
+
+        //Debug.Log($"DEFINITELYME TEMA IS {player.GetTeam()}");
+
+        // Player chose spectator
+        if (team == Constants.Team.Spectator) { return; }
+
+        elementSelectionUI.SetActive(true);
     }
 }

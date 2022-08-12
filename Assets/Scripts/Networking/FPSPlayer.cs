@@ -8,27 +8,32 @@ using UnityEngine;
 
 public class FPSPlayer : NetworkBehaviour
 {
-    [SerializeField] private GameObject activePlayerCharacter;
+    [SyncVar]
+    [SerializeField]
+    private GameObject activePlayerCharacter;
 
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     public string playerName;
 
+    // TODO: Make this private
     [SyncVar(hook = nameof(ClientHandlePlayerElementUpdated))]
     public Constants.Element playerElement = Constants.Element.Missing;
 
+    // TODO: Make this private
     [SyncVar(hook = nameof(ClientHandlePlayerTeamUpdated))]
     public Constants.Team playerTeam = Constants.Team.Missing;
 
     [SyncVar(hook = nameof(ClientHandlePlayerReadyUpdated))]
-    public bool readiedUp = false;  // Remove Public later
+    private bool readiedUp = false; // Logic not taken into account for spectators for game start so dont worry about it
 
-    //Remove later
-    //[SyncVar(hook = nameof(ClientHandlePlayerSpriteUpdated))]
-    //[SyncVar]
     public Sprite elementSprite = null;
 
     public static Action OnPlayerSpawn;
-    public static event Action ClientOnInfoUpdated;
+    public static event Action ClientOnInfoUpdated; // Used for everything
+    public static event Action ClientOnChooseTeam;  
+    public static event Action ClientOnMeChooseElement;   // When "this player" chooses an element
+    public static event Action<Constants.Team> ClientOnMeChooseTeam;  // When anyone has chosen an element
+    public static event Action ClientOnAnyoneChooseElement;  // When anyone has chosen an element
 
     [SerializeField] private Sprite[] elementSprites = new Sprite[4];
     [SerializeField] AbilitySet[] abilitySets = new AbilitySet[4];
@@ -36,7 +41,6 @@ public class FPSPlayer : NetworkBehaviour
     #region Subscribe/Unsubscribe
     private void OnEnable()
     {
-        Debug.Log("Player has joined!");
     }
 
     private void OnDisable()
@@ -45,6 +49,16 @@ public class FPSPlayer : NetworkBehaviour
     #endregion
 
     #region Getters/Setters
+
+    public PlayerCharacter GetActivePlayerCharacter()
+    {
+        return activePlayerCharacter.GetComponent<PlayerCharacter>();
+    }
+
+    public Constants.Element GetElement()
+    {
+        return playerElement;
+    }
 
     [Server]
     public void SetDisplayName(string newName)
@@ -56,6 +70,19 @@ public class FPSPlayer : NetworkBehaviour
     public void SetTeam(Constants.Team team)
     {
         playerTeam = team;
+        if (team != Constants.Team.Spectator) { return; }
+
+        FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
+        GameManager gameManager = GameManager.singleton;
+
+        // Make spectator camera
+        GameObject spectatorCamera = Instantiate(
+                networkManager.GetSpectatorCamera(),
+                gameManager.GetSpectatorSpawn().position,
+                Quaternion.identity);
+        NetworkServer.Spawn(spectatorCamera, connectionToClient);
+
+        networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
     }
 
     [Server]
@@ -64,16 +91,17 @@ public class FPSPlayer : NetworkBehaviour
         readiedUp = newReadyState; 
     }
 
-
     [Command]
     public void CmdSetReadiedUp(bool newReadyState)
     {
         SetReady(newReadyState);
     }
 
-    public FPSPlayer GetActivePlayerCharacter()
+    public bool HasActivePlayerCharacter()
     {
-        return activePlayerCharacter.GetComponent<FPSPlayer>();
+        if (activePlayerCharacter != null) { return true; }
+
+        return false;
     }
 
     public void SetActivePlayerCharacter(GameObject newActivePlayerCharacter)
@@ -96,6 +124,8 @@ public class FPSPlayer : NetworkBehaviour
     public void CmdSetTeam(Constants.Team team)
     {
         SetTeam(team);
+
+        TargetClientTeamAvailable(team);
     }
 
     public Sprite GetElementSprite()
@@ -113,8 +143,38 @@ public class FPSPlayer : NetworkBehaviour
     #region Server
 
     [Command]
-    public void CmdCreatePlayerCharacter(PlayerInfo playerInfo)
+    public void CmdChooseElement(PlayerInfo playerInfo)
     {
+        FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
+
+        // Check if anyone on same team is the same element
+        foreach (FPSPlayer player in networkManager.players)
+        {
+            if (player.GetTeam() != playerTeam) { continue; }
+
+            if (player.playerElement == playerInfo.element) { return; }
+        }
+
+        // Element is open
+        TargetClientElementAvailable();    // Tell user to close menu
+
+        GameManager gameManager = GameManager.singleton;
+
+        // If game in progress create spectator camera
+        if (gameManager.IsGameInProgress())
+        {
+            GameObject spectatorCamera = Instantiate(
+                networkManager.GetSpectatorCamera(),
+                gameManager.GetSpectatorSpawn().position,
+                Quaternion.identity);
+            NetworkServer.Spawn(spectatorCamera, connectionToClient);
+
+            networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
+            return; 
+        }
+
+        // Only create player if in pregame
+
         CreatePlayerCharacter(playerInfo);
     }
 
@@ -147,32 +207,51 @@ public class FPSPlayer : NetworkBehaviour
                 break;
         }
 
+        //playerElement = playerInfo.element;
+        //Debug.Log($"Active player element is now {playerInfo.element}. Checking... is actually {playerElement}");
+        //GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
+
+        //// TODO: Line doesn't work. Want player to spawn facing correct side.
+        //myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
+
+        //activePlayerCharacter = myPlayer;
+        //Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
+
+        //PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
+        //playerCharacter.playerCharacterName = playerName;
+        //playerCharacter.SetTeam(playerTeam);
+        //playerCharacter.SetElement(playerElement);
+
+        //myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
+        //NetworkServer.Spawn(myPlayer, connectionToClient);
+
+
+
+
+
         playerElement = playerInfo.element;
+        //Debug.Log($"Active player element is now {playerInfo.element}. Checking... is actually {playerElement}");
         GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
+
+        NetworkServer.Spawn(myPlayer, connectionToClient);
+
+        activePlayerCharacter = myPlayer;   // Must spawn on server to have network identity to use as syncvar
+        Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
 
         // TODO: Line doesn't work. Want player to spawn facing correct side.
         myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
-
-        activePlayerCharacter = myPlayer;
 
         PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
         playerCharacter.playerCharacterName = playerName;
         playerCharacter.SetTeam(playerTeam);
         playerCharacter.SetElement(playerElement);
 
-        NetworkServer.Spawn(myPlayer, connectionToClient);
+        myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
     }
 
     [Server]
     public void RespawnPlayer()
     {
-        //if (activePlayerCharacter != playerCharacter) { return; }
-
-        // If it is us
-        if (GameManager.singleton.IsGameInProgress()) { return; }
-
-        // If game not in progress, it's pregame and respawn character
-
         PlayerInfo playerInfo = new PlayerInfo
         { 
             element = playerElement,
@@ -194,10 +273,24 @@ public class FPSPlayer : NetworkBehaviour
     {
         if (!hasAuthority) { return; }
 
+        if (playerTeam != Constants.Team.Red && playerTeam != Constants.Team.Blue) { return; }
+
         if (Input.GetKeyDown(KeyCode.F4))
         {
             CmdSetReadiedUp(!readiedUp);
         }
+    }
+
+    [TargetRpc]
+    private void TargetClientElementAvailable()
+    {
+        ClientOnMeChooseElement?.Invoke();
+    }
+    
+    [TargetRpc]
+    private void TargetClientTeamAvailable(Constants.Team team)
+    {
+        ClientOnMeChooseTeam?.Invoke(team);
     }
 
     public override void OnStartClient()
@@ -218,7 +311,7 @@ public class FPSPlayer : NetworkBehaviour
 
         ((FPSNetworkManager)NetworkManager.singleton).players.Remove(this); // Let all clients remove player list
 
-        if (!hasAuthority) { return; }
+        if (!hasAuthority) { return; }  // TODO: Find out why this line is here
     }
 
     private void ClientHandleDisplayNameUpdated(string oldName, string newName)
@@ -230,6 +323,7 @@ public class FPSPlayer : NetworkBehaviour
     {
         elementSprite = elementSprites[(int)playerElement];
 
+        ClientOnAnyoneChooseElement?.Invoke();
         ClientOnInfoUpdated?.Invoke();
     }
 
@@ -241,6 +335,7 @@ public class FPSPlayer : NetworkBehaviour
     private void ClientHandlePlayerTeamUpdated(Constants.Team oldTeam, Constants.Team newTeam)
     {
         ClientOnInfoUpdated?.Invoke();
+        //ClientOnChooseTeam?.Invoke();
     }
 
     private void ClientHandlePlayerReadyUpdated(bool oldReadyState, bool newReadyState)

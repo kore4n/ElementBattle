@@ -14,6 +14,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject settingsPanel = null;
     [SerializeField] private GameObject creditsPanel = null;
 
+    public void ButtonHostSinglePlayer()
+    {
+        NetworkManager.singleton.maxConnections = 0;
+        NetworkManager.singleton.StartHost();
+    }
 
     public void ButtonHost()
     {
