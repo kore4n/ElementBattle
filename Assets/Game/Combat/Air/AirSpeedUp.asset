@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1942e7e94e7b7b348994d3c0a12c500e, type: 3}
-  m_Name: EarthWallBlock
+  m_Script: {fileID: 11500000, guid: b5302fefd48e70b4da195f3c3cf2dd26, type: 3}
+  m_Name: AirSpeedUp
   m_EditorClassIdentifier: 
   hasPreviewPhase: 0
-  abilityName: EarthWallBlock
-  staminaCost: 1
-  structurePrefab: {fileID: 6876013503317707046, guid: d65ab48ce8181e943a90dbf857a43e13,
-    type: 3}
-  maxStructureInstances: 2
+  abilityName: Speed Up
+  staminaCost: 0
+  maxSpeed: 12
+  speedChangeDuration: 3

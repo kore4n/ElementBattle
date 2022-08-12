@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1942e7e94e7b7b348994d3c0a12c500e, type: 3}
-  m_Name: EarthWallBlock
+  m_Script: {fileID: 11500000, guid: cb2b44ef34a5d27409f07a5fe320da90, type: 3}
+  m_Name: AirBlastAbility
   m_EditorClassIdentifier: 
   hasPreviewPhase: 0
-  abilityName: EarthWallBlock
-  staminaCost: 1
-  structurePrefab: {fileID: 6876013503317707046, guid: d65ab48ce8181e943a90dbf857a43e13,
+  abilityName: Air Blast
+  staminaCost: 0
+  lifetime: 4
+  objectPrefab: {fileID: 3586517048943012020, guid: 3bc470bb046190140845467e0f54480e,
     type: 3}
-  maxStructureInstances: 2

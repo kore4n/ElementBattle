@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Structure : NetworkBehaviour
 {
-    [SerializeField] float duration;
-    [SerializeField] float moveForce;
-    [SerializeField] Vector3 forceDirection;
+    [HideInInspector] public float moveForce;
+    [HideInInspector] public Vector3 forceDirection;
+    [HideInInspector] public bool canMove = false;
+    [HideInInspector] public int damage;
+    [HideInInspector] public float knockbackForce;
+    [HideInInspector] public bool isBlockable = true;
+
+    [SerializeField] float lifetime;
     [SerializeField] Rigidbody rb;
     [SerializeField] Vector3 spawnOffset = Vector3.zero;
     [SerializeField] float spawnTime = 0.2f;
@@ -21,10 +27,10 @@ public class Structure : NetworkBehaviour
             StartCoroutine(MoveOverTime(transform.position, finalPos, spawnTime));
         }
 
-        if (duration > 0) Invoke(nameof(DestroySelf), duration);
+        if (lifetime > 0) Invoke(nameof(DestroySelf), lifetime);
 
-        if (rb == null) return;
-        rb.AddForce(moveForce * forceDirection);
+        if (!canMove || spawnOffset != Vector3.zero) return;
+        rb.velocity = transform.localToWorldMatrix * forceDirection * moveForce;
     }
     IEnumerator MoveOverTime(Vector3 originalLocation, Vector3 finalLocation, float time)
     {
@@ -36,6 +42,25 @@ public class Structure : NetworkBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         } while (currentTime <= time);
+
+        if (canMove)
+        {
+            rb.velocity = (transform.localToWorldMatrix * forceDirection).normalized * moveForce;
+        }
+    }
+
+    [ServerCallback]
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!canMove) return;
+        if (!isBlockable && other.TryGetComponent(out Structure structure))
+        {
+            structure.DestroySelf();
+            return;
+        }
+        if (!TryGetComponent(out Health health)) return;
+
+        health.DealDamage(damage);
     }
 
     [Server]

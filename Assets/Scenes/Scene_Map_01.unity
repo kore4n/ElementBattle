@@ -854,6 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbacfb0da3d6ed94d937f6d0e523b6f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killBoxDamage: 9999
 --- !u!65 &1005234377
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1705,7 +1706,7 @@ GameObject:
   - component: {fileID: 2144260931}
   - component: {fileID: 2144260930}
   - component: {fileID: 2144260929}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: ArenaDivider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5352ad63fc21f3243a54f0beb3a89949, type: 3}
-  m_Name: EarthSpecial
+  m_Name: AirSpecial
   m_EditorClassIdentifier: 
   hasPreviewPhase: 0
-  abilityName: EarthSpecial
+  abilityName: Air Special
   staminaCost: 2
-  normalAbility: {fileID: 11400000, guid: d07c0301bc0610c45b66d0f5f0b67eb7, type: 2}
-  crouchedAbility: {fileID: 11400000, guid: 74665ce0d1f0da548acfcbd9f0eea026, type: 2}
+  normalAbility: {fileID: 11400000, guid: a532f05b0716b9b4183a3f5b41bcf3bd, type: 2}
+  crouchedAbility: {fileID: 11400000, guid: 31f963d3b2dd34840a1098cadd4ffb49, type: 2}

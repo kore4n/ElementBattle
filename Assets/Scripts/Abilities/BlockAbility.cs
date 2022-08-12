@@ -19,10 +19,5 @@ namespace Game.Abilities
         {
             spawner.Spawn();
         }
-
-        public override void TriggerAbilityPreview()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
