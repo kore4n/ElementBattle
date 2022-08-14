@@ -10,11 +10,11 @@ namespace Game.Abilities
         public GameObject structurePrefab;
         public int maxStructureInstances = 1;
 
-        private StructureSpawnTriggerable spawner;
-        private int structurePrefabId;
-        private List<Structure> structureInstanceList;
+        protected StructureSpawnTriggerable spawner;
+        protected int structurePrefabId;
+        protected List<Structure> structureInstanceList;
 
-        private static Dictionary<int, List<Structure>> structureInstanceMap = new();
+        protected static Dictionary<int, List<Structure>> structureInstanceMap = new();
 
         public override void Initialize(GameObject obj)
         {

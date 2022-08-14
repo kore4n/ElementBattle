@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: LaunchProjectile
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Input","label":null,"summary":null,"hideLabel":true}],"controlOutputDefinitions":[{"key":"Output","label":null,"summary":null,"hideLabel":true}],"valueInputDefinitions":[{"hasDefaultValue":false,"defaultValue":null,"_type":"UnityEngine.GameObject","key":"projectilePrefab","label":null,"summary":null,"hideLabel":false}],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":0.0,"y":0.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-462.0,"y":-38.0},"guid":"765a0a5f-702f-4bcb-88b8-ed5834885083","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":158.0,"y":-29.0},"guid":"a6b9344a-87a0-4ce9-a100-c0ddcc575f55","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"chainable":false,"member":{"name":"LaunchProjectile","parameterTypes":["UnityEngine.GameObject"],"targetType":"Fighter","targetTypeName":"Fighter","$version":"A"},"defaultValues":{"target":null,"%projectilePrefab":{"$content":0,"$type":"UnityEngine.Object"}},"position":{"x":-171.0,"y":-36.0},"guid":"cbaa8ec2-8229-4b7b-97b9-5ecedbb88760","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"16"},{"member":{"name":"Fighter","parameterTypes":null,"targetType":"AbilityBehaviour","targetTypeName":"AbilityBehaviour","$version":"A"},"defaultValues":{"target":null},"position":{"x":-428.0,"y":146.0},"guid":"04b06ade-4152-4cef-a471-89acc3e0caf4","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"19"},{"sourceUnit":{"$ref":"16"},"sourceKey":"exit","destinationUnit":{"$ref":"14"},"destinationKey":"Output","guid":"652c43c8-f57e-42c9-a706-43999a29c759","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Input","destinationUnit":{"$ref":"16"},"destinationKey":"enter","guid":"9cf6b6d7-15f0-48c1-a0fd-6ab4c02c4044","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"value","destinationUnit":{"$ref":"16"},"destinationKey":"target","guid":"d75c90b3-f3df-4bb1-a656-a150bbd6308f","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"projectilePrefab","destinationUnit":{"$ref":"16"},"destinationKey":"%projectilePrefab","guid":"c1c936e4-4455-4892-99c2-a54a05484188","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences:
+    - {fileID: 1153311218007518878, guid: fb190f10c1f3a37469312daf8a91010b, type: 3}

@@ -2916,7 +2916,7 @@ GameObject:
   - component: {fileID: 2144260931}
   - component: {fileID: 2144260930}
   - component: {fileID: 2144260929}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: ArenaDivider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
