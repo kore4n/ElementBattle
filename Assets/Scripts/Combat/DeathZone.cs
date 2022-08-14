@@ -30,18 +30,10 @@ public class DeathZone : MonoBehaviour
                 return;
             }
 
-            // Spawn spectator camera then kill 
-            // Don't change order! Or else spectator camera not added to list when player dies
-            // and round may be restarted
             FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
 
-            GameObject spectatorCamera = Instantiate(
-                networkManager.GetSpectatorCamera(),
-                playerCamera.transform.position,
-                rotation);
-            NetworkServer.Spawn(spectatorCamera, networkConnectionToClient);
+            networkManager.SpawnSpectatorCamera(playerCamera.transform.position, rotation, networkConnectionToClient);
 
-            networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
             playerHealth.DealDamage(killBoxDamage);
 
         }

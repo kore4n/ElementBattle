@@ -279,8 +279,17 @@ namespace Fragsurf.Movement {
         }
 
         private void UpdateMoveData () {
-            
+            // Added by J, disallow moving while in pause menu
+            if (PauseMenu.IsInPauseMenu)
+            {
+                _moveData.verticalAxis = 0f;
+                _moveData.horizontalAxis = 0f;
+                _moveData.sprinting = false;
+                _moveData.crouching = false;
+                _moveData.wishJump = false;
 
+                return; 
+            }
             _moveData.verticalAxis = Input.GetAxisRaw ("Vertical");
             _moveData.horizontalAxis = Input.GetAxisRaw ("Horizontal");
 

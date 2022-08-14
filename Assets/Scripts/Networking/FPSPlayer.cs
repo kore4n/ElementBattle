@@ -8,9 +8,12 @@ using UnityEngine;
 
 public class FPSPlayer : NetworkBehaviour
 {
-    [SyncVar]
+    //[SyncVar]
     [SerializeField]
     private GameObject activePlayerCharacter;
+
+    [SerializeField]
+    private GameObject activeSpectatorCamera;
 
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     public string playerName;
@@ -30,7 +33,6 @@ public class FPSPlayer : NetworkBehaviour
 
     public static Action OnPlayerSpawn;
     public static event Action ClientOnInfoUpdated; // Used for everything
-    public static event Action ClientOnChooseTeam;  
     public static event Action ClientOnMeChooseElement;   // When "this player" chooses an element
     public static event Action<Constants.Team> ClientOnMeChooseTeam;  // When anyone has chosen an element
     public static event Action ClientOnAnyoneChooseElement;  // When anyone has chosen an element
@@ -49,6 +51,16 @@ public class FPSPlayer : NetworkBehaviour
     #endregion
 
     #region Getters/Setters
+
+    public SpectatorCameraController GetActiveSpectatorCamera()
+    {
+        return activeSpectatorCamera.GetComponent<SpectatorCameraController>();
+    }
+
+    public void SetActiveSpectatorCamera(GameObject activeSpecCamera)
+    {
+        activeSpectatorCamera = activeSpecCamera;
+    }
 
     public PlayerCharacter GetActivePlayerCharacter()
     {
@@ -69,20 +81,33 @@ public class FPSPlayer : NetworkBehaviour
     [Server]
     public void SetTeam(Constants.Team team)
     {
-        playerTeam = team;
-        if (team != Constants.Team.Spectator) { return; }
+        // TODO: Maybe add a limit to how many can be on a team
+        if (team == playerTeam) { return; }
 
-        FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
-        GameManager gameManager = GameManager.singleton;
+        playerTeam = team;  // Assign correct team first so spawn on right side
 
-        // Make spectator camera
-        GameObject spectatorCamera = Instantiate(
-                networkManager.GetSpectatorCamera(),
-                gameManager.GetSpectatorSpawn().position,
-                Quaternion.identity);
-        NetworkServer.Spawn(spectatorCamera, connectionToClient);
+        if (activeSpectatorCamera != null)
+        {
+            NetworkServer.Destroy(activeSpectatorCamera);
+            activeSpectatorCamera = null;
 
-        networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
+            // Turn on main camera on client
+            TargetClientTurnOnCamera();
+        }
+
+        if (team == Constants.Team.Spectator)
+        {
+            FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
+            GameManager gameManager = GameManager.singleton;
+
+            networkManager.SpawnSpectatorCamera(gameManager.GetSpectatorSpawn().position, Quaternion.identity, connectionToClient);
+        }
+
+        // Not on same team, instantly kill player and switch teams
+        if (activePlayerCharacter != null)
+        {
+            activePlayerCharacter.GetComponent<Health>().DealDamage(9999); 
+        }
     }
 
     [Server]
@@ -100,6 +125,13 @@ public class FPSPlayer : NetworkBehaviour
     public bool HasActivePlayerCharacter()
     {
         if (activePlayerCharacter != null) { return true; }
+
+        return false;
+    }
+
+    public bool HasActiveSpecCamera()
+    {
+        if (activeSpectatorCamera != null) { return true; }
 
         return false;
     }
@@ -145,6 +177,10 @@ public class FPSPlayer : NetworkBehaviour
     [Command]
     public void CmdChooseElement(PlayerInfo playerInfo)
     {
+        GameManager gameManager = GameManager.singleton;
+
+        if (playerTeam == Constants.Team.Spectator || playerTeam == Constants.Team.Missing) { return; } // Shouldnt be able to run this anyway but just to make sure
+
         FPSNetworkManager networkManager = (FPSNetworkManager)NetworkManager.singleton;
 
         // Check if anyone on same team is the same element
@@ -152,37 +188,57 @@ public class FPSPlayer : NetworkBehaviour
         {
             if (player.GetTeam() != playerTeam) { continue; }
 
-            if (player.playerElement == playerInfo.element) { return; }
+            if (player.playerElement == playerInfo.element)
+            {
+                // If not me, dont allow to choose
+                if (player != this) { return; }
+
+                // Otherwise I am already in the game but choose element again. Change nothing.
+            }
         }
 
+        //Debug.Log(activePlayerCharacter);
+
         // Element is open
-        TargetClientElementAvailable();    // Tell user to close menu
+        TargetClientElementAvailable();    // Tell user to close menu. Do this after player spawn so player aiming can receive rpc
 
-        GameManager gameManager = GameManager.singleton;
-
+        playerElement = playerInfo.element; // Make the player this class on next round spawn
         // If game in progress create spectator camera
         if (gameManager.IsGameInProgress())
         {
-            GameObject spectatorCamera = Instantiate(
-                networkManager.GetSpectatorCamera(),
-                gameManager.GetSpectatorSpawn().position,
-                Quaternion.identity);
-            NetworkServer.Spawn(spectatorCamera, connectionToClient);
+            Debug.Log($"Player element is now {playerElement}");
+            if (activePlayerCharacter == null)
+            {
+                // You're not in the game yet when request a class - spectate!
 
-            networkManager.spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
-            return; 
+                networkManager.SpawnSpectatorCamera(gameManager.GetSpectatorSpawn().position, Quaternion.identity, connectionToClient);
+            }
+            else
+            {
+                // Player is already alive, no need to put anything here
+            }
+        }
+        else
+        {
+            // Pregame!
+            // Kill player and switch immediately
+            // TODO: Modify later when implementing damage sum maybe remove health 
+            if (activePlayerCharacter != null) { activePlayerCharacter.GetComponent<Health>().DealDamage(9999); }
+
+            CreatePlayerCharacter(playerInfo);
         }
 
-        // Only create player if in pregame
-
-        CreatePlayerCharacter(playerInfo);
+        //// Element is open
+        //TargetClientElementAvailable();    // Tell user to close menu. Do this after player spawn so player aiming can receive rpc
     }
 
     [Server]
     private void CreatePlayerCharacter(PlayerInfo playerInfo)
     {
+        //Debug.Log(activePlayerCharacter);
         if (activePlayerCharacter != null) { return; }
 
+        //Debug.Log("Creating player character!");
         Vector3 spawnLocation = Vector3.zero;
         Quaternion spawnRotation = Quaternion.identity;
 
@@ -207,46 +263,23 @@ public class FPSPlayer : NetworkBehaviour
                 break;
         }
 
-        //playerElement = playerInfo.element;
-        //Debug.Log($"Active player element is now {playerInfo.element}. Checking... is actually {playerElement}");
-        //GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
-
-        //// TODO: Line doesn't work. Want player to spawn facing correct side.
-        //myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
-
-        //activePlayerCharacter = myPlayer;
-        //Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
-
-        //PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
-        //playerCharacter.playerCharacterName = playerName;
-        //playerCharacter.SetTeam(playerTeam);
-        //playerCharacter.SetElement(playerElement);
-
-        //myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
-        //NetworkServer.Spawn(myPlayer, connectionToClient);
-
-
-
-
-
         playerElement = playerInfo.element;
         //Debug.Log($"Active player element is now {playerInfo.element}. Checking... is actually {playerElement}");
         GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
 
-        NetworkServer.Spawn(myPlayer, connectionToClient);
-
-        activePlayerCharacter = myPlayer;   // Must spawn on server to have network identity to use as syncvar
-        Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
-
         // TODO: Line doesn't work. Want player to spawn facing correct side.
         myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
+
+        activePlayerCharacter = myPlayer;
+        //Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
 
         PlayerCharacter playerCharacter = activePlayerCharacter.GetComponent<PlayerCharacter>();
         playerCharacter.playerCharacterName = playerName;
         playerCharacter.SetTeam(playerTeam);
         playerCharacter.SetElement(playerElement);
 
-        myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
+        //myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
+        NetworkServer.Spawn(myPlayer, connectionToClient);
     }
 
     [Server]
@@ -284,6 +317,7 @@ public class FPSPlayer : NetworkBehaviour
     [TargetRpc]
     private void TargetClientElementAvailable()
     {
+        //Debug.Log("Choosing element!");
         ClientOnMeChooseElement?.Invoke();
     }
     
@@ -291,6 +325,16 @@ public class FPSPlayer : NetworkBehaviour
     private void TargetClientTeamAvailable(Constants.Team team)
     {
         ClientOnMeChooseTeam?.Invoke(team);
+    }
+
+    [TargetRpc]
+    private void TargetClientTurnOnCamera()
+    {
+        GameObject mainCam = GameObject.FindGameObjectWithTag("MainCamera");
+
+        mainCam.GetComponent<Camera>().enabled = true;
+
+        //Debug.Log(Camera.main);
     }
 
     public override void OnStartClient()

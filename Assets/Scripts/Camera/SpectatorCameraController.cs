@@ -5,8 +5,20 @@ using UnityEngine;
 
 public class SpectatorCameraController : NetworkBehaviour
 {
+    // TODO: Make this static and alter in settings
     private float mouseSensitivity = 1f;
     private Vector2 turn;
+
+    //private void OnEnable()
+    //{
+    //    PauseMenu.ClientStartPause += ClientHandleStartPause;
+    //    PauseMenu.ClientEndPause += ClientHandleEndPause;
+    //}
+    //private void Start()
+    //{
+    //    PauseMenu.ClientStartPause -= ClientHandleStartPause;
+    //    PauseMenu.ClientEndPause -= ClientHandleEndPause;
+    //}
 
     public override void OnStartClient()
     {
@@ -14,14 +26,18 @@ public class SpectatorCameraController : NetworkBehaviour
         {
             gameObject.GetComponent<Camera>().enabled = false;
             gameObject.GetComponent<AudioListener>().enabled = false;
-        }
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            //Debug.Log("Locking camera!");
+        }
 
         if (NetworkServer.active) { return; }   // If running on server as well - stop
 
-        Debug.Log("Adding to spectator cameras!");
         ((FPSNetworkManager)NetworkManager.singleton).spectatorCameras.Add(this);
     }
 
@@ -34,8 +50,25 @@ public class SpectatorCameraController : NetworkBehaviour
         if (!hasAuthority) { return; }
     }
 
+    //private void ClientHandleStartPause()
+    //{
+    //    ChangeActiveState(false);
+    //}
+
+    //private void ClientHandleEndPause()
+    //{
+    //    ChangeActiveState(true);
+    //}
+
+    //private void ChangeActiveState()
+    //{
+
+    //}
+
     void FixedUpdate()
     {
+        if (PauseMenu.IsInPauseMenu) { return; }
+
         float moveSpeedConstant = Time.deltaTime * 30f;
 
         float keyboardX = Input.GetAxisRaw("Horizontal") * moveSpeedConstant;

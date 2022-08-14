@@ -1,13 +1,16 @@
 using Mirror;
+using System;
 using TMPro;
 using UnityEngine;
 
-public class PlayerSelectElementCanvas : MonoBehaviour
+public class SelectElementUI : MonoBehaviour
 {
     private FPSPlayer localPlayer;
     [SerializeField] private GameObject elementSelectionParent;
 
     [SerializeField] private TextMeshProUGUI[] availableElementText = new TextMeshProUGUI[Constants.numberOfElements];
+
+    public static Action ClientCloseSelectElementUI;
 
     private void OnEnable()
     {
@@ -15,7 +18,6 @@ public class PlayerSelectElementCanvas : MonoBehaviour
         FPSPlayer.ClientOnMeChooseElement += ClientHandleMeChooseElement;
         FPSPlayer.ClientOnAnyoneChooseElement += UpdateAnyoneChooseElement;
         SelectTeamUI.MeSelectedTeam += UpdateAnyoneChooseElement;
-        //FPSPlayer.ClientOnMeChooseTeam += UpdateAnyoneChooseElement;
         FPSPlayer.ClientOnMeChooseTeam += ClientHandleMeChooseTeam;
     }
 
@@ -25,7 +27,6 @@ public class PlayerSelectElementCanvas : MonoBehaviour
         FPSPlayer.ClientOnMeChooseElement -= ClientHandleMeChooseElement;
         FPSPlayer.ClientOnAnyoneChooseElement -= UpdateAnyoneChooseElement;
         SelectTeamUI.MeSelectedTeam -= UpdateAnyoneChooseElement;
-        //FPSPlayer.ClientOnMeChooseTeam -= UpdateAnyoneChooseElement;
     }
 
     // Shouldn't have to do this but I do.
@@ -43,15 +44,19 @@ public class PlayerSelectElementCanvas : MonoBehaviour
         };
 
         localPlayer.CmdChooseElement(playerInfo);
-
     }
 
     [Client]
     private void ClientHandleMeChooseElement()
     {
         elementSelectionParent.SetActive(false);
+        PauseMenu.IsInPauseMenu = false;
+        //Debug.Log("Disabling pause!");
+        ClientCloseSelectElementUI?.Invoke();
 
-        Camera.main.gameObject.SetActive(false);
+        if (Camera.main == null) { return; }
+        if (Camera.main.GetComponent<AudioListener>() != null) { Camera.main.GetComponent<AudioListener>().enabled = false; }
+        if (Camera.main != null) { Camera.main.gameObject.GetComponent<Camera>().enabled = false; }
     }
 
     [Client]

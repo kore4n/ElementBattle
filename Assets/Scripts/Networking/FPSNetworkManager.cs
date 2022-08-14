@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
-using TMPro;
 using Steamworks;
 using UnityEngine.SceneManagement;
 
@@ -68,10 +67,26 @@ public class FPSNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         FPSPlayer player = conn.identity.GetComponent<FPSPlayer>();
+        SpectatorCameraController specPlayer = conn.identity.GetComponent<FPSPlayer>().GetActiveSpectatorCamera();
+        spectatorCameras.Remove(specPlayer);
 
         players.Remove(player);
 
         base.OnServerDisconnect(conn);
+    }
+
+    public void SpawnSpectatorCamera(Vector3 spawnPosition, Quaternion spawnRotation, NetworkConnectionToClient networkConnectionToClient)
+    {
+        GameObject spectatorCamera = Instantiate(
+                spectatorCameraPrefab,
+                spawnPosition,
+                spawnRotation);
+        NetworkServer.Spawn(spectatorCamera, networkConnectionToClient);
+
+        spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
+
+        FPSPlayer player = networkConnectionToClient.identity.GetComponent<FPSPlayer>();
+        player.SetActiveSpectatorCamera(spectatorCamera);
     }
 
     #endregion

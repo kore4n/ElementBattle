@@ -52,7 +52,7 @@ namespace Game.UI
                     playerTeamImage.color = Constants.blueTeamColor;
                     break;
                 case (Constants.Team.Spectator):
-                    Debug.Log("An error has occurred.");
+                    //Debug.Log("An error has occurred.");
                     break;
                 case (Constants.Team.Missing):
                     Debug.Log("An error has occurred.");
