@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Health : NetworkBehaviour
 {
+    // TODO: Modify later when implementing damage sum maybe remove health component script completely
+
     [SerializeField] private int maxHealth = 100;
 
     [SyncVar(hook = nameof(HandleHealthUpdated))]

@@ -30,13 +30,6 @@ public class PlayerAiming : MonoBehaviour
 	[HideInInspector]
 	public Vector2 punchAngleVel;
 
-	private void Start()
-	{
-		// Lock the mouse
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible   = false;
-	}
-
 	private void Update()
 	{
 		// Fix pausing

@@ -6,15 +6,18 @@ using UnityEngine;
 
 public class PlayerCharacter : NetworkBehaviour
 {
-    public FPSPlayer FPSOwner;
+    //public FPSPlayer FPSOwner;
     // TODO: Make serializefield later
     public string playerCharacterName = "Missing name";
     [SerializeField] private Health health;
 
     [SyncVar] 
+    [SerializeField]    // TODO: Remove later
     private Constants.Team team = Constants.Team.Missing;
 
-    [SyncVar] private Constants.Element element = Constants.Element.Missing;
+    [SyncVar] 
+    [SerializeField]    // TODO: Remove later
+    private Constants.Element element = Constants.Element.Missing;
 
     public static event Action<PlayerCharacter> ClientOnMyPlayerCharacterSpawned;
     public static event Action<PlayerCharacter> ClientOnMyPlayerCharacterDespawned;
@@ -23,12 +26,33 @@ public class PlayerCharacter : NetworkBehaviour
     public static event Action<PlayerCharacter> ServerOnPlayerCharacterSpawned;
     public static event Action<PlayerCharacter> ServerOnPlayerCharacterDespawned;
 
+    private void OnEnable()
+    {
+        PauseMenu.ClientStartPause += ClientHandleStartPause;
+        PauseMenu.ClientEndPause += ClientHandleEndPause;
+        SelectElementUI.ClientCloseSelectElementUI += ClientHandleEndPause;
+    }
+    private void OnDisable()
+    {
+        PauseMenu.ClientStartPause -= ClientHandleStartPause;
+        PauseMenu.ClientEndPause -= ClientHandleEndPause;
+        SelectElementUI.ClientCloseSelectElementUI -= ClientHandleEndPause;
+    }
+
     private void Start()
     {
         if (!hasAuthority) { return; }
 
 
         ClientOnMyPlayerCharacterSpawned?.Invoke(this);
+
+        if (!PauseMenu.IsInPauseMenu)
+        {
+            ClientHandleEndPause();
+            return; 
+        }
+
+        ClientHandleStartPause();
     }
 
     //public override void OnStopAuthority()
@@ -102,8 +126,57 @@ public class PlayerCharacter : NetworkBehaviour
 
         // We're in pregame
 
+        // If not becoming spectator, then respawn player
+        //Debug.Log(fpsPlayer.HasActiveSpecCamera());
+
+        if (fpsPlayer.HasActiveSpecCamera()) { return; }
+
         // Respawning player character 
         fpsPlayer.RespawnPlayer();  // If game is not in progress, it's pregame and respawn character
+
+    }
+
+    [Client]
+    private void ClientHandleStartPause()
+    {
+        ChangeActiveState(false);
+    }
+
+    [Client]
+    private void ClientHandleEndPause()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        //Debug.Log("Ending pause!");
+        ChangeActiveState(true);
+    }
+
+    private void ChangeActiveState(bool newState)
+    {
+        if (!hasAuthority) { return; }  // Only disable for local player
+
+        // Movement disabled in SurfCharacter script due to limitations
+
+        PlayerAiming playerAiming = GetComponentInChildren<PlayerAiming>();
+        ArmSway itemSway = GetComponentInChildren<ArmSway>();
+        ItemBob itemBob = GetComponentInChildren<ItemBob>();
+
+
+        // Check because player might be dead
+
+        if (playerAiming != null) { playerAiming.enabled = newState; }
+        if (itemSway != null) { itemSway.enabled = newState; }
+        if (itemBob != null) { itemBob.enabled = newState; }
+
+
+        var animators = GetComponentsInChildren<Animator>();
+
+        foreach (Animator animator in animators)
+        {
+            animator.enabled = newState;
+        }
+
+        // TODO: Add ability component
 
     }
 }

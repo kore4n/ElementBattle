@@ -55,15 +55,17 @@ public class SelectTeamUI : MonoBehaviour
     {
         teamSelectionUI.SetActive(false);
 
-        //Debug.Log("Invoking MeSelectedTeam!");
-        //MeSelectedTeam?.Invoke();
-        //Debug.Log($"ME TEMA IS {team}");
-
-
-        //Debug.Log($"DEFINITELYME TEMA IS {player.GetTeam()}");
-
         // Player chose spectator
-        if (team == Constants.Team.Spectator) { return; }
+        if (team == Constants.Team.Spectator)
+        {
+            PauseMenu.IsInPauseMenu = false;
+
+            if (Camera.main == null) { return; }
+            if (Camera.main.GetComponent<AudioListener>() != null) { Camera.main.GetComponent<AudioListener>().enabled = false; }
+            if (Camera.main != null) { Camera.main.gameObject.GetComponent<Camera>().enabled = false; }
+
+            return; 
+        }
 
         elementSelectionUI.SetActive(true);
     }
