@@ -170,12 +170,14 @@ GameObject:
   - component: {fileID: 3685603250716001503}
   - component: {fileID: 641746850858478456}
   - component: {fileID: 6979820923062501942}
-  - component: {fileID: 5223390750073916497}
   - component: {fileID: 2900317732761244522}
   - component: {fileID: 6315843771534134023}
   - component: {fileID: 533029410660457657}
   - component: {fileID: 4922642403287072948}
   - component: {fileID: 5947375623753440915}
+  - component: {fileID: 8019361880632434645}
+  - component: {fileID: 4424362615547956665}
+  - component: {fileID: 3841272421444704417}
   m_Layer: 8
   m_Name: BaseCharacter
   m_TagString: Player
@@ -478,23 +480,6 @@ MonoBehaviour:
   syncInterval: 0.1
   maxStamina: 9
   staminaRegenerationInterval: 1
---- !u!114 &5223390750073916497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5467285084242854813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9c3802562a9e2745b3692ce30bf22b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  characterController: {fileID: 3081123101634139685}
-  stamina: {fileID: 6979820923062501942}
-  abilitySet: {fileID: 0}
 --- !u!114 &2900317732761244522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,6 +639,57 @@ MonoBehaviour:
   - {fileID: 8160033383010751555}
   - {fileID: 1952458574921743785}
   - {fileID: 6547027002829317069}
+--- !u!114 &8019361880632434645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8200aa79fd252a48bbc8d5bf49f2d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &4424362615547956665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7933861f05fd2de499449b2cfb1d221d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &3841272421444704417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acc67ac8112a34448064be2333dafe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  characterController: {fileID: 3081123101634139685}
+  abilityCooldownHandler: {fileID: 4424362615547956665}
+  abilityActivationHandler: {fileID: 8019361880632434645}
+  stamina: {fileID: 6979820923062501942}
+  cameraHolder: {fileID: 5467285085316221433}
+  basicAbility: {fileID: 0}
+  blockAbility: {fileID: 0}
+  specialAbility: {fileID: 0}
+  recoveryAbility: {fileID: 0}
 --- !u!1 &5467285085316221438
 GameObject:
   m_ObjectHideFlags: 0
