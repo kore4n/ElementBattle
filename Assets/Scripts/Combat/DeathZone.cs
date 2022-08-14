@@ -34,6 +34,7 @@ public class DeathZone : MonoBehaviour
 
             networkManager.SpawnSpectatorCamera(playerCamera.transform.position, rotation, networkConnectionToClient);
 
+            Debug.Log("Killing player!");
             playerHealth.DealDamage(killBoxDamage);
 
         }

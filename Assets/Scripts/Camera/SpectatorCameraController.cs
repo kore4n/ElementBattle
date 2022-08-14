@@ -9,17 +9,6 @@ public class SpectatorCameraController : NetworkBehaviour
     private float mouseSensitivity = 1f;
     private Vector2 turn;
 
-    //private void OnEnable()
-    //{
-    //    PauseMenu.ClientStartPause += ClientHandleStartPause;
-    //    PauseMenu.ClientEndPause += ClientHandleEndPause;
-    //}
-    //private void Start()
-    //{
-    //    PauseMenu.ClientStartPause -= ClientHandleStartPause;
-    //    PauseMenu.ClientEndPause -= ClientHandleEndPause;
-    //}
-
     public override void OnStartClient()
     {
         if (!hasAuthority)
@@ -49,21 +38,6 @@ public class SpectatorCameraController : NetworkBehaviour
 
         if (!hasAuthority) { return; }
     }
-
-    //private void ClientHandleStartPause()
-    //{
-    //    ChangeActiveState(false);
-    //}
-
-    //private void ClientHandleEndPause()
-    //{
-    //    ChangeActiveState(true);
-    //}
-
-    //private void ChangeActiveState()
-    //{
-
-    //}
 
     void FixedUpdate()
     {

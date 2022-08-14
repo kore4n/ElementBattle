@@ -30,6 +30,7 @@ public class GameManager : NetworkBehaviour
     public static event Action<Constants.Team> ClientOnGameOver;
 
     public static event Action ClientOnRoundWin;
+    public static event Action ClientOnAuthorityGivenBack;
     public static event Action<LoweringArena> ServerOnLowerArena;
     public static event Action<Constants.GameAction> ServerOnArenaAction;
 
@@ -288,6 +289,10 @@ public class GameManager : NetworkBehaviour
             // Player is respawned, now move player characters to the correct position
 
             MoveToCorrectSpot(player.GetActivePlayerCharacter());
+
+            // Erase spectator camera from list
+
+            player.SetActiveSpectatorCamera(null);
         }
 
         // Destroy all spectator cameras
@@ -304,10 +309,10 @@ public class GameManager : NetworkBehaviour
     private void MoveToCorrectSpot(PlayerCharacter playerCharacter)
     {
         var owner = playerCharacter.netIdentity.connectionToClient;
-        Debug.Log(owner.identity.GetComponent<FPSPlayer>().GetTeam());
+        //Debug.Log(owner.identity.GetComponent<FPSPlayer>().GetTeam());
 
-        playerCharacter.netIdentity.RemoveClientAuthority();    // Both must be taken away to give server authority over transform
-        playerCharacter.GetComponent<NetworkTransform>().clientAuthority = false;
+        //playerCharacter.netIdentity.RemoveClientAuthority();    // Both must be taken away to give server authority over transform
+        //playerCharacter.GetComponent<NetworkTransform>().clientAuthority = false;
         switch (playerCharacter.GetTeam())
         {
             case (Constants.Team.Red):
@@ -325,23 +330,32 @@ public class GameManager : NetworkBehaviour
         }
 
         // TODO: This is a bad solution but can't come up with anything else
-        StartCoroutine(GiveAuthorityBack(playerCharacter, owner));
+        //StartCoroutine(GiveAuthorityBack(playerCharacter, owner));
     }
 
     IEnumerator GiveAuthorityBack(PlayerCharacter playerCharacter, NetworkConnectionToClient owner)
     {
         yield return new WaitForSeconds(0.1f);
 
+        Debug.Log("Gave authority back!");
         // TODO: This gives authority back but it doesn't teleport clients
         // when placed in above function
         // Maybe gives authority back too early so this is my solution
         playerCharacter.netIdentity.AssignClientAuthority(owner);
         playerCharacter.GetComponent<NetworkTransform>().clientAuthority = true;
+
+        //ServerOnAuthorityGivenBack();
     }
 
     #endregion
 
     #region Client
+
+    [ClientRpc]
+    private void ServerOnAuthorityGivenBack()
+    {
+        ClientOnAuthorityGivenBack?.Invoke();
+    }
 
     private void UpdateRounds(int oldRounds, int newRounds)
     {
