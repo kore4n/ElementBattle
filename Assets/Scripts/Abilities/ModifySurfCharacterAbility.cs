@@ -12,16 +12,18 @@ namespace Game.Abilities
         public float maxSpeed;
         public float speedChangeDuration = 0;
 
+        private ModifySurfCharacterTriggerable activator;
         private SurfCharacter surfCharacter;
 
         public override void Initialize(GameObject obj)
         {
-            surfCharacter = obj.GetComponent<SurfCharacter>();
+            activator = obj.GetComponent<ModifySurfCharacterTriggerable>();
+            surfCharacter = activator.GetSurfCharacter();
         }
 
         public override void TriggerAbility()
         {
-            if (maxSpeed > 0) surfCharacter.moveConfig.maxSpeed = maxSpeed;
+            activator.Activate(SpeedChange());
         }
 
         private IEnumerator SpeedChange()

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5408407904770985605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2616823043579869394}
+  m_Layer: 8
+  m_Name: AbilityHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2616823043579869394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5408407904770985605}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5467285084242854812}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5467285083954485886
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,9 +170,11 @@ GameObject:
   - component: {fileID: 3685603250716001503}
   - component: {fileID: 641746850858478456}
   - component: {fileID: 6979820923062501942}
-  - component: {fileID: 5223390750073916497}
   - component: {fileID: 2900317732761244522}
   - component: {fileID: 6315843771534134023}
+  - component: {fileID: 5680000120340878541}
+  - component: {fileID: 4449959184311058239}
+  - component: {fileID: 704200887282125609}
   m_Layer: 8
   m_Name: BaseCharacter
   m_TagString: Player
@@ -163,6 +196,7 @@ Transform:
   m_Children:
   - {fileID: 5467285085316221433}
   - {fileID: 4967995569947861234}
+  - {fileID: 2616823043579869394}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -409,6 +443,8 @@ MonoBehaviour:
   syncInterval: 0.1
   playerCharacterName: Missing name
   health: {fileID: 641746850858478456}
+  team: 3
+  element: 4
 --- !u!114 &641746850858478456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,23 +476,6 @@ MonoBehaviour:
   syncInterval: 0.1
   maxStamina: 9
   staminaRegenerationInterval: 1
---- !u!114 &5223390750073916497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5467285084242854813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9c3802562a9e2745b3692ce30bf22b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  characterController: {fileID: 3081123101634139685}
-  stamina: {fileID: 6979820923062501942}
-  abilitySet: {fileID: 0}
 --- !u!114 &2900317732761244522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,6 +548,57 @@ MonoBehaviour:
   cameraHolder: {fileID: 5467285085316221438}
   mainCamera: {fileID: 5467285083954485886}
   weaponCamera: {fileID: 7157156064203118575}
+--- !u!114 &5680000120340878541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acc67ac8112a34448064be2333dafe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  characterController: {fileID: 3081123101634139685}
+  abilityCooldownHandler: {fileID: 4449959184311058239}
+  abilityActivationHandler: {fileID: 704200887282125609}
+  stamina: {fileID: 6979820923062501942}
+  cameraHolder: {fileID: 5467285085316221433}
+  basicAbility: {fileID: 0}
+  blockAbility: {fileID: 0}
+  specialAbility: {fileID: 0}
+  recoveryAbility: {fileID: 0}
+--- !u!114 &4449959184311058239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7933861f05fd2de499449b2cfb1d221d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &704200887282125609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8200aa79fd252a48bbc8d5bf49f2d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &5467285085316221438
 GameObject:
   m_ObjectHideFlags: 0

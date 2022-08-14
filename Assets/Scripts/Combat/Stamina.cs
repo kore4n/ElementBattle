@@ -39,6 +39,12 @@ namespace Game.Combat
         }
 
         [Server]
+        public void ConsumeStamina(Ability ability)
+        {
+            stamina -= ability.staminaCost;
+        }
+
+        [Server]
         private void UpdateStamina()
         {
             if (stamina == maxStamina) return;
