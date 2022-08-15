@@ -50,7 +50,6 @@ public class Fighter : NetworkBehaviour
     private void ActivateBasicAbilityCommand()
     {
         if (basicAbility == null) return;
-        if (stamina.GetStamina() < basicAbility.Ability.staminaCost) return;
 
         basicAbility.ActivationStarted();
     }

@@ -20,6 +20,9 @@ public class AbilityBehaviour : MonoBehaviour
 
     public void ActivationStarted()
     {
+        if (fighter.AbilityCooldownHandler.IsOnCooldown(ability.id)) return;
+        if (fighter.Stamina.GetStamina() < ability.staminaCost) return;
+
         CustomEvent.Trigger(gameObject, Fighter.AbilityActivateStartedEventName);
     }
 

@@ -93,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 3415523312217155031, guid: 7018ea0ed1006c7448a987954d18f883,
         type: 3}
       propertyPath: m_Name
-      value: WaterProjectile
+      value: WaterBallProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 6421056230741528302, guid: 7018ea0ed1006c7448a987954d18f883,
         type: 3}
@@ -158,10 +158,29 @@ PrefabInstance:
     - target: {fileID: 7323139415843708924, guid: 7018ea0ed1006c7448a987954d18f883,
         type: 3}
       propertyPath: m_AssetId
-      value: 7f988169e7c3c384a8e4add4058e3be0
+      value: fb190f10c1f3a37469312daf8a91010b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7018ea0ed1006c7448a987954d18f883, type: 3}
+--- !u!1 &1153311218007518878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3415523312217155031, guid: 7018ea0ed1006c7448a987954d18f883,
+    type: 3}
+  m_PrefabInstance: {fileID: 4568622726571051849}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &8698607129577510556
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153311218007518878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &7165323225776901456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6635866758936954393, guid: 7018ea0ed1006c7448a987954d18f883,

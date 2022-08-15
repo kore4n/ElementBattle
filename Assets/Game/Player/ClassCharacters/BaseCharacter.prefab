@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1399108313601893117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3833780864166908996}
+  m_Layer: 8
+  m_Name: AbilityHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3833780864166908996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399108313601893117}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5467285084242854812}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2101088748008967092
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +209,7 @@ GameObject:
   - component: {fileID: 8019361880632434645}
   - component: {fileID: 4424362615547956665}
   - component: {fileID: 3841272421444704417}
+  - component: {fileID: 1008695593638256205}
   m_Layer: 8
   m_Name: BaseCharacter
   m_TagString: Player
@@ -201,6 +233,7 @@ Transform:
   - {fileID: 4967995569947861234}
   - {fileID: 7880522395562160383}
   - {fileID: 4520811412800516037}
+  - {fileID: 3833780864166908996}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -690,6 +723,19 @@ MonoBehaviour:
   blockAbility: {fileID: 0}
   specialAbility: {fileID: 0}
   recoveryAbility: {fileID: 0}
+--- !u!65 &1008695593638256205
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5467285085316221438
 GameObject:
   m_ObjectHideFlags: 0
