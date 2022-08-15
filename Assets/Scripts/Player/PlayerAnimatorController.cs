@@ -15,38 +15,8 @@ public class PlayerAnimatorController : NetworkBehaviour
     [SerializeField] GameObject mainCamera = null;
     [SerializeField] GameObject weaponCamera = null;
 
-    private Vector3 defaultLocalScale;
-    private Vector3 defaultLocalPosition;
-
-    #region Subscribe/Unsubscribe
-    private void OnEnable()
-    {
-        GameManager.ClientOnAuthorityGivenBack += ClientHandleAuthorityGivenBack;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.ClientOnAuthorityGivenBack -= ClientHandleAuthorityGivenBack;
-    }
-    #endregion
 
     private void Start()
-    {
-        defaultLocalScale = transform.localScale;
-        defaultLocalPosition = transform.localPosition;
-
-        CheckIfMe();
-    }
-    private void Update()
-    {
-        if (!hasAuthority) { return; }
-
-        WeaponAnimation();
-        MovementAnimation();
-    }
-
-    [Client]
-    private void CheckIfMe()
     {
         if (!hasAuthority)
         {
@@ -58,7 +28,7 @@ public class PlayerAnimatorController : NetworkBehaviour
             int playerLayer = LayerMask.NameToLayer("Player");
             foreach (Transform childTransform in transform.GetComponentsInChildren<Transform>())
             {
-                childTransform.gameObject.layer = playerLayer;
+               childTransform.gameObject.layer = playerLayer;
             }
             // Make non-local earth weapon smaller
             if (GetComponent<PlayerCharacter>().GetElement() == Constants.Element.Earth)
@@ -70,29 +40,18 @@ public class PlayerAnimatorController : NetworkBehaviour
 
             return;
         }
-        else
-        {
-            cameraHolder.GetComponent<PlayerAiming>().enabled = true;
-            mainCamera.SetActive(true);
-            weaponCamera.GetComponent<Camera>().enabled = true;
-
-            int defaultLayer = LayerMask.NameToLayer("Weapon");
-            foreach (Transform childTransform in transform.GetComponentsInChildren<Transform>())
-            {
-                childTransform.gameObject.layer = defaultLayer;
-            }
-        }
 
 
         skinnedMeshRenderer.enabled = false;
     }
 
-    [Client]
-    private void ClientHandleAuthorityGivenBack()
+    private void Update()
     {
-        CheckIfMe();
-    }
+        if (!hasAuthority) { return; }
 
+        WeaponAnimation();
+        MovementAnimation();
+    }
 
     #region Client Animations
     private void MovementAnimation()

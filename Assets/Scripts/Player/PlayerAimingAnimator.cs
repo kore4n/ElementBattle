@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAimingAnimation : MonoBehaviour
+public class PlayerAimingAnimator : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private GameObject aimTarget;

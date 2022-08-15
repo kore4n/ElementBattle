@@ -46,8 +46,6 @@ public class PlayerCharacter : NetworkBehaviour
 
         ClientOnMyPlayerCharacterSpawned?.Invoke(this);
 
-
-        //Debug.Log($"Pause status: {PauseMenu.IsInPauseMenu}");
         if (!PauseMenu.IsInPauseMenu)
         {
             ClientHandleEndPause();
@@ -141,7 +139,6 @@ public class PlayerCharacter : NetworkBehaviour
     [Client]
     private void ClientHandleStartPause()
     {
-        //Debug.Log("starting pause for player character");
         ChangeActiveState(false);
     }
 
