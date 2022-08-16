@@ -31,12 +31,16 @@ public class PlayerCharacter : NetworkBehaviour
         PauseMenu.ClientStartPause += ClientHandleStartPause;
         PauseMenu.ClientEndPause += ClientHandleEndPause;
         SelectElementUI.ClientCloseSelectElementUI += ClientHandleEndPause;
+        GameManager.ClientOnRoundWin += ClientHandleRoundWin;
+        GameManager.ClientOnGameStart += ClientHandleGameStart;
     }
     private void OnDisable()
     {
         PauseMenu.ClientStartPause -= ClientHandleStartPause;
         PauseMenu.ClientEndPause -= ClientHandleEndPause;
         SelectElementUI.ClientCloseSelectElementUI -= ClientHandleEndPause;
+        GameManager.ClientOnRoundWin -= ClientHandleRoundWin;
+        GameManager.ClientOnGameStart -= ClientHandleGameStart;
     }
 
     private void Start()
@@ -45,6 +49,8 @@ public class PlayerCharacter : NetworkBehaviour
 
 
         ClientOnMyPlayerCharacterSpawned?.Invoke(this);
+
+        ResetCharacterRotation();
 
         if (!PauseMenu.IsInPauseMenu)
         {
@@ -55,6 +61,7 @@ public class PlayerCharacter : NetworkBehaviour
         ClientHandleStartPause();
     }
 
+    
     //public override void OnStopAuthority()
     //{
     //    ClientOnMyPlayerCharacterDespawned?.Invoke(this);
@@ -89,6 +96,8 @@ public class PlayerCharacter : NetworkBehaviour
         element = newElement;
     }
     #endregion
+
+#region Server
 
     public override void OnStartServer()
     {
@@ -136,6 +145,11 @@ public class PlayerCharacter : NetworkBehaviour
 
     }
 
+    #endregion
+
+    #region Client
+
+
     [Client]
     private void ClientHandleStartPause()
     {
@@ -149,6 +163,42 @@ public class PlayerCharacter : NetworkBehaviour
         Cursor.visible = false;
         //Debug.Log("Ending pause!");
         ChangeActiveState(true);
+    }
+
+    [Client]
+    private void ClientHandleGameStart()
+    {
+        ResetCharacterRotation();
+    }
+
+    [Client]
+    private void ClientHandleRoundWin()
+    {
+        ResetCharacterRotation();
+    }
+
+    [Client]
+    private void ResetCharacterRotation()
+    {
+        if (!hasAuthority) { return; }
+
+        var gm = GameManager.singleton;
+
+        switch (team)
+        {
+            case Constants.Team.Red:
+                GetComponentInChildren<PlayerAiming>().SetCurrentRotation(gm.GetRedSpawn().rotation.eulerAngles);
+                break;
+            case Constants.Team.Blue:
+                GetComponentInChildren<PlayerAiming>().SetCurrentRotation(gm.GetBlueSpawn().rotation.eulerAngles);
+                break;
+            case Constants.Team.Spectator:
+                Debug.Log("Player character cannot be spectator!. Error has occurred.");
+                break;
+            case Constants.Team.Missing:
+                Debug.Log("Invalid Team. Error has occurred.");
+                break;
+        }
     }
 
     private void ChangeActiveState(bool newState)
@@ -179,4 +229,5 @@ public class PlayerCharacter : NetworkBehaviour
         // TODO: Add ability component
 
     }
+    #endregion
 }

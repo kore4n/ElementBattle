@@ -15,8 +15,12 @@ public class PlayerAnimatorController : NetworkBehaviour
     [SerializeField] GameObject mainCamera = null;
     [SerializeField] GameObject weaponCamera = null;
 
-
     private void Start()
+    {
+        CheckIfMe();
+    }
+
+    private void CheckIfMe()
     {
         if (!hasAuthority)
         {
@@ -28,7 +32,7 @@ public class PlayerAnimatorController : NetworkBehaviour
             int playerLayer = LayerMask.NameToLayer("Player");
             foreach (Transform childTransform in transform.GetComponentsInChildren<Transform>())
             {
-               childTransform.gameObject.layer = playerLayer;
+                childTransform.gameObject.layer = playerLayer;
             }
             // Make non-local earth weapon smaller
             if (GetComponent<PlayerCharacter>().GetElement() == Constants.Element.Earth)

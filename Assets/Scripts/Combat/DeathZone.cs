@@ -16,7 +16,10 @@ public class DeathZone : MonoBehaviour
             GameObject playerCamera = playerCharacter.GetComponent<MyCharacterController>().GetCameraHolder();
 
             var rotation = new Quaternion();    // TODO: Rotation Not matching
-            rotation.eulerAngles = new Vector3(playerCharacterObject.transform.eulerAngles.x, playerCamera.transform.localEulerAngles.y, 0f);
+            //rotation.eulerAngles = new Vector3(playerCharacterObject.transform.eulerAngles.x, playerCamera.transform.localEulerAngles.y, 0f);
+            rotation.eulerAngles = new Vector3(playerCharacterObject.transform.eulerAngles.y, playerCamera.transform.localEulerAngles.x, 0f);
+            //Debug.Log(playerCharacterObject.transform.eulerAngles.y);
+            //Debug.Log(playerCamera.transform.localEulerAngles.x);
 
             Health playerHealth = playerCharacter.GetComponent<Health>();
 
@@ -37,11 +40,5 @@ public class DeathZone : MonoBehaviour
             playerHealth.DealDamage(killBoxDamage);
 
         }
-    }
-
-    [Server]
-    private void DestroyObject(GameObject gameObject)
-    {
-        NetworkServer.Destroy(gameObject);
     }
 }
