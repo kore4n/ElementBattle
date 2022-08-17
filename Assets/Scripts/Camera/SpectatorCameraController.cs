@@ -69,6 +69,8 @@ public class SpectatorCameraController : NetworkBehaviour
     {
         if (PauseMenu.IsInPauseMenu) { return; }
 
+        //if (true) { return; }
+
         float moveSpeedConstant = Time.deltaTime * 30f;
 
         float keyboardX = Input.GetAxisRaw("Horizontal") * moveSpeedConstant;
@@ -90,7 +92,7 @@ public class SpectatorCameraController : NetworkBehaviour
         { 
             transform.Translate(Vector3.down * moveSpeedConstant, Space.World); 
         }
-
+        //Debug.Log($"{-turn.y}, {turn.x}, {0}");
         transform.localRotation = Quaternion.Euler(-turn.y, turn.x, 0f);
     }
 }

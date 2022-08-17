@@ -30,7 +30,12 @@ public class PlayerAiming : MonoBehaviour
 	[HideInInspector]
 	public Vector2 punchAngleVel;
 
-	private void Update()
+	public void SetCurrentRotation(Vector3 wantRotation)
+    {
+		realRotation = wantRotation;
+	}
+
+    private void Update()
 	{
 		// Fix pausing
 		if (Mathf.Abs(Time.timeScale) <= 0)
@@ -46,8 +51,9 @@ public class PlayerAiming : MonoBehaviour
 		realRotation   = new Vector3(Mathf.Clamp(realRotation.x + yMovement, minYRotation, maxYRotation), realRotation.y + xMovement, realRotation.z);
 		realRotation.z = Mathf.Lerp(realRotation.z, 0f, Time.deltaTime * 3f);
 
-		//Apply real rotation to body
-		bodyTransform.eulerAngles = Vector3.Scale(realRotation, new Vector3(0f, 1f, 0f));
+        //Apply real rotation to body
+        bodyTransform.eulerAngles = Vector3.Scale(realRotation, new Vector3(0f, 1f, 0f));
+        //bodyTransform.eulerAngles = realRotation;	// Added by J, maybe rotate on not just Y axis
 
 		//Apply rotation and recoil
 		Vector3 cameraEulerPunchApplied = realRotation;
@@ -56,6 +62,12 @@ public class PlayerAiming : MonoBehaviour
 
 		transform.eulerAngles = cameraEulerPunchApplied;
 	}
+
+	//[ContextMenu("Test aimturnon")]
+ //   public void TestAimTurnOn()
+ //   {
+	//	aimingAllowed = true;
+	//}
 
 	public void ViewPunch(Vector2 punchAmount)
 	{

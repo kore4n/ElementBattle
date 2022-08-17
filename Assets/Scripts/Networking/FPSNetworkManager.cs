@@ -67,7 +67,7 @@ public class FPSNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         FPSPlayer player = conn.identity.GetComponent<FPSPlayer>();
-        SpectatorCameraController specPlayer = conn.identity.GetComponent<FPSPlayer>().GetActiveSpectatorCamera();
+        SpectatorCameraController specPlayer = player.GetActiveSpectatorCamera();
         spectatorCameras.Remove(specPlayer);
 
         players.Remove(player);
@@ -82,6 +82,8 @@ public class FPSNetworkManager : NetworkManager
                 spawnPosition,
                 spawnRotation);
         NetworkServer.Spawn(spectatorCamera, networkConnectionToClient);
+
+        Debug.Log($"Spectator spawn rotation should be {spawnRotation.eulerAngles}, is actually {spectatorCamera.transform.rotation.eulerAngles}");
 
         spectatorCameras.Add(spectatorCamera.GetComponent<SpectatorCameraController>());
 

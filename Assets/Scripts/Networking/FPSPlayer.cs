@@ -54,6 +54,8 @@ public class FPSPlayer : NetworkBehaviour
 
     public SpectatorCameraController GetActiveSpectatorCamera()
     {
+        if (activeSpectatorCamera == null) { return null; }
+
         return activeSpectatorCamera.GetComponent<SpectatorCameraController>();
     }
 
@@ -265,10 +267,7 @@ public class FPSPlayer : NetworkBehaviour
 
         playerElement = playerInfo.element;
         //Debug.Log($"Active player element is now {playerInfo.element}. Checking... is actually {playerElement}");
-        GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, Quaternion.identity);
-
-        // TODO: Line doesn't work. Want player to spawn facing correct side.
-        myPlayer.GetComponent<MyCharacterMovement>().viewTransform.rotation = spawnRotation;
+        GameObject myPlayer = Instantiate(((FPSNetworkManager)NetworkManager.singleton).playerCharacterPrefabs[(int)playerElement], spawnLocation, spawnRotation);
 
         activePlayerCharacter = myPlayer;
         //Debug.Log($"Active player character is now {myPlayer}. Checking... is actually {activePlayerCharacter}");
@@ -278,8 +277,12 @@ public class FPSPlayer : NetworkBehaviour
         playerCharacter.SetTeam(playerTeam);
         playerCharacter.SetElement(playerElement);
 
-        //myPlayer.GetComponent<PlayerCharacter>().FPSOwner = this;
         NetworkServer.Spawn(myPlayer, connectionToClient);
+
+        playerCharacter.GetComponent<NetworkTransform>().RpcTeleport(spawnLocation);
+
+        //Debug.Log("Spawn rotation is " + spawnRotation);
+        //Debug.Log("Actual rotation is " + playerCharacter.transform.rotation);
     }
 
     [Server]

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0.7
   m_Effectors: []
 --- !u!1 &1663244103956804025
 GameObject:
@@ -940,6 +940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 5467285083954485883}
   aimTarget: {fileID: 4113856553380558812}
+  inverseSensitivity: 4
 --- !u!1 &7157156064203118575
 GameObject:
   m_ObjectHideFlags: 0

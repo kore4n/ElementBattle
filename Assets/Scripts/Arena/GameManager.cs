@@ -52,9 +52,14 @@ public class GameManager : NetworkBehaviour
     [SerializeField] 
     private bool isGameInProgress = false; // TODO: Remove SerializeField later, just to see
 
-    [SerializeField] private List<Transform> redSpawnPositions = new List<Transform>();
-    [SerializeField] private List<Transform> blueSpawnPositions = new List<Transform>();
-    [SerializeField] private List<Transform> spectatorSpawnPositions = new List<Transform>();
+
+    [SerializeField] public List<Transform> redSpawnPositions = new List<Transform>();
+    [SerializeField] public List<Transform> blueSpawnPositions = new List<Transform>();
+    [SerializeField] public List<Transform> spectatorSpawnPositions = new List<Transform>();
+
+    //[SerializeField] public readonly SyncList<Transform> redSpawnPositions = new SyncList<Transform>();
+    //[SerializeField] public readonly SyncList<Transform> blueSpawnPositions = new SyncList<Transform>();
+    //[SerializeField] public readonly SyncList<Transform> spectatorSpawnPositions = new SyncList<Transform>();
 
     #region Getters/Setters
     public Transform GetRedSpawn()
@@ -85,7 +90,7 @@ public class GameManager : NetworkBehaviour
         //Debug.Log("Spawning game manager");
         OnGameManagerSpawn?.Invoke();
 
-        if (!isServer) { return; }
+        //if (!isServer) { return; }
 
         // Only server manages spawns
         PlayerSpawnPoint[] spawnPoints = FindObjectsOfType<PlayerSpawnPoint>();
@@ -192,7 +197,7 @@ public class GameManager : NetworkBehaviour
             EndGame();
         }
 
-        RestartRound();
+        Invoke(nameof(RestartRound), Constants.timeAfterRoundEnd);
 
         int roundSum = redRounds + blueRounds;
 
@@ -249,8 +254,17 @@ public class GameManager : NetworkBehaviour
 
         isGameInProgress = true;
 
-        RestartRound();
-        RpcOnClientArenaAction(Constants.GameAction.Start);
+        Invoke(nameof(RestartRound), Constants.timeAfterRoundEnd);
+
+        StartCoroutine(CoroutineRpcOnClientArenaAction(Constants.GameAction.Start));
+    }
+
+    IEnumerator CoroutineRpcOnClientArenaAction(Constants.GameAction action)
+    {
+        yield return new WaitForSeconds(Constants.timeAfterRoundEnd);
+
+        RpcOnClientArenaAction(action);
+
     }
 
     private void ServerOnUpdateRounds(Constants.Team team)
@@ -286,7 +300,6 @@ public class GameManager : NetworkBehaviour
         foreach (FPSPlayer player in players)
         {
             // Player is respawned, now move player characters to the correct position
-
             MoveToCorrectSpot(player.GetActivePlayerCharacter());
         }
 
@@ -297,24 +310,26 @@ public class GameManager : NetworkBehaviour
             NetworkServer.Destroy(spectatorCamera.gameObject);
         }
 
+        foreach (FPSPlayer player in players)
+        {
+            player.SetActiveSpectatorCamera(null);
+        }
+
         spectatorCameras.Clear();
     }
 
     [Server]
     private void MoveToCorrectSpot(PlayerCharacter playerCharacter)
     {
-        var owner = playerCharacter.netIdentity.connectionToClient;
-        Debug.Log(owner.identity.GetComponent<FPSPlayer>().GetTeam());
+        var nt = playerCharacter.GetComponent<NetworkTransform>();
 
-        playerCharacter.netIdentity.RemoveClientAuthority();    // Both must be taken away to give server authority over transform
-        playerCharacter.GetComponent<NetworkTransform>().clientAuthority = false;
         switch (playerCharacter.GetTeam())
         {
             case (Constants.Team.Red):
-                playerCharacter.gameObject.transform.position = redSpawnPositions[0].position;
+                nt.RpcTeleport(redSpawnPositions[0].position);
                 break;
             case (Constants.Team.Blue):
-                playerCharacter.gameObject.transform.position = blueSpawnPositions[0].position;
+                nt.RpcTeleport(blueSpawnPositions[0].position);
                 break;
             case (Constants.Team.Spectator):
                 Debug.Log("This should not exist! Spectators should not be allowed to own player characters.");
@@ -323,25 +338,11 @@ public class GameManager : NetworkBehaviour
                 Debug.Log("This should not exist! Player character team is missing. Player characters should either be blue or red.");
                 break;
         }
-
-        // TODO: This is a bad solution but can't come up with anything else
-        StartCoroutine(GiveAuthorityBack(playerCharacter, owner));
-    }
-
-    IEnumerator GiveAuthorityBack(PlayerCharacter playerCharacter, NetworkConnectionToClient owner)
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        // TODO: This gives authority back but it doesn't teleport clients
-        // when placed in above function
-        // Maybe gives authority back too early so this is my solution
-        playerCharacter.netIdentity.AssignClientAuthority(owner);
-        playerCharacter.GetComponent<NetworkTransform>().clientAuthority = true;
     }
 
     #endregion
 
-    #region Client
+    #region Clients
 
     private void UpdateRounds(int oldRounds, int newRounds)
     {
