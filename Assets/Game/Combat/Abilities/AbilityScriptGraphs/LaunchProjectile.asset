@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: LaunchProjectile
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Input","label":null,"summary":null,"hideLabel":true}],"controlOutputDefinitions":[{"key":"Output","label":null,"summary":null,"hideLabel":true}],"valueInputDefinitions":[{"hasDefaultValue":false,"defaultValue":null,"_type":"UnityEngine.GameObject","key":"projectilePrefab","label":null,"summary":null,"hideLabel":false}],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-155.0,"y":97.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-462.0,"y":-38.0},"guid":"765a0a5f-702f-4bcb-88b8-ed5834885083","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":158.0,"y":-29.0},"guid":"a6b9344a-87a0-4ce9-a100-c0ddcc575f55","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"member":{"name":"AbilityUser","parameterTypes":null,"targetType":"AbilityBehaviour","targetTypeName":"AbilityBehaviour","$version":"A"},"defaultValues":{"target":null},"position":{"x":-442.0,"y":119.0},"guid":"7f91da61-c3ba-4200-98f7-4aa9a2463cbd","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"16"},{"chainable":false,"member":{"name":"LaunchProjectile","parameterTypes":["UnityEngine.GameObject"],"targetType":"AbilityUser","targetTypeName":"AbilityUser","$version":"A"},"defaultValues":{"target":null,"%projectilePrefab":null},"position":{"x":-159.0,"y":-35.0},"guid":"6ad43ed5-effd-427d-8588-b2b388b0c8f3","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"19"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Input","destinationUnit":{"$ref":"19"},"destinationKey":"enter","guid":"df708810-3976-4aca-935c-cebf0a32f02a","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"exit","destinationUnit":{"$ref":"14"},"destinationKey":"Output","guid":"6a43181d-5d6e-417e-a319-b2a20eb8d582","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"value","destinationUnit":{"$ref":"19"},"destinationKey":"target","guid":"031bd6a4-8c44-4f51-9c6c-db29e952f9a6","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"projectilePrefab","destinationUnit":{"$ref":"19"},"destinationKey":"%projectilePrefab","guid":"d086dda5-74d0-4530-adc7-75af2dc4cb94","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

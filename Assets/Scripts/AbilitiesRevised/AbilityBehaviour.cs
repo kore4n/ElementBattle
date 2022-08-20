@@ -8,26 +8,24 @@ public class AbilityBehaviour : MonoBehaviour
     [Header("References")]
     [SerializeField] Ability ability;
 
-    Fighter fighter;
-
     public Ability Ability => ability;
-    public Fighter Fighter => fighter;
+    public AbilityUser AbilityUser { get; private set; }
 
-    public void Initialize(Fighter fighter)
+    public virtual void Initialize(AbilityUser abilityUser)
     {
-        this.fighter = fighter;
+        AbilityUser = abilityUser;
     }
 
     public void ActivationStarted()
     {
-        if (fighter.AbilityCooldownHandler.IsOnCooldown(ability.id)) return;
-        if (fighter.Stamina.GetStamina() < ability.staminaCost) return;
+        if (AbilityUser.AbilityCooldownHandler.IsOnCooldown(ability.id)) return;
+        if (AbilityUser.Stamina.GetStamina() < ability.staminaCost) return;
 
-        CustomEvent.Trigger(gameObject, Fighter.AbilityActivateStartedEventName);
+        CustomEvent.Trigger(gameObject, AbilityUser.AbilityActivateStartedEventName);
     }
 
     public void ActivationCompleted()
     {
-        CustomEvent.Trigger(gameObject, Fighter.AbilityActivateCompletedEventName);
+        CustomEvent.Trigger(gameObject, AbilityUser.AbilityActivateCompletedEventName);
     }
 }

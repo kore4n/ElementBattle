@@ -8,7 +8,7 @@ public class Ability : ScriptableObject
     [Header("Data")]
     public int id = -1;
     public string abilityName = "New Ability";
-    //public Sprite icon;
+    public Sprite icon;
 
     [Header("Behaviour")]
     public int staminaCost = 0;

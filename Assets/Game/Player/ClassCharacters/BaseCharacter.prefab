@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 6063096005976354814}
   - component: {fileID: 4301948748311853580}
   - component: {fileID: 9101259614562720718}
+  - component: {fileID: 3682207863715724098}
   - component: {fileID: 3331406993145986625}
   m_Layer: 8
   m_Name: BaseCharacter
@@ -850,12 +851,37 @@ MonoBehaviour:
   characterController: {fileID: 3081123101634139685}
   abilityCooldownHandler: {fileID: 4301948748311853580}
   abilityActivationHandler: {fileID: 6063096005976354814}
+  abilityMechanicsHandler: {fileID: 3682207863715724098}
   stamina: {fileID: 6979820923062501942}
   cameraHolder: {fileID: 5467285085316221433}
+  abilityHolder: {fileID: 4388201416717285705}
   basicAbility: {fileID: 0}
   blockAbility: {fileID: 0}
   specialAbility: {fileID: 0}
   recoveryAbility: {fileID: 0}
+--- !u!114 &3682207863715724098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5467285084242854813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b52d966fd5af0c468e7bb67511cffa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  cameraHolder: {fileID: 5467285085316221433}
+  projectileSpawnPoint: {fileID: 5467285085316221433}
+  structureSpawnPoint: {fileID: 0}
+  structureLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!65 &3331406993145986625
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -940,7 +966,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 5467285083954485883}
   aimTarget: {fileID: 4113856553380558812}
-  inverseSensitivity: 4
 --- !u!1 &7157156064203118575
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,6 +1198,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -514336419267859461, guid: 4c77be7ad1f5c8a48b3c1ee1a85a4828,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.007523278
+      objectReference: {fileID: 0}
+    - target: {fileID: -514336419267859461, guid: 4c77be7ad1f5c8a48b3c1ee1a85a4828,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.008278793
+      objectReference: {fileID: 0}
+    - target: {fileID: -514336419267859461, guid: 4c77be7ad1f5c8a48b3c1ee1a85a4828,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0006913481
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4c77be7ad1f5c8a48b3c1ee1a85a4828,
         type: 3}
