@@ -116,12 +116,12 @@ namespace Fragsurf.Movement {
 
         protected virtual void Start () {
 
-            //_colliderObject = new GameObject("PlayerCollider");
-            //_colliderObject.layer = gameObject.layer;
-            //_colliderObject.transform.SetParent(transform);
-            //_colliderObject.transform.rotation = Quaternion.identity;
-            //_colliderObject.transform.localPosition = Vector3.zero;
-            //_colliderObject.transform.SetSiblingIndex (0);
+            _colliderObject = new GameObject("PlayerCollider");
+            _colliderObject.layer = gameObject.layer;
+            _colliderObject.transform.SetParent(transform);
+            _colliderObject.transform.rotation = Quaternion.identity;
+            _colliderObject.transform.localPosition = Vector3.zero;
+            _colliderObject.transform.SetSiblingIndex (0);
 
             // Water check
             //_cameraWaterCheckObject = new GameObject ("Camera water check");
@@ -148,8 +148,8 @@ namespace Fragsurf.Movement {
 
             _collider = gameObject.GetComponent<Collider> ();
 
-            //if (_collider != null)
-            //    GameObject.Destroy (_collider);
+            if (_collider != null)
+                GameObject.Destroy (_collider);
 
             // rigidbody is required to collide with triggers
             rb = gameObject.GetComponent<Rigidbody> ();
@@ -165,34 +165,34 @@ namespace Fragsurf.Movement {
             rb.mass = weight;
 
 
-            //switch (collisionType) {
+            switch (collisionType) {
 
-            //    // Box collider
-            //    case ColliderType.Box:
+                // Box collider
+                case ColliderType.Box:
 
-            //    _collider = _colliderObject.AddComponent<BoxCollider> ();
+                _collider = _colliderObject.AddComponent<BoxCollider> ();
 
-            //    var boxc = (BoxCollider)_collider;
-            //    boxc.size = colliderSize;
+                var boxc = (BoxCollider)_collider;
+                boxc.size = colliderSize;
 
-            //    defaultHeight = boxc.size.y;
+                defaultHeight = boxc.size.y;
 
-            //    break;
+                break;
 
-            //    // Capsule collider
-            //    case ColliderType.Capsule:
+                // Capsule collider
+                case ColliderType.Capsule:
 
-            //    //_collider = _colliderObject.AddComponent<CapsuleCollider> ();
+                _collider = _colliderObject.AddComponent<CapsuleCollider> ();
 
-            //    var capc = (CapsuleCollider)_collider;
-            //    capc.height = colliderSize.y;
-            //    capc.radius = colliderSize.x / 2f;
+                var capc = (CapsuleCollider)_collider;
+                capc.height = colliderSize.y;
+                capc.radius = colliderSize.x / 2f;
 
-            //    defaultHeight = capc.height;
+                defaultHeight = capc.height;
 
-            //    break;
+                break;
 
-            //}
+            }
 
             _moveData.slopeLimit = movementConfig.slopeLimit;
 
@@ -219,7 +219,7 @@ namespace Fragsurf.Movement {
         }
 
         protected virtual void Update() {
-            //_colliderObject.transform.rotation = Quaternion.identity;
+            _colliderObject.transform.rotation = Quaternion.identity;
 
 
             //UpdateTestBinds ();
@@ -260,7 +260,7 @@ namespace Fragsurf.Movement {
             transform.position = moveData.origin;
             prevPosition = transform.position;
 
-            //_colliderObject.transform.rotation = Quaternion.identity;
+            _colliderObject.transform.rotation = Quaternion.identity;
 
         }
         

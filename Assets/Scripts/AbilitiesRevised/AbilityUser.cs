@@ -107,16 +107,12 @@ public class AbilityUser : NetworkBehaviour
     private void ActivateSpecialAbilityCommand()
     {
         if (specialAbility == null) return;
-
-        specialAbilityBehaviour.ActivationStarted();
     }
 
     [Command]
     private void ActivateRecoveryAbilityCommand()
     {
         if (recoveryAbility == null) return;
-
-        recoveryAbilityBehaviour.ActivationStarted();
     }
 
     [Server]

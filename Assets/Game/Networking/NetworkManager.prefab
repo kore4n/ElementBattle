@@ -82,6 +82,9 @@ MonoBehaviour:
   - {fileID: 3719584201268641368, guid: cb034e80e9d873343ac557753c733617, type: 3}
   - {fileID: 7300740318582025551, guid: 088d2257379eb62448368be334c44dae, type: 3}
   - {fileID: 2363734966828163910, guid: 3fe83c18e5c767841a4cb8109b757413, type: 3}
+  - {fileID: 6876013503317707046, guid: d65ab48ce8181e943a90dbf857a43e13, type: 3}
+  - {fileID: 5416356638601276947, guid: 6f50501335464144a95ed6c70cc28b0b, type: 3}
+  - {fileID: 5416356638601276947, guid: f3485811b2673b5458aa2f9728af28aa, type: 3}
   players: []
   spectatorCameras: []
   playerCharacterPrefabs:

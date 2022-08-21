@@ -15,17 +15,4 @@ public class AbilityBehaviour : MonoBehaviour
     {
         AbilityUser = abilityUser;
     }
-
-    public void ActivationStarted()
-    {
-        if (AbilityUser.AbilityCooldownHandler.IsOnCooldown(ability.id)) return;
-        if (AbilityUser.Stamina.GetStamina() < ability.staminaCost) return;
-
-        CustomEvent.Trigger(gameObject, AbilityUser.AbilityActivateStartedEventName);
-    }
-
-    public void ActivationCompleted()
-    {
-        CustomEvent.Trigger(gameObject, AbilityUser.AbilityActivateCompletedEventName);
-    }
 }

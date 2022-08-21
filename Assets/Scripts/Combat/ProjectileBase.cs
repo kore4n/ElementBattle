@@ -37,12 +37,6 @@ public class ProjectileBase : NetworkBehaviour
     }
 
     [ServerCallback]
-    private void OnCollisionEnter(Collision collision)
-    {
-        DestroySelf();
-    }
-
-    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if (!TryDealDamage(other.gameObject)) return;

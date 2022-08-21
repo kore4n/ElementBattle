@@ -21,12 +21,15 @@ public class AbilityMechanicsHandler : NetworkBehaviour
     private Dictionary<int, List<Structure>> structureInstanceMap = new();
     private Dictionary<int, Bounds> structurePrefabBounds = new();
 
+    [Header("Blocker References")]
+    [SerializeField] Transform blockSpawnParent;
+
     #region General
 
     [Server]
-    public GameObject SpawnPlayerObject(GameObject prefab, Vector3 position, Quaternion rotation)
+    public GameObject SpawnPlayerObject(GameObject prefab)
     {
-        GameObject instance = Instantiate(prefab, position, rotation);
+        GameObject instance = Instantiate(prefab);
 
         NetworkServer.Spawn(instance, connectionToClient);
 
@@ -37,6 +40,16 @@ public class AbilityMechanicsHandler : NetworkBehaviour
     public GameObject SpawnPlayerObject(GameObject prefab, Transform parent)
     {
         GameObject instance = Instantiate(prefab, parent);
+
+        NetworkServer.Spawn(instance, connectionToClient);
+
+        return instance;
+    }
+
+    [Server]
+    public GameObject SpawnPlayerObject(GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        GameObject instance = Instantiate(prefab, position, rotation);
 
         NetworkServer.Spawn(instance, connectionToClient);
 
@@ -60,7 +73,7 @@ public class AbilityMechanicsHandler : NetworkBehaviour
     [Server]
     public void LaunchProjectile(GameObject projectilePrefab)
     {
-        SpawnPlayerObject(projectilePrefab, transform.position, cameraHolder.rotation);
+        SpawnPlayerObject(projectilePrefab, projectileSpawnPoint.position, cameraHolder.rotation);
     }
 
     #endregion
@@ -119,6 +132,16 @@ public class AbilityMechanicsHandler : NetworkBehaviour
         GameObject s = Instantiate(structurePrefab);
         structurePrefabBounds[id] = s.GetComponent<Collider>().bounds;
         DestroyImmediate(s);
+    }
+
+    #endregion
+
+    #region Blocks
+
+    [Server]
+    public void SpawnBlockObject(GameObject blockPrefab)
+    {
+        SpawnPlayerObject(blockPrefab, blockSpawnParent);
     }
 
     #endregion

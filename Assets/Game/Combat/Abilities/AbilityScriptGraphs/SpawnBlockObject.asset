@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: SpawnBlockObject
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Input","label":null,"summary":null,"hideLabel":true}],"controlOutputDefinitions":[{"key":"Output","label":null,"summary":null,"hideLabel":true}],"valueInputDefinitions":[{"hasDefaultValue":false,"defaultValue":null,"_type":"UnityEngine.GameObject","key":"blockPrefab","label":null,"summary":null,"hideLabel":false}],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":-192.0,"y":129.3068},"zoom":0.8835759,"elements":[{"defaultValues":{},"position":{"x":-441.0,"y":-48.0},"guid":"765a0a5f-702f-4bcb-88b8-ed5834885083","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":95.0,"y":-48.0},"guid":"a6b9344a-87a0-4ce9-a100-c0ddcc575f55","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"member":{"name":"AbilityUser","parameterTypes":null,"targetType":"AbilityBehaviour","targetTypeName":"AbilityBehaviour","$version":"A"},"defaultValues":{"target":null},"position":{"x":-648.0,"y":137.0},"guid":"7f91da61-c3ba-4200-98f7-4aa9a2463cbd","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"16"},{"member":{"name":"AbilityMechanicsHandler","parameterTypes":null,"targetType":"AbilityUser","targetTypeName":"AbilityUser","$version":"A"},"defaultValues":{"target":null},"position":{"x":-442.0,"y":137.0},"guid":"96489d6b-ac02-4b51-88db-197b5edee0bd","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"19"},{"chainable":false,"member":{"name":"SpawnBlockObject","parameterTypes":["UnityEngine.GameObject"],"targetType":"AbilityMechanicsHandler","targetTypeName":"AbilityMechanicsHandler","$version":"A"},"defaultValues":{"target":null,"%blockPrefab":null},"position":{"x":-152.0,"y":-48.0},"guid":"09d1478b-c8ec-4963-a2ac-9c465fe7d8a3","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"22"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Input","destinationUnit":{"$ref":"22"},"destinationKey":"enter","guid":"30b663c6-3a12-4e04-bb3e-e8a5bdefc849","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"22"},"sourceKey":"exit","destinationUnit":{"$ref":"14"},"destinationKey":"Output","guid":"ad3e89e8-4569-4716-a3f8-d463abc7fd0c","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"value","destinationUnit":{"$ref":"19"},"destinationKey":"target","guid":"5c4f3992-a905-4265-9fd0-1a548407e426","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"value","destinationUnit":{"$ref":"22"},"destinationKey":"target","guid":"2ede187d-828f-4bde-80c3-bf2c6c2c6c8a","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"blockPrefab","destinationUnit":{"$ref":"22"},"destinationKey":"%blockPrefab","guid":"a2c7c027-cc91-43ac-8eb2-37c9426e0260","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []
