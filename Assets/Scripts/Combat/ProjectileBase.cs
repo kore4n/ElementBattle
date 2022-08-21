@@ -37,12 +37,6 @@ public class ProjectileBase : NetworkBehaviour
     }
 
     [ServerCallback]
-    private void OnCollisionEnter(Collision collision)
-    {
-        DestroySelf();
-    }
-
-    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if (!TryDealDamage(other.gameObject)) return;
@@ -56,7 +50,8 @@ public class ProjectileBase : NetworkBehaviour
         if (!networkIdentity.connectionToClient.identity.TryGetComponent(out FPSPlayer otherPlayer)) return false;
         if (!target.TryGetComponent(out Health health)) return false;
         if (otherPlayer.GetTeam() == GetComponent<NetworkIdentity>().connectionToClient.identity.GetComponent<FPSPlayer>().GetTeam()) return false;
-        if (!isBlockable && TryGetComponent(out Structure structure))
+
+        if (!isBlockable && TryGetComponent(out Structure _))
         {
             health.DealDamage(int.MaxValue);
             return false;

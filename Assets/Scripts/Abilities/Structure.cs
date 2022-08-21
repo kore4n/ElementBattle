@@ -18,7 +18,20 @@ public class Structure : NetworkBehaviour
     [SerializeField] Vector3 spawnOffset = Vector3.zero;
     [SerializeField] float spawnTime = 0.2f;
 
+    private void Start()
+    {
+        SpawningMovement();
+
+        if (!canMove || spawnOffset != Vector3.zero) return;
+        rb.velocity = transform.localToWorldMatrix * forceDirection * moveForce;
+    }
+
     public override void OnStartServer()
+    {
+        if (lifetime > 0) Invoke(nameof(DestroySelf), lifetime);
+    }
+
+    private void SpawningMovement()
     {
         if (spawnOffset != Vector3.zero)
         {
@@ -26,12 +39,8 @@ public class Structure : NetworkBehaviour
             transform.position += spawnOffset;
             StartCoroutine(MoveOverTime(transform.position, finalPos, spawnTime));
         }
-
-        if (lifetime > 0) Invoke(nameof(DestroySelf), lifetime);
-
-        if (!canMove || spawnOffset != Vector3.zero) return;
-        rb.velocity = transform.localToWorldMatrix * forceDirection * moveForce;
     }
+
     IEnumerator MoveOverTime(Vector3 originalLocation, Vector3 finalLocation, float time)
     {
         float currentTime = 0.0f;

@@ -8,23 +8,11 @@ public class AbilityBehaviour : MonoBehaviour
     [Header("References")]
     [SerializeField] Ability ability;
 
-    Fighter fighter;
-
     public Ability Ability => ability;
-    public Fighter Fighter => fighter;
+    public AbilityUser AbilityUser { get; private set; }
 
-    public void Initialize(Fighter fighter)
+    public virtual void Initialize(AbilityUser abilityUser)
     {
-        this.fighter = fighter;
-    }
-
-    public void ActivationStarted()
-    {
-        CustomEvent.Trigger(gameObject, Fighter.AbilityActivateStartedEventName);
-    }
-
-    public void ActivationCompleted()
-    {
-        CustomEvent.Trigger(gameObject, Fighter.AbilityActivateCompletedEventName);
+        AbilityUser = abilityUser;
     }
 }

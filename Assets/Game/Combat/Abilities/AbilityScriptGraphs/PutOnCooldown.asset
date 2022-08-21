@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: PutOnCooldown
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Input","label":null,"summary":null,"hideLabel":false}],"controlOutputDefinitions":[{"key":"output","label":null,"summary":null,"hideLabel":false}],"valueInputDefinitions":[{"hasDefaultValue":false,"defaultValue":null,"_type":"Ability","key":"ability","label":null,"summary":null,"hideLabel":false}],"valueOutputDefinitions":[],"title":"Put
+      On Cooldown","summary":null,"pan":{"x":-473.5102,"y":171.0116},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-689.0,"y":-4.0},"guid":"4499236a-6bda-4a09-8a8b-efafa0018af2","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"12"},{"defaultValues":{},"position":{"x":31.0,"y":-2.0},"guid":"333b6039-c215-46cf-a3b8-bc42e9154ecb","$version":"A","$type":"Unity.VisualScripting.GraphOutput","$id":"14"},{"chainable":false,"member":{"name":"PutOnCooldown","parameterTypes":["Ability"],"targetType":"AbilityCooldownHandler","targetTypeName":"AbilityCooldownHandler","$version":"A"},"defaultValues":{"target":null,"%ability":{"$content":0,"$type":"UnityEngine.Object"}},"position":{"x":-370.0,"y":-3.0},"guid":"87866e8f-b3c8-4f8e-a3c7-95f504aa0c87","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"16"},{"member":{"name":"AbilityUser","parameterTypes":null,"targetType":"AbilityBehaviour","targetTypeName":"AbilityBehaviour","$version":"A"},"defaultValues":{"target":null},"position":{"x":-825.0,"y":153.0},"guid":"4f390476-10ce-4a45-bebc-2e12d069a504","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"19"},{"member":{"name":"AbilityCooldownHandler","parameterTypes":null,"targetType":"AbilityUser","targetTypeName":"AbilityUser","$version":"A"},"defaultValues":{"target":null},"position":{"x":-639.0,"y":153.0},"guid":"989b8d44-7c3b-4e69-8429-5ec405e2a2bd","$version":"A","$type":"Unity.VisualScripting.GetMember","$id":"22"},{"sourceUnit":{"$ref":"12"},"sourceKey":"Input","destinationUnit":{"$ref":"16"},"destinationKey":"enter","guid":"6398d60c-a5a3-48e7-b6ed-f94c507a2142","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"exit","destinationUnit":{"$ref":"14"},"destinationKey":"output","guid":"b33f0c0a-82a5-4589-bb5c-a70dfaaf7013","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"12"},"sourceKey":"ability","destinationUnit":{"$ref":"16"},"destinationKey":"%ability","guid":"b26c4237-1c9f-4862-a2e3-6e89b6fe9d29","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"19"},"sourceKey":"value","destinationUnit":{"$ref":"22"},"destinationKey":"target","guid":"d565927f-0ad0-4e44-b95b-edbe129413e0","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"22"},"sourceKey":"value","destinationUnit":{"$ref":"16"},"destinationKey":"target","guid":"6df247d8-06ca-48f4-a411-c8c6d0ddbccf","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences:
+    - {fileID: 11400000, guid: 645699f641883114eae69e9df8b41707, type: 2}
